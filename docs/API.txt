@@ -1,0 +1,178 @@
+# 理论上每一个请求都有遇到401, 500 等错误的可能, 就没有一一列出了,只列出了有特殊含义的
+# 除了前六个API 其余的都需要权限验证
+
+1. POST /users
+  Request: user
+  
+  201 user
+  
+  400 { // 一个错误信息格式示例, 格式可以再商量
+    type: 'Validation Error', // 提交的信息有误
+    message: '',
+    payload: user,
+    errors: {
+      phone: '手机号应为11位数字',  
+    }
+  }
+  
+  409 {
+    type: 'Duplicated Wechat Id',
+  }
+  
+  409 {
+    type: 'Duplicated Phone',
+  }
+
+2. GET /users/by/wechatId/:wechatId
+
+  200 user  // 老用户
+  
+  404       // 新用户
+
+3. POST /tokens
+  Request: {
+    type: 'wechat',
+    wechatId,
+    wechatToken,
+    phone,
+    smsCode: , // 微信登录时不需要短信验证码
+  }
+  
+  201 {
+    access_token,
+    expires_at,
+  }
+  
+4. POST /smsCodes
+  Request: {
+    phone,
+  }
+  
+  202 {
+    createdAt,
+  }
+  
+5. GET /meetings/:id
+
+  200 {
+    ...meeting,
+    ticketInfos,
+  }
+
+6. POST /orders/with/new/user //新用户可以同时注册以及创建订单
+
+  Request: {
+    user,
+    order,
+  }
+  
+  201 {
+    user,
+    order,
+  }
+  
+  206 {  // 只创建了用户, 而订单创建失败了
+    user,
+    error, // 参照POST /orders错误信息
+  }
+  
+  400 {
+    type: 'Validation Error', // 提交的信息有误
+    payload: {
+      user,
+      order,
+    },
+    errors: {  // 错误信息与payload一起严格按照Request格式来组织
+      user: {
+        phone: '手机号应为11位数字',  
+      }
+    }
+  }
+
+  
+# 以下API全部需要在header中有Authorization: `Bearer ${accessToken}` 
+  
+7. POST /orders //老用户可以直接创建订单
+  
+  Request: order
+  
+  201 {
+    ...order,
+    id,
+    status: '待支付',
+    createdAt,
+  }
+  
+  400 { 
+    type: 'No Stock', // 库存用光了,
+    payload: order,
+    errors: {
+      items: [{
+        amount,
+      }],
+    }
+  }
+  
+8. GET /payment_methods
+  200 paymentMethods
+  
+9. POST /third_party_transactions  // 具体第三方支付API如何设计有待商量
+
+  Request: {
+    orderId,
+    paymentMethodId,
+  }
+  
+  201 {
+    id,
+    orderId,
+    amount,
+    payeeId,
+    paymentMethodId,
+  }
+
+10. GET /orders
+  200 orders
+
+11. GET /orders/:id
+  200 order
+  
+12. PATCH /orders/:id
+  Request {
+    status: '已取消',
+  }
+  
+  200 {
+    ...order,
+    status: '已取消',
+  }
+  
+13. GET /tickets
+
+14. GET /tickets/:id
+
+15. PATCH /tickets/:id
+  Request {
+    participant,
+  }
+  
+  409: {
+    type: 'One for One',
+    message: '对于任意一个会议, 一个用户只能拥有的一个参会名额',
+  }
+
+  410: {
+    type: 'Already Taken',
+    message: '门票已被他人领取',
+  }
+
+用到的HTTP status code:
+200 OK
+201 Created
+202 Accepted
+206 Partial Content
+400 Bad Request
+401 Unauthorized
+404 Not Found
+409 Conflict
+410 Gone
