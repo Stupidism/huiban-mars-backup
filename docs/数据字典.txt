@@ -1,0 +1,81 @@
+# 下文中大写开头为数据库的一个表或集,也可以作为字段的一种数据类型,可以理解为关系型数据库中的外链
+# {} 中的内容表示其字段, 以,和换行符分隔, 每一行是对一个字段的描述
+# : 左边是字段名 右边是数据类型
+# // 及其后面的内容是注释
+# Runtime是一种特殊类型,可以动态计算出来,而且由于高频修改导致的数据一致性问题,不宜存储在数据库中,宜用缓存处理
+
+User {
+  id: UUID,
+  name: String,
+  wechatId: String,
+  wechatUserName: String,
+  phone: String,
+  company: String,
+  position: String,
+  city: String,
+}
+
+Meeting {
+  address: String,
+  topic: String,
+  bannerImg: Url,
+  coverImg: Url,
+  invitationCardImg: Url,
+  host: String,
+  hostLink: Url,
+  enrollEndAt: TimeStamp,
+  holdAt: TimeStamp,
+  status: Runtime('报名中' | '报名截止' | '过期'),
+}
+
+TicketInfo {
+  meeting: Meeting,
+  type: String, // 由主办方决定Enum('早鸟票' | 'VIP票' | '贵宾票'),
+  price: Number, // 单位:分
+  desc: String,
+  amount: Number,
+  restAmount: Runtime, // = ticket.amount - Tickets.count({ meeting, ticket })
+}
+
+OrderInfo {
+  user: User,
+  meeting: Meeting,
+  userName: String,
+  userPhone: String,
+  items: Runtime(Array<OrderItem>), // 获取order的时候需要级联出来
+  status: Enum('待支付' | '已完成' | '已取消' | '已关闭'), // 已关闭由各种过期时间计算得出
+  duePayment: Number,
+  actualPayment: Number,
+  paymentMethod: PaymentMethod,
+  thirdPartyTransactionId: String,
+  createdAt: TimeStamp, // 比如在a时间创建,1天没有确认,后端可以或前端自己可以算出已过期
+  payedAt: TimeStamp,
+  deletedAt: TimeStamp,
+  finishedAt: TimeStamp,
+}
+
+OrderItem {
+  order: Order,
+  meeting: Meeting, // 可能因查询需要 冗余
+  ticketInfo: TicketInfo,
+  ticketAmount: Number,
+  ticketPrice: Number,
+}
+
+PaymentMethod {
+  name: String,
+  desc: String,
+  iconImg: Url,
+  thirdPartyPayeeId: String,
+}
+
+Ticket {
+  buyer: User,
+  participant: User,
+  type: Enum('购票' | '赠票'),
+  status: Enum('未确认' | '已确认'),
+  meeting: Meeting,
+  ticketInfo: TicketInfo,
+  qrCodeImg: Url, // 动态二维码
+  invitationCardImg:: Url, // 动态二维码
+}
