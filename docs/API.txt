@@ -2,7 +2,11 @@
 # 除了前六个API 其余的都需要权限验证
 
 1. POST /users
-  Request: user
+  Request: {
+    wechatId,
+    phone,
+    smsCode,
+  }
   
   201 user
   
@@ -23,13 +27,20 @@
     type: 'Duplicated Phone',
   }
 
-2. GET /users/by/wechatId/:wechatId
+1.1. GET /users/current
+  Cookie: {
+    access_token,
+    wechatToken,
+  }
 
-  200 user  // 老用户
-  
-  404       // 新用户
+  200 // 老用户已登陆
 
-3. POST /tokens
+  401 // 老用户未登录
+
+  404 // 新用户
+
+
+2. POST /tokens
   Request: {
     type: 'wechat',
     wechatId,
@@ -42,8 +53,14 @@
     access_token,
     expires_at,
   }
-  
-4. POST /smsCodes
+
+2.1 POST /wechat_tokens
+  Request: {
+    wechatId,
+    wechatToken,
+  }
+
+3. POST /smsCodes
   Request: {
     phone,
   }
@@ -52,58 +69,35 @@
     createdAt,
   }
   
-5. GET /meetings/:id
+4. GET /meetings/:id
 
   200 {
     ...meeting,
-    ticketInfos,
+    ticketGrades,
   }
 
-6. POST /orders/with/new/user //新用户可以同时注册以及创建订单
-
-  Request: {
-    user,
-    order,
-  }
-  
-  201 {
-    user,
-    order,
-  }
-  
-  206 {  // 只创建了用户, 而订单创建失败了
-    user,
-    error, // 参照POST /orders错误信息
-  }
-  
-  400 {
-    type: 'Validation Error', // 提交的信息有误
-    payload: {
-      user,
-      order,
-    },
-    errors: {  // 错误信息与payload一起严格按照Request格式来组织
-      user: {
-        phone: '手机号应为11位数字',  
-      }
-    }
-  }
+4.1. GET /meetings
 
   
 # 以下API全部需要在header中有Authorization: `Bearer ${accessToken}` 
   
-7. POST /orders //老用户可以直接创建订单
+5. POST /order_infos
   
-  Request: order
-  
-  201 {
-    ...order,
-    id,
-    status: '待支付',
-    createdAt,
+  Request: orderInfo {
+    items,
+    meeting,
+    paymentMethod,
   }
   
-  400 { 
+  201 {
+    items,
+    meeting,
+    paymentMethod,
+    duyPayment,
+    status: '待支付',
+  }
+  
+  400 {
     type: 'No Stock', // 库存用光了,
     payload: order,
     errors: {
@@ -113,31 +107,13 @@
     }
   }
   
-8. GET /payment_methods
-  200 paymentMethods
-  
-9. POST /third_party_transactions  // 具体第三方支付API如何设计有待商量
-
-  Request: {
-    orderId,
-    paymentMethodId,
-  }
-  
-  201 {
-    id,
-    orderId,
-    amount,
-    payeeId,
-    paymentMethodId,
-  }
-
-10. GET /orders
+5.1. GET /order_infos
   200 orders
 
-11. GET /orders/:id
+5.2. GET /order_infos/:id
   200 order
   
-12. PATCH /orders/:id
+5.3. PATCH /orders/:id  // 唯一能做的操作就是把状态从‘待支付’改成‘已取消’
   Request {
     status: '已取消',
   }
@@ -147,11 +123,33 @@
     status: '已取消',
   }
   
-13. GET /tickets
+6. GET /payment_methods
+  200 paymentMethods
+  
+7. POST /transactions  // 具体第三方支付API如何设计有待商量
 
-14. GET /tickets/:id
+  Request: {
+    orderInfoId,
+  }
+  
+  201 {
+    orderInfoId,
+    amount,
+    thirdPartyPayeeId,
+    paymentMethodId,
+  }
 
-15. PATCH /tickets/:id
+7.1. POST /third_party_transactions
+  Request: {
+    orderInfoId,
+    transactionId,
+  }
+
+8. GET /tickets
+
+8.1. GET /tickets/:id
+
+8.2. PATCH /tickets/:id // 唯一能做的是添加新的与会人
   Request {
     participant,
   }
