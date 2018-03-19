@@ -8,8 +8,11 @@ User {
   id: UUID,
   name: String,
   wechatId: String,
-  wechatUserName: String,
   phone: String,
+  
+  wechatName: String,
+  wechatAvatar: Url，
+  
   company: String,
   position: String,
   city: String,
@@ -28,7 +31,7 @@ Meeting {
   status: Runtime('报名中' | '报名截止' | '过期'),
 }
 
-TicketInfo {
+TicketGrade { // 票档
   meeting: Meeting,
   type: String, // 由主办方决定Enum('早鸟票' | 'VIP票' | '贵宾票'),
   price: Number, // 单位:分
@@ -37,17 +40,20 @@ TicketInfo {
   restAmount: Runtime, // = ticket.amount - Tickets.count({ meeting, ticket })
 }
 
-OrderInfo {
+OrderInfo { // 订单，避讳order关键字
   user: User,
   meeting: Meeting,
+  items: Runtime(Array<OrderItem>), // 获取order的时候需要级联出来
+  
+  status: Enum('待支付' | '已完成' | '已取消' | '已关闭'), // 已关闭由各种过期时间计算得出
   userName: String,
   userPhone: String,
-  items: Runtime(Array<OrderItem>), // 获取order的时候需要级联出来
-  status: Enum('待支付' | '已完成' | '已取消' | '已关闭'), // 已关闭由各种过期时间计算得出
   duePayment: Number,
-  actualPayment: Number,
   paymentMethod: PaymentMethod,
-  thirdPartyTransactionId: String,
+  
+  actualPayment: Number,
+  transactionId: String,
+  
   createdAt: TimeStamp, // 比如在a时间创建,1天没有确认,后端可以或前端自己可以算出已过期
   payedAt: TimeStamp,
   deletedAt: TimeStamp,
@@ -55,9 +61,9 @@ OrderInfo {
 }
 
 OrderItem {
-  order: Order,
+  orderInfo: OrderInfo,
   meeting: Meeting, // 可能因查询需要 冗余
-  ticketInfo: TicketInfo,
+  ticketGrade: TicketGrade,
   ticketAmount: Number,
   ticketPrice: Number,
 }
@@ -75,7 +81,25 @@ Ticket {
   type: Enum('购票' | '赠票'),
   status: Enum('未确认' | '已确认'),
   meeting: Meeting,
-  ticketInfo: TicketInfo,
-  qrCodeImg: Url, // 动态二维码
-  invitationCardImg:: Url, // 动态二维码
+  ticketGrade: TicketGrade,
+  adminssionQrCode: Url, // 入场二维码  静态二维码 + 小程序隐藏页面 => 动态二维码 + 单独举办方后台小程序
+  invitationCardImg:: Url, // 邀请函图片
+}
+
+Transaction {
+  amount: Number,
+  orderInfo: OrderInfo,
+  paymentMethod: PaymentMethod,
+  thirdPartyPayeeId: String,
+  thirdPartyTransactionId: String,
+  status: Enum('待支付' | ‘已失败’ | ‘已成功’)，
+  wechatErrorCode: String,
+  wechatErrorMessage: String,
+}
+
+SmsCode {
+  code: Number,
+  type: Enum('登录')，
+  user: User,
+  expiresAt: TimeStamp,
 }
