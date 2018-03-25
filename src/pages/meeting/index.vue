@@ -57,9 +57,8 @@
 </template>
 
 <script>
-import { wxRequest, meetingGet } from '@/apis';
-import { example as meetingExample } from '@/apis/meetings/getOne';
-import toDate from '@/utils/filters/date';
+
+import getMeeting from '@/mixins/get-meeting';
 import toCash from '@/utils/filters/cash';
 
 import MeetingCard from '@/components/MeetingCard';
@@ -86,17 +85,6 @@ export default {
     },
   },
   methods: {
-    async getMeeting(id) {
-      try {
-        this.meeting = await wxRequest(meetingGet(id));
-      } catch (e) {
-        if (e.errMsg === 'request:fail url not in domain list') {
-          this.meeting = meetingExample;
-        } else {
-          throw e;
-        }
-      }
-    },
     selectTicketGrade(selectedTicketGrade) {
       this.selectedTicketGrade = selectedTicketGrade;
       if (selectedTicketGrade) {
@@ -115,6 +103,7 @@ export default {
     TicketGrade,
   },
   created() {
+  mixins: [getMeeting],
     wx.setNavigationBarTitle({
       title: '活动购票',
     });
