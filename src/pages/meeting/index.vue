@@ -97,7 +97,7 @@ export default {
     },
     startOrder() {
       wx.navigateTo({
-        url: `/pages/new-order/new-order?${qs.stringify({
+        url: `../new-order/main?${qs.stringify({
           meeting: this.meeting.id,
           amount: this.selectedAmount,
           ticketGrade: this.selectedTicketGrade,
