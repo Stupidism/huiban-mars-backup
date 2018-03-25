@@ -9,10 +9,10 @@ User {
   name: String,
   wechatId: String,
   phone: String,
-  
+
   wechatName: String,
   wechatAvatar: Url，
-  
+
   company: String,
   position: String,
   city: String,
@@ -44,16 +44,16 @@ OrderInfo { // 订单，避讳order关键字
   user: User,
   meeting: Meeting,
   items: Runtime(Array<OrderItem>), // 获取order的时候需要级联出来
-  
+
   status: Enum('待支付' | '已完成' | '已取消' | '已关闭'), // 已关闭由各种过期时间计算得出
   userName: String,
   userPhone: String,
   duePayment: Number,
   paymentMethod: PaymentMethod,
-  
+
   actualPayment: Number,
   transactionId: String,
-  
+
   createdAt: TimeStamp, // 比如在a时间创建,1天没有确认,后端可以或前端自己可以算出已过期
   payedAt: TimeStamp,
   deletedAt: TimeStamp,
