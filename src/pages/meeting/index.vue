@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import qs from 'query-string';
 
 import getMeeting from '@/mixins/get-meeting';
 import toCash from '@/utils/filters/cash';
@@ -67,7 +68,7 @@ import TicketGrade from '@/components/TicketGrade';
 export default {
   data() {
     return {
-      meeting: null,
+      meeting: {},
       selectedTicketGrade: null,
       selectedAmount: null,
     };
@@ -95,20 +96,25 @@ export default {
       this.selectedAmount = amount;
     },
     startOrder() {
-      console.log(this.selectedAmount, this.selectedTicketGrade);
+      wx.navigateTo({
+        url: `/pages/new-order/new-order?${qs.stringify({
+          meeting: this.meeting.id,
+          amount: this.selectedAmount,
+          ticketGrade: this.selectedTicketGrade,
+        })}`,
+      });
     },
   },
   components: {
     MeetingCard,
     TicketGrade,
   },
-  created() {
   mixins: [getMeeting],
+  mounted() {
     wx.setNavigationBarTitle({
       title: '活动购票',
     });
-
-    this.getMeeting(1);
+    this.getMeeting(this.$root.$mp.query.id || 1);
   },
 };
 </script>
