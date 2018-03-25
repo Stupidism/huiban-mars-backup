@@ -72,7 +72,8 @@
 </template>
 
 <script>
-import getMeeting, { example as meetingExample } from '@/apis/meetings/getOne';
+import { wxRequest, meetingGet } from '@/apis';
+import { example as meetingExample } from '@/apis/meetings/getOne';
 import toDate from '@/utils/filters/date';
 import toCash from '@/utils/filters/cash';
 
@@ -102,10 +103,16 @@ export default {
     },
   },
   methods: {
-    getMeeting(id) {
-      const request = getMeeting(id);
-      this.meeting = meetingExample;
-      return request;
+    async getMeeting(id) {
+      try {
+        this.meeting = await wxRequest(meetingGet(id));
+      } catch (e) {
+        if (e.errMsg === 'request:fail url not in domain list') {
+          this.meeting = meetingExample;
+        } else {
+          throw e;
+        }
+      }
     },
     selectTicketGrade(selectedTicketGrade) {
       this.selectedTicketGrade = selectedTicketGrade;
@@ -128,7 +135,7 @@ export default {
       title: '活动购票',
     });
 
-    this.getMeeting();
+    this.getMeeting(1);
   },
 };
 </script>
