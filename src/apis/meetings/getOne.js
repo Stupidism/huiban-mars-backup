@@ -35,28 +35,6 @@ export const example = {
   }],
 };
 
-const ticketGradeTypes = {
-  early: '早鸟票',
-  VIP: 'VIP',
-  luxury: '贵宾票',
-};
-
-const ticketGradeAdaptor = ({ ticketInfoDesc, ticketType, ...rest }) => ({
-  ...rest,
-  desc: ticketInfoDesc,
-  type: ticketGradeTypes[ticketType],
-});
-
 export default id => ({
   url: `/meetings/${id}`,
-  responseAdaptor: (data) => {
-    if (!data.meeting) return data;
-
-    const ticketGrades = JSON.parse(data.ticketGrades);
-
-    return {
-      ...JSON.parse(data.meeting),
-      ticketGrades: ticketGrades.map(ticketGradeAdaptor),
-    };
-  },
 });
