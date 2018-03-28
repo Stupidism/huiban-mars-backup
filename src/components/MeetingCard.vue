@@ -39,13 +39,7 @@ export default {
 </script>
 
 <style>
-
-.red {
-  color: red;
-}
-
 .meeting-intro {
-  border-bottom: dashed 1px #bbb;
   padding-bottom: 15px;
 }
 

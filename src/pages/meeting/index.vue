@@ -1,6 +1,8 @@
 <template>
   <scroll-view class="page meeting-buy">
-    <meeting-card :meeting="meeting" ></meeting-card>
+    <meeting-card :meeting="meeting" />
+
+    <divider />
 
     <div class="ticket-grades-radio">
       <div class="ticket-grades-title">
@@ -64,6 +66,7 @@ import toCash from '@/utils/filters/cash';
 
 import MeetingCard from '@/components/MeetingCard';
 import TicketGrade from '@/components/TicketGrade';
+import Divider from '@/components/Divider';
 
 export default {
   data() {
@@ -108,6 +111,7 @@ export default {
   components: {
     MeetingCard,
     TicketGrade,
+    Divider,
   },
   mixins: [getMeeting],
   mounted() {
