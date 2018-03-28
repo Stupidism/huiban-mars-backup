@@ -1,12 +1,14 @@
 <template>
   <scroll-view class="page new-order">
-    <meeting-card :meeting="meeting" ></meeting-card>
+    <meeting-card :meeting="meeting" mini="true" />
+    <divider />
   </scroll-view>
 </template>
 
 <script>
 import getMeeting from '@/mixins/get-meeting';
 import MeetingCard from '@/components/MeetingCard';
+import Divider from '@/components/Divider';
 
 export default {
   data() {
@@ -23,7 +25,7 @@ export default {
     },
   },
   mixins: [getMeeting],
-  components: { MeetingCard },
+  components: { MeetingCard, Divider },
   mounted() {
     wx.setNavigationBarTitle({
       title: '订单确认及支付',
@@ -34,5 +36,8 @@ export default {
 </script>
 
 <style scoped>
-
+.new-order {
+  padding: 0 10px 200px;
+  width: auto;
+}
 </style>
