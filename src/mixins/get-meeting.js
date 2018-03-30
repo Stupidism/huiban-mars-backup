@@ -12,6 +12,7 @@ export default {
         if (e.errMsg === 'request:fail url not in domain list') {
           this.meeting = meetingExample;
         } else {
+          console.error(e.statusCode, e.data);
           throw e;
         }
       }

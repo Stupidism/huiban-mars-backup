@@ -114,11 +114,17 @@ export default {
     Divider,
   },
   mixins: [getMeeting],
-  mounted() {
+  async mounted() {
     wx.setNavigationBarTitle({
       title: '活动购票',
     });
-    this.getMeeting(this.$root.$mp.query.id || 1);
+    await this.getMeeting(this.$root.$mp.query.id || 1);
+
+    // Mock navigate to new-order page
+    this.selectedAmount = 2;
+    this.selectedTicketGrade = this.meeting.ticketGrades[0].type;
+    this.startOrder();
+    // TODO: remove mock code above
   },
 };
 </script>
