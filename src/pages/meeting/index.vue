@@ -7,7 +7,7 @@
     <div class="ticket-grades-radio">
       <div class="ticket-grades-title">
         选择票档
-        <span class="ticket-grades-prompt">（贵宾票不参与买一赠一活动）</span>
+        <span class="helper-text">（贵宾票不参与买一赠一活动）</span>
       </div>
       <div>
         <ticket-grade
@@ -134,11 +134,6 @@ export default {
 
 .ticket-grades-title {
   padding: 10px 0;
-}
-
-.ticket-grades-prompt {
-  font-size: 14px;
-  color: grey;
 }
 
 .footer {
