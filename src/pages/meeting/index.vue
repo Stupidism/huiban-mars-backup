@@ -1,5 +1,5 @@
 <template>
-  <scroll-view class="page meeting-buy">
+  <scroll-view class="page">
     <meeting-card :meeting="meeting" />
 
     <divider />
@@ -130,10 +130,6 @@ export default {
 </script>
 
 <style scoped>
-.meeting-buy {
-  padding: 0 10px 200px;
-  width: auto;
-}
 .ticket-grades-radio {
   padding-top: 10px;
 }
