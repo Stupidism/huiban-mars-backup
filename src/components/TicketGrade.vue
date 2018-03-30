@@ -1,5 +1,5 @@
 <template>
-  <div @click="click" class="ticket-grade weui-flex" :class="{ selected: selected, disabled: disabled }">
+  <div @click="click" class="ticket-grade bordered weui-flex" :class="{ selected: selected, disabled: disabled }">
     <div class="ticket-info weui-flex__item">
       <div class="ticket-info-header weui-media-box__title weui-media-box__title_in-text weui-flex">
         <span>{{ticketGrade.type}}</span>
@@ -50,19 +50,6 @@ export default {
 </script>
 
 <style scoped>
-.ticket-grade {
-  padding: 15px;
-  border: 1px solid #bbb;
-}
-
-.ticket-grade.selected {
-  border: 2px solid #444444;
-}
-
-.ticket-grade.disabled {
-  background: #ddd;
-}
-
 .ticket-grade:not(:first-child) {
   margin-top: 15px;
 }
