@@ -36,13 +36,6 @@ export default {
       return toDate(this.meeting.startAt);
     },
   },
-  methods: {
-    click(e) {
-      if (!this.disabled) {
-        this.$emit('select', e);
-      }
-    },
-  },
 };
 </script>
 
