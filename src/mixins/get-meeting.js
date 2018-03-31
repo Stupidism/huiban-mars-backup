@@ -1,5 +1,5 @@
 import { wxRequest, meetingGet } from '@/apis';
-import { example as meetingExample } from '@/apis/meetings/getOne';
+import { example as meetingExample } from '@/apis/meetings/get';
 
 export default {
   methods: {
