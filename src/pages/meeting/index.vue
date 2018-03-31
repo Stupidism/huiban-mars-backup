@@ -103,7 +103,7 @@ export default {
         url: `../new-order/main?${qs.stringify({
           meeting: this.meeting.id,
           amount: this.selectedAmount,
-          ticketGrade: this.selectedTicketGrade,
+          ticketGrade: this.selectedTicketGrade.type,
         })}`,
       });
     },
@@ -122,7 +122,7 @@ export default {
 
     // Mock navigate to new-order page
     this.selectedAmount = 2;
-    this.selectedTicketGrade = this.meeting.ticketGrades[0].type;
+    this.selectedTicketGrade = this.meeting.ticketGrades[0];
     this.startOrder();
     // TODO: remove mock code above
   },
