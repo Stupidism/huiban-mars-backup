@@ -43,7 +43,7 @@
         @select="selectePaymentMethod(paymentMethod)"
       />
     </div>
-    <submit-footer buttonName="支付" :onSubmit="startPay">
+    <submit-footer buttonName="支付" :onSubmit="onSubmit">
       合计: {{sumPriceInCash}} 元
     </submit-footer>
   </scroll-view>
@@ -58,7 +58,7 @@ import PaymentMethod from '@/components/PaymentMethod';
 import SubmitFooter from '@/components/SubmitFooter';
 import Divider from '@/components/Divider';
 
-import { wxRequest, paymentMethodList } from '@/apis';
+import { wxRequest, paymentMethodList, orderPost, transactionPost } from '@/apis';
 import { example as paymentMethodsExample } from '@/apis/payment-methods/list';
 import toCash from '@/utils/filters/cash';
 
@@ -97,6 +97,18 @@ export default {
     sumPriceInCash() {
       return toCash(this.ticketGrade.price * this.amount);
     },
+    order() {
+      return {
+        meeting: this.meeting.id,
+        items: [{
+          ticketGrade: this.query.ticketGrade,
+          ticketAmount: this.query.amount,
+          ticketPrice: this.ticketGrade.price,
+          meeting: this.meeting.id,
+        }],
+        paymentMethod: this.selectedPaymentMethod.id,
+      };
+    }
   },
   methods: {
     async getPaymentMethods() {
@@ -111,6 +123,28 @@ export default {
         }
       }
     },
+    async postOrder() {
+      try {
+        return await wxRequest(orderPost(this.order));
+      } catch (e) {
+        if (e.errMsg === 'request:fail url not in domain list') {
+          return {};
+        }
+        console.error(e.statusCode, e.data);
+        throw e;
+      }
+    },
+    async postTransaction(order) {
+      try {
+        return await wxRequest(transactionPost(order.id));
+      } catch (e) {
+        if (e.errMsg === 'request:fail url not in domain list') {
+          return {};
+        }
+        console.error(e.statusCode, e.data);
+        throw e;
+      }
+    },
     selectePaymentMethod(paymentMethod) {
       if (this.selectedPaymentMethod === paymentMethod) {
         this.selectedPaymentMethod = null;
@@ -118,8 +152,24 @@ export default {
         this.selectedPaymentMethod = paymentMethod;
       }
     },
+    async onSubmit() {
+      const order = await this.postOrder();
+      const transaction = await this.postTransaction(order.id);
+      this.startPay(transaction);
+    },
     startPay() {
       console.log('startPay');
+      wx.requestPayment({
+        timeStamp: '',
+        nonceStr: '',
+        package: '',
+        signType: 'MD5',
+        paySign: '',
+        success(res) {
+        },
+        fail(res) {
+        }
+      })
     },
   },
   mixins: [getMeeting],
