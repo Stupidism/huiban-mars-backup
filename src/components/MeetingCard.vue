@@ -1,9 +1,9 @@
 <template>
-  <div class="meeting-intro weui-flex" :class="['meeting-intro', 'weui-flex']">
-    <img class="meeting-cover weui-flex__item" src="/static/default-cover.png" alt="封面图片" />
+  <div class="meeting-intro weui-flex" :class="{ mini: mini }">
+    <img class="meeting-cover" src="/static/default-cover.png" alt="封面图片" />
     <div class="meeting-info weui-flex__item">
       <div class="meeting-topic">{{meeting.topic}}</div>
-      <div class="meeting-info-centent">
+      <div v-if="!mini" class="meeting-info-centent">
         <div>
           时间: {{startAt}}
         </div>
@@ -14,6 +14,14 @@
           发布方: {{meeting.host}}
         </div>
       </div>
+      <div v-if="mini" class="meeting-info-centent">
+        <div>
+          {{startAt}} {{meeting.address}}
+        </div>
+        <div>
+          {{meeting.host}}发布
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -22,41 +30,24 @@
 import toDate from '@/utils/filters/date';
 
 export default {
-  props: ['meeting'],
+  props: ['meeting', 'mini'],
   computed: {
     startAt() {
       return toDate(this.meeting.startAt);
-    },
-  },
-  methods: {
-    click(e) {
-      if (!this.disabled) {
-        this.$emit('select', e);
-      }
     },
   },
 };
 </script>
 
 <style>
-
-.red {
-  color: red;
-}
-
 .meeting-intro {
-  border-bottom: dashed 1px #bbb;
   padding-bottom: 15px;
 }
 
 .meeting-cover {
-  flex: 1;
+  width: 100px;
   height: 150px;
   margin-right: 15px;
-}
-
-.meeting-info {
-  flex: 2;
 }
 
 .meeting-topic {
@@ -73,6 +64,15 @@ export default {
 .meeting-info-centent {
   margin-top: 30px;
   font-size: 14px;
+}
+
+.meeting-intro.mini .meeting-cover {
+  width: 66px;
+  height: 99px;
+}
+
+.meeting-intro.mini .meeting-info-centent {
+  margin-top: 5px;
 }
 
 </style>

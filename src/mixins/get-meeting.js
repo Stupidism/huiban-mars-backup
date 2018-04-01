@@ -1,5 +1,5 @@
 import { wxRequest, meetingGet } from '@/apis';
-import { example as meetingExample } from '@/apis/meetings/getOne';
+import { example as meetingExample } from '@/apis/meetings/get';
 
 export default {
   methods: {
@@ -12,6 +12,7 @@ export default {
         if (e.errMsg === 'request:fail url not in domain list') {
           this.meeting = meetingExample;
         } else {
+          console.error(e.statusCode, e.data);
           throw e;
         }
       }

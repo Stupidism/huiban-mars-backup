@@ -1,7 +1,8 @@
 import Vue from 'vue';
 
 import App from './App';
-import './weui.css';
+import './styles/weui.css';
+import './styles/theme.css';
 
 Vue.config.productionTip = false;
 App.mpType = 'app';

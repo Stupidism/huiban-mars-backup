@@ -1,0 +1,22 @@
+.page {
+  padding: 0 10px 200px;
+  width: auto;
+}
+
+.bordered {
+  padding: 15px 10px;
+  border: 1px solid #bbb;
+}
+
+.bordered.selected {
+  border: 2px solid #444444;
+}
+
+.bordered.disabled {
+  background: #ddd;
+}
+
+.helper-text {
+  font-size: 12px;
+  color: grey;
+}

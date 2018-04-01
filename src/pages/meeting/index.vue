@@ -1,11 +1,13 @@
 <template>
-  <scroll-view class="page meeting-buy">
-    <meeting-card :meeting="meeting" ></meeting-card>
+  <scroll-view class="page">
+    <meeting-card :meeting="meeting" />
+
+    <divider />
 
     <div class="ticket-grades-radio">
       <div class="ticket-grades-title">
         选择票档
-        <span class="ticket-grades-prompt">（贵宾票不参与买一赠一活动）</span>
+        <span class="helper-text">（贵宾票不参与买一赠一活动）</span>
       </div>
       <div>
         <ticket-grade
@@ -18,41 +20,31 @@
       </div>
     </div>
 
-    <div class="footer weui-footer weui-footer_fixed-bottom">
-      <div
-        v-if="selectedTicketGrade != null"
-        class="amount-btn-group footer-item weui-flex"
+    <div
+      v-if="selectedTicketGrade != null"
+      class="amount-btn-group weui-footer weui-footer_fixed-bottom"
+    >
+      <span class="amount-btn-title">
+        数量:
+      </span>
+      <span
+        v-for="amount in [1,2,3,4,5]"
+        class="amount-btn"
+        :class="{ selected: amount === selectedAmount }"
+        :key="amount"
+        @click="selectAmount(amount)"
+        v-if="selectedTicketGrade.restAmount >= amount"
       >
-        <span class="amount-btn-title">
-          数量:
-        </span>
-        <span
-          v-for="amount in [1,2,3,4,5]"
-          class="amount-btn"
-          :class="{ selected: amount === selectedAmount }"
-          :key="amount"
-          @click="selectAmount(amount)"
-          v-if="selectedTicketGrade.restAmount >= amount"
-        >
-          {{amount}}
-        </span>
-      </div>
-      <div class="order-summary weui-flex footer-item">
-        <span class="order-summary-content weui-flex">
-          <span class="order-summary-sum">
-            合计: {{sumPriceInCash}}
-          </span>
-          <span class="order-summary-notice">
-            <navigator url="/page/order-notice" hover-class="navigator-hover">
-              《购票须知》
-            </navigator>
-          </span>
-        </span>
-        <button class="order-btn" :disabled="!sumPrice" @click="startOrder">
-          提交
-        </button>
-      </div>
+        {{amount}}
+      </span>
     </div>
+
+    <submit-footer :onSubmit="startOrder" :disabled="!sumPrice">
+      合计: {{sumPriceInCash}} 元
+      <navigator url="/page/order-notice" hover-class="navigator-hover">
+        《购票须知》
+      </navigator>
+    </submit-footer>
   </scroll-view>
 </template>
 
@@ -64,6 +56,8 @@ import toCash from '@/utils/filters/cash';
 
 import MeetingCard from '@/components/MeetingCard';
 import TicketGrade from '@/components/TicketGrade';
+import SubmitFooter from '@/components/SubmitFooter';
+import Divider from '@/components/Divider';
 
 export default {
   data() {
@@ -74,9 +68,6 @@ export default {
     };
   },
   computed: {
-    coverImg() {
-      return this.meeting.coverImg;
-    },
     sumPrice() {
       if (!this.selectedTicketGrade || !this.selectedAmount) return 0;
       return this.selectedTicketGrade.price * this.selectedAmount;
@@ -100,7 +91,7 @@ export default {
         url: `../new-order/main?${qs.stringify({
           meeting: this.meeting.id,
           amount: this.selectedAmount,
-          ticketGrade: this.selectedTicketGrade,
+          ticketGrade: this.selectedTicketGrade.type,
         })}`,
       });
     },
@@ -108,22 +99,26 @@ export default {
   components: {
     MeetingCard,
     TicketGrade,
+    Divider,
+    SubmitFooter,
   },
   mixins: [getMeeting],
-  mounted() {
+  async mounted() {
     wx.setNavigationBarTitle({
       title: '活动购票',
     });
-    this.getMeeting(this.$root.$mp.query.id || 1);
+    await this.getMeeting(this.$root.$mp.query.id || 1);
+
+    // Mock navigate to new-order page
+    this.selectedAmount = 2;
+    this.selectedTicketGrade = this.meeting.ticketGrades[0];
+    this.startOrder();
+    // TODO: remove mock code above
   },
 };
 </script>
 
 <style scoped>
-.meeting-buy {
-  padding: 0 10px 200px;
-  width: auto;
-}
 .ticket-grades-radio {
   padding-top: 10px;
 }
@@ -132,40 +127,17 @@ export default {
   padding: 10px 0;
 }
 
-.ticket-grades-prompt {
-  font-size: 14px;
-  color: grey;
-}
-
-.footer {
-  bottom: 0;
-}
-
-.footer-item {
-  background: white;
-  border-top: 1px #bbb solid;
-}
-
-.order-summary {
-}
-
-.order-summary-content {
-  flex: 3;
-  align-items: center;
-  padding: 15px;
-  justify-content: space-between;
-}
-
-.order-btn {
-  flex: 2;
-  border-radius: 0;
-}
-
 .amount-btn-group {
-  font-weight: bolder;
+  display: flex;
   align-items: center;
   justify-content: flex-start;
+
+  background: white;
+  border-top: 1px #bbb solid;
+
+  font-weight: bolder;
   padding: 15px;
+  bottom: 48px;
 }
 
 .amount-btn-title {
