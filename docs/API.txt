@@ -7,22 +7,22 @@
     phone,
     smsCode,
   }
-  
+
   201 user
-  
+
   400 { // 一个错误信息格式示例, 格式可以再商量
     type: 'Validation Error', // 提交的信息有误
     message: '',
     payload: user,
     errors: {
-      phone: '手机号应为11位数字',  
+      phone: '手机号应为11位数字',
     }
   }
-  
+
   409 {
     type: 'Duplicated Wechat Id',
   }
-  
+
   409 {
     type: 'Duplicated Phone',
   }
@@ -48,7 +48,7 @@
     phone,
     smsCode: , // 微信登录时不需要短信验证码
   }
-  
+
   201 {
     access_token,
     expires_at,
@@ -64,11 +64,11 @@
   Request: {
     phone,
   }
-  
+
   202 {
     createdAt,
   }
-  
+
 4. GET /meetings/:id
 
   200 {
@@ -78,25 +78,37 @@
 
 4.1. GET /meetings
 
-  
-# 以下API全部需要在header中有Authorization: `Bearer ${accessToken}` 
-  
-5. POST /order_infos
-  
-  Request: orderInfo {
-    items,
-    meeting,
-    paymentMethod,
+
+# 以下API全部需要在header中有Authorization: `Bearer ${accessToken}`
+
+5. POST /orders
+
+  Request: order {
+    items: [{
+      ticketGradeId,
+      ticketPrice,
+    }],
+    meetingId,
+    paymentMethodId,
   }
-  
+
   201 {
     items,
-    meeting,
-    paymentMethod,
+    meetingId,
+    paymentMethodId,
     duyPayment,
     status: '待支付',
+    transaction: {
+      thirdPartyTransactionInfo: {
+        timeStamp:	String,	// 是	时间戳从1970年1月1日00:00:00至今的秒数,即当前的时间
+        nonceStr:	String,	// 是	随机字符串，长度为32个字符以下。
+        package:	String,	// 是	统一下单接口返回的 prepay_id 参数值，提交格式如：prepay_id=*
+        signType:	String,
+        paySign: String,
+      },
+    },
   }
-  
+
   400 {
     type: 'No Stock', // 库存用光了,
     payload: order,
@@ -106,34 +118,34 @@
       }],
     }
   }
-  
-5.1. GET /order_infos
+
+5.1. GET /orders
   200 orders
 
-5.2. GET /order_infos/:id
+5.2. GET /orders/:id
   200 order
-  
+
 5.3. PATCH /orders/:id  // 唯一能做的操作就是把状态从‘待支付’改成‘已取消’
   Request {
     status: '已取消',
   }
-  
+
   200 {
     ...order,
     status: '已取消',
   }
-  
+
 6. GET /payment_methods
   200 paymentMethods
-  
+
 7. POST /transactions  // 具体第三方支付API如何设计有待商量
 
   Request: {
-    orderInfoId,
+    orderId,
   }
-  
+
   201 {
-    orderInfoId,
+    orderId,
     amount,
     thirdPartyPayeeId,
     paymentMethodId,
@@ -141,7 +153,7 @@
 
 7.1. POST /third_party_transactions
   Request: {
-    orderInfoId,
+    orderId,
     transactionId,
   }
 
@@ -153,7 +165,7 @@
   Request {
     participant,
   }
-  
+
   409: {
     type: 'One for One',
     message: '对于任意一个会议, 一个用户只能拥有的一个参会名额',

@@ -40,19 +40,20 @@ TicketGrade { // 票档
   restAmount: Runtime, // = ticket.amount - Tickets.count({ meeting, ticket })
 }
 
-OrderInfo { // 订单，避讳order关键字
+Order {
   user: User,
   meeting: Meeting,
   items: Runtime(Array<OrderItem>), // 获取order的时候需要级联出来
 
-  status: Enum('待支付' | '已完成' | '已取消' | '已关闭'), // 已关闭由各种过期时间计算得出
+  status: Enum('to_be_paid' | 'completed' | 'cancelled' | 'closed'),
+  statusDesc: Enum('待支付' | '已完成' | '已取消' | '已关闭'), // 已关闭由各种过期时间计算得出
   userName: String,
   userPhone: String,
   duePayment: Number,
   paymentMethod: PaymentMethod,
 
+  transaction: Transaction,
   actualPayment: Number,
-  transactionId: String,
 
   createdAt: TimeStamp, // 比如在a时间创建,1天没有确认,后端可以或前端自己可以算出已过期
   payedAt: TimeStamp,
@@ -61,7 +62,7 @@ OrderInfo { // 订单，避讳order关键字
 }
 
 OrderItem {
-  orderInfo: OrderInfo,
+  order: Order,
   meeting: Meeting, // 可能因查询需要 冗余
   ticketGrade: TicketGrade,
   ticketAmount: Number,
@@ -69,7 +70,8 @@ OrderItem {
 }
 
 PaymentMethod {
-  name: String,
+  type: Enum('wechat' | 'alipay'),
+  typeDesc: Enum('微信' | '支付宝'),
   desc: String,
   iconImg: Url,
   thirdPartyPayeeId: String,
@@ -78,8 +80,10 @@ PaymentMethod {
 Ticket {
   buyer: User,
   participant: User,
-  type: Enum('购票' | '赠票'),
-  status: Enum('未确认' | '已确认'),
+  type: Enum('bought_ticket' | 'gift_ticket'),
+  typeDesc: Enum('购票' | '赠票'),
+  status: Enum('no_participant' | 'has_participant'),
+  statusDesc: Enum('未确认' | '已确认'),
   meeting: Meeting,
   ticketGrade: TicketGrade,
   adminssionQrCode: Url, // 入场二维码  静态二维码 + 小程序隐藏页面 => 动态二维码 + 单独举办方后台小程序
@@ -88,18 +92,33 @@ Ticket {
 
 Transaction {
   amount: Number,
-  orderInfo: OrderInfo,
+  order: Order,
   paymentMethod: PaymentMethod,
   thirdPartyPayeeId: String,
   thirdPartyTransactionId: String,
-  status: Enum('待支付' | ‘已失败’ | ‘已成功’)，
+  thirdPartyTransactionInfo: String, // 如微信就是JSON.stringify(WechatTransaction)
+  status: Enum('to_be_paid' | ‘failed’ | ‘succeeded’)，
+  statusDesc: Enum('待支付' | ‘已失败’ | ‘已成功’)，
   wechatErrorCode: String,
   wechatErrorMessage: String,
 }
 
+WechatTransaction {
+  timeStamp:	String,	// 是	时间戳从1970年1月1日00:00:00至今的秒数,即当前的时间
+  nonceStr:	String,	// 是	随机字符串，长度为32个字符以下。
+  package:	String,	// 是	统一下单接口返回的 prepay_id 参数值，提交格式如：prepay_id=*
+  signType:	String,
+  paySign: String,
+}
+
+AlipayTransaction {
+  // TODO
+}
+
 SmsCode {
   code: Number,
-  type: Enum('登录')，
+  type: Enum('login')，
+  typeDesc: Enum('登录')，
   user: User,
   expiresAt: TimeStamp,
 }
