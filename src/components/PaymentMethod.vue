@@ -1,5 +1,5 @@
 <template>
-  <div @click="click" class="payment-method bordered weui-flex" :class="{ selected: selected }">
+  <div @click="click" class="payment-method bordered content-horizontal" :class="{ selected: selected }">
     <icon type="success" size="33" />
     <div class="payment-method-info">
       <div>{{paymentMethod.name}}</div>
@@ -26,11 +26,6 @@ export default {
 </script>
 
 <style scoped>
-.payment-method {
-  display: flex;
-  align-items: center;
-}
-
 .payment-method:not(:first-child) {
   margin-top: 15px;
 }

@@ -43,3 +43,14 @@
   font-size: 12px;
   color: grey;
 }
+
+.content-vertical,
+.content-horizontal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content-vertical {
+  flex-direction: column;
+}
