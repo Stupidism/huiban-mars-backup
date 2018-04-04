@@ -5,7 +5,7 @@
       <span>票档：{{ticketGrade.type}} {{price}} 元/张</span>
       <span>X {{amount}}</span>
     </div>
-    <divider />
+    <div class="divider" />
     <div class="buyer-form">
       <div class="buyer-form-title">购票人信息</div>
       <span class="helper-text">（多人参会请在支付完成后邀请他人填写信息，以便现场签到）</span>
@@ -32,7 +32,7 @@
         本人参会，上述信息将作为您现场签到的唯一凭证
       </label>
     </div>
-    <divider />
+    <div class="divider" />
     <div class="payment-method-list">
       <div class="buyer-form-title">支付方式<span class="helper-text">（不支持无条件退款）</span></div>
       <payment-method
@@ -56,7 +56,6 @@ import getMeeting from '@/mixins/get-meeting';
 import MeetingCard from '@/components/MeetingCard';
 import PaymentMethod from '@/components/PaymentMethod';
 import SubmitFooter from '@/components/SubmitFooter';
-import Divider from '@/components/Divider';
 
 import { wxRequest, paymentMethodList, orderPost, transactionPost } from '@/apis';
 import { example as paymentMethodsExample } from '@/apis/payment-methods/list';
@@ -173,7 +172,7 @@ export default {
     },
   },
   mixins: [getMeeting],
-  components: { MeetingCard, Divider, PaymentMethod, SubmitFooter },
+  components: { MeetingCard, PaymentMethod, SubmitFooter },
   async mounted() {
     wx.setNavigationBarTitle({
       title: '订单确认及支付',

@@ -3,6 +3,23 @@
   width: auto;
 }
 
+.divider {
+  height: 1px;
+  border-bottom: dashed 1px #bbb;
+}
+
+.margined-vertical {
+  margin: 15px 0;
+}
+
+.margined-top {
+  margin-top: 15px;
+}
+
+.margined-bottom {
+  margin-bottom: 15px;
+}
+
 .bordered {
   padding: 15px 10px;
   border: 1px solid #bbb;
