@@ -54,6 +54,7 @@
 
 <script>
 import _ from 'lodash';
+import qs from 'query-string';
 
 import getMeeting from '@/mixins/get-meeting';
 import MeetingCard from '@/components/MeetingCard';
@@ -86,7 +87,7 @@ export default {
       return this.$root.$mp.query;
     },
     amount() {
-      return this.query.amount || 1;
+      return this.query.amount ? Number(this.query.amount) : 1;
     },
     ticketGrade() {
       return _.find(this.meeting.ticketGrades, {
@@ -101,14 +102,14 @@ export default {
     },
     order() {
       return {
-        meeting: this.meeting.id,
+        meetingId: this.meeting.id,
         items: [{
           ticketGrade: this.query.ticketGrade,
           ticketAmount: this.query.amount,
           ticketPrice: this.ticketGrade.price,
-          meeting: this.meeting.id,
+          meetingId: this.meeting.id,
         }],
-        paymentMethod: this.selectedPaymentMethod.id,
+        paymentMethodId: this.selectedPaymentMethod ? this.selectedPaymentMethod.id : '',
       };
     }
   },
@@ -168,10 +169,22 @@ export default {
         signType: 'MD5',
         paySign: '',
         success(res) {
+          this.onPaymentSucess(res);
         },
         fail(res) {
+          this.onPaymentFail(res);
         }
-      })
+      });
+    },
+    onPaymentSucess(order) {
+      wx.navigateTo({
+        url: `./payment-result/main?${qs.stringify({
+          order: order.id || 1,
+        })}`,
+      });
+    },
+    onPaymentFail(error) {
+      console.error(error);
     },
   },
   mixins: [getMeeting],
@@ -183,6 +196,10 @@ export default {
     this.getMeeting(this.$root.$mp.query.meeting || 1);
     await this.getPaymentMethods();
     this.selectedPaymentMethod = this.paymentMethods[0];
+
+    // Mock navigate to new-order page
+    this.onPaymentSucess({ id: 1 });
+    // TODO: remove mock code above
   },
 };
 </script>
@@ -195,11 +212,6 @@ export default {
 
 .buyer-form {
   padding: 15px 0;
-}
-
-.buyer-form-title {
-  font-size: 16px;
-  font-weight: bold;
 }
 
 .form-field {
