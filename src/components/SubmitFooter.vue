@@ -1,6 +1,6 @@
 <template>
-  <div class="submit-footer weui-footer weui-footer_fixed-bottom">
-    <span class="summary-content">
+  <div class="submit-footer weui-footer weui-footer_fixed-bottom content-horizontal">
+    <span v-if="!noSummary" class="summary-content content-horizontal">
       <slot></slot>
     </span>
     <button class="submit-btn" :disabled="disabled" @click="onSubmit">
@@ -17,6 +17,9 @@ export default {
     },
     onSubmit: {},
     disabled: {},
+    noSummary: {
+      default: false,
+    },
   },
 };
 </script>
@@ -24,17 +27,13 @@ export default {
 <style scoped>
 .submit-footer {
   bottom: 0;
-  display: flex;
   background: white;
   border-top: 1px #bbb solid;
 }
 
 .summary-content {
-  display: flex;
   flex: 3;
-  align-items: center;
   padding: 15px;
-  justify-content: space-between;
 }
 
 .submit-btn {
