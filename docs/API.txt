@@ -87,6 +87,8 @@
     items: [{
       ticketGradeId,
       ticketPrice,
+      ticketAmount,
+      meetingId,
     }],
     meetingId,
     paymentMethodId,
