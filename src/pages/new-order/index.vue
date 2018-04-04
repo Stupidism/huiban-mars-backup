@@ -7,8 +7,11 @@
     </div>
     <div class="divider" />
     <div class="buyer-form">
-      <div class="buyer-form-title">购票人信息</div>
-      <span class="helper-text">（多人参会请在支付完成后邀请他人填写信息，以便现场签到）</span>
+      <div class="title margined-vertical">
+        购票人信息
+        <div class="sub-title">（多人参会请在支付完成后邀请他人填写信息，以便现场签到）</div>
+      </div>
+
       <div class="bordered">
         <label class="form-field">
           姓名：
@@ -34,7 +37,7 @@
     </div>
     <div class="divider" />
     <div class="payment-method-list">
-      <div class="buyer-form-title">支付方式<span class="helper-text">（不支持无条件退款）</span></div>
+      <div class="title">支付方式<span class="sub-title">（不支持无条件退款）</span></div>
       <payment-method
         v-for="paymentMethod in paymentMethods"
         :key="paymentMethod.id"

@@ -5,9 +5,9 @@
     <div class="divider" />
 
     <div class="ticket-grades-radio">
-      <div class="ticket-grades-title">
+      <div class="title margined-bottom">
         选择票档
-        <span class="helper-text">（贵宾票不参与买一赠一活动）</span>
+        <span class="sub-title">（贵宾票不参与买一赠一活动）</span>
       </div>
       <div>
         <ticket-grade
@@ -119,10 +119,6 @@ export default {
 <style scoped>
 .ticket-grades-radio {
   padding-top: 10px;
-}
-
-.ticket-grades-title {
-  padding: 10px 0;
 }
 
 .amount-btn-group {
