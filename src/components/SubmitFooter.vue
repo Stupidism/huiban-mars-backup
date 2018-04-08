@@ -24,20 +24,21 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less">
 .submit-footer {
   bottom: 0;
   background: white;
   border-top: 1px #bbb solid;
+
+  .summary-content {
+    flex: 3;
+    padding: 0 15px;
+  }
+
+  .submit-btn {
+    flex: 2;
+    border-radius: 0;
+  }
 }
 
-.summary-content {
-  flex: 3;
-  padding: 15px;
-}
-
-.submit-btn {
-  flex: 2;
-  border-radius: 0;
-}
 </style>
