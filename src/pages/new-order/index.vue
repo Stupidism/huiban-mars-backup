@@ -54,14 +54,15 @@
 
 <script>
 import _ from 'lodash';
-import qs from 'query-string';
 
-import getMeeting from '@/mixins/get-meeting';
 import MeetingCard from '@/components/MeetingCard';
 import PaymentMethod from '@/components/PaymentMethod';
 import SubmitFooter from '@/components/SubmitFooter';
 
-import { wxRequest, paymentMethodList, orderPost, transactionPost } from '@/apis';
+import getMeeting from '@/mixins/get-meeting';
+import payOrder from '@/mixins/pay-order';
+
+import { wxRequest, paymentMethodList, orderPost } from '@/apis';
 import { example as paymentMethodsExample } from '@/apis/payment-methods/list';
 import toCash from '@/utils/filters/cash';
 
@@ -137,17 +138,6 @@ export default {
         throw e;
       }
     },
-    async postTransaction(order) {
-      try {
-        return await wxRequest(transactionPost(order.id));
-      } catch (e) {
-        if (e.errMsg === 'request:fail url not in domain list') {
-          return {};
-        }
-        console.error(e.statusCode, e.data);
-        throw e;
-      }
-    },
     selectePaymentMethod(paymentMethod) {
       if (this.selectedPaymentMethod === paymentMethod) {
         this.selectedPaymentMethod = null;
@@ -157,37 +147,10 @@ export default {
     },
     async onSubmit() {
       const order = await this.postOrder();
-      const transaction = await this.postTransaction(order.id);
-      this.startPay(transaction);
-    },
-    startPay() {
-      console.log('startPay');
-      wx.requestPayment({
-        timeStamp: '',
-        nonceStr: '',
-        package: '',
-        signType: 'MD5',
-        paySign: '',
-        success(res) {
-          this.onPaymentSucess(res);
-        },
-        fail(res) {
-          this.onPaymentFail(res);
-        }
-      });
-    },
-    onPaymentSucess(order) {
-      wx.navigateTo({
-        url: `./payment-result/main?${qs.stringify({
-          order: order.id || 1,
-        })}`,
-      });
-    },
-    onPaymentFail(error) {
-      console.error(error);
+      this.payOrder(order);
     },
   },
-  mixins: [getMeeting],
+  mixins: [getMeeting, payOrder],
   components: { MeetingCard, PaymentMethod, SubmitFooter },
   async mounted() {
     wx.setNavigationBarTitle({
