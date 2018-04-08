@@ -1,6 +1,6 @@
 export const example = {
   topic: '会议名称会议名称会议名议名称会议名称最多两行，超出截断加...',
-  startAt: new Date(),
+  holdAt: new Date(),
   host: '上海亚德科技有限公司',
   address: '梅赛德斯奔驰中心',
   coverImg: '',

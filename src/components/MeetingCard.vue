@@ -5,7 +5,7 @@
       <div class="meeting-topic">{{meeting.topic}}</div>
       <div v-if="!mini" class="meeting-info-centent">
         <div>
-          时间: {{startAt}}
+          时间: {{holdAt}}
         </div>
         <div>
           地点: {{meeting.address}}
@@ -16,7 +16,7 @@
       </div>
       <div v-if="mini" class="meeting-info-centent">
         <div>
-          {{startAt}} {{meeting.address}}
+          {{holdAt}} {{meeting.address}}
         </div>
         <div>
           {{meeting.host}}发布
@@ -32,8 +32,8 @@ import toDate from '@/utils/filters/date';
 export default {
   props: ['meeting', 'mini'],
   computed: {
-    startAt() {
-      return toDate(this.meeting.startAt);
+    holdAt() {
+      return toDate(this.meeting.holdAt);
     },
   },
 };
