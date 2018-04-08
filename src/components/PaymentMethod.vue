@@ -2,7 +2,7 @@
   <div @click="click" class="payment-method bordered content-horizontal" :class="{ selected: selected }">
     <icon type="success" size="33" />
     <div class="payment-method-info">
-      <div>{{paymentMethod.name}}</div>
+      <div>{{paymentMethod.typeDesc}}</div>
       <div class="payment-method-desc">{{paymentMethod.desc}}</div>
     </div>
     <checkbox :checked="selected" />
