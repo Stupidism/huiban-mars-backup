@@ -8,6 +8,10 @@
   border-bottom: dashed 1px #bbb;
 }
 
+.divider.solid {
+  border-bottom-style: solid;
+}
+
 .margined-vertical {
   margin: 15px 0;
 }
@@ -53,4 +57,14 @@
 
 .content-vertical {
   flex-direction: column;
+}
+
+.info-table > div {
+  display: flex;
+  justify-content: space-between;
+  color: grey;
+}
+
+.info-table > div > span {
+  color: #333;
 }
