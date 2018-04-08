@@ -56,6 +56,10 @@ export default {
       title: '支付结果',
     });
     await this.getOrder(this.$root.$mp.query.order || 1);
+
+    // Mock navigate to new-order page
+    this.onSubmit();
+    // TODO: remove mock code above
   },
 };
 </script>

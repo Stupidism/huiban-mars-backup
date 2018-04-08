@@ -1,9 +1,6 @@
 import { wxRequest, orderGet } from '@/apis';
 import { example as orderExample } from '@/apis/orders/get';
 
-const statuses = ['to_be_paid', 'completed', 'cancelled', 'closed'];
-const statusDescs = ['待支付', '已完成', '已取消', '已关闭'];
-
 export default {
   methods: {
     async getOrder(id) {
@@ -19,10 +16,6 @@ export default {
           throw e;
         }
       }
-
-      const randomIndex = Math.floor(Math.random() * 2);
-      this.order.status = statuses[randomIndex];
-      this.order.statusDesc = statusDescs[randomIndex];
     },
   }
 };
