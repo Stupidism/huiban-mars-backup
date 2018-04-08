@@ -28,7 +28,8 @@ Meeting {
   hostLink: Url,
   enrollEndAt: TimeStamp,
   holdAt: TimeStamp,
-  status: Runtime('报名中' | '报名截止' | '过期'),
+  status: Runtime('enrolling' | 'enrollment_closed' | 'expired'),
+  statusDesc: Runtime('报名中' | '报名截止' | '过期')
 }
 
 TicketGrade { // 票档
@@ -59,6 +60,7 @@ Order {
   payedAt: TimeStamp,
   deletedAt: TimeStamp,
   finishedAt: TimeStamp,
+  cancelledAt: TimeStamp
 }
 
 OrderItem {
@@ -67,6 +69,7 @@ OrderItem {
   ticketGrade: TicketGrade,
   ticketAmount: Number,
   ticketPrice: Number,
+  ticketGradeType: String,
 }
 
 PaymentMethod {
