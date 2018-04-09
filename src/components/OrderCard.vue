@@ -5,7 +5,7 @@
       <div class="meeting-status">{{order.meeting.statusDesc}}</div>
     </div>
     <div class="order-info">
-      <div class="meeting-topic">{{order.meeting.topic}}</div>
+      <div class="meeting-topic topic">{{order.meeting.topic}}</div>
       <div class="order-info-centent">
         <div>
           <div>
@@ -73,13 +73,7 @@ export default {
 }
 
 .meeting-topic {
-  font-weight: bolder;
   font-size: 14px;
-
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
   padding-right: 10px;
 }
 

@@ -2,7 +2,7 @@
   <div class="meeting-intro weui-flex" :class="{ mini: mini }">
     <img class="meeting-cover" src="/static/default-meeting-cover.png" alt="封面图片" />
     <div class="meeting-info weui-flex__item">
-      <div class="meeting-topic">{{meeting.topic}}</div>
+      <div class="meeting-topic topic">{{meeting.topic}}</div>
       <div v-if="!mini" class="meeting-info-centent">
         <div>
           时间: <date :time="meeting.holdAt" />
@@ -47,13 +47,7 @@ export default {
 }
 
 .meeting-topic {
-  font-weight: bolder;
   font-size: 16px;
-
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
   padding-right: 10px;
 }
 
