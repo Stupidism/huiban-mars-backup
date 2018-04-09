@@ -1,6 +1,6 @@
 <template>
   <scroll-view class="page">
-    <meeting-card :meeting="meeting" />
+    <meeting-banner :meeting="meeting" />
 
     <div class="divider" />
 
@@ -54,7 +54,7 @@ import qs from 'query-string';
 import getMeeting from '@/mixins/get-meeting';
 import toCash from '@/utils/filters/cash';
 
-import MeetingCard from '@/components/MeetingCard';
+import MeetingBanner from '@/components/MeetingBanner';
 import TicketGrade from '@/components/TicketGrade';
 import SubmitFooter from '@/components/SubmitFooter';
 
@@ -96,21 +96,21 @@ export default {
     },
   },
   components: {
-    MeetingCard,
+    MeetingBanner,
     TicketGrade,
     SubmitFooter,
   },
   mixins: [getMeeting],
   async mounted() {
     wx.setNavigationBarTitle({
-      title: '活动购票',
+      title: '选择票档',
     });
     await this.getMeeting(this.$root.$mp.query.id || 1);
 
     // Mock navigate to new-order page
-    this.selectedAmount = 2;
-    this.selectedTicketGrade = this.meeting.ticketGrades[0];
-    this.startOrder();
+    // this.selectedAmount = 2;
+    // this.selectedTicketGrade = this.meeting.ticketGrades[0];
+    // this.startOrder();
     // TODO: remove mock code above
   },
 };
