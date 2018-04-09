@@ -1,7 +1,7 @@
 <template>
   <div class="order-intro">
     <div class="meeting-cover-wrapper">
-      <img class="meeting-cover" src="/static/default-cover.png" alt="封面图片" />
+      <img class="meeting-cover" src="/static/default-meeting-cover.png" alt="封面图片" />
       <div class="meeting-status">{{order.meeting.statusDesc}}</div>
     </div>
     <div class="order-info">

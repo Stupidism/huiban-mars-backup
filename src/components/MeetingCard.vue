@@ -1,6 +1,6 @@
 <template>
   <div class="meeting-intro weui-flex" :class="{ mini: mini }">
-    <img class="meeting-cover" src="/static/default-cover.png" alt="封面图片" />
+    <img class="meeting-cover" src="/static/default-meeting-cover.png" alt="封面图片" />
     <div class="meeting-info weui-flex__item">
       <div class="meeting-topic">{{meeting.topic}}</div>
       <div v-if="!mini" class="meeting-info-centent">
