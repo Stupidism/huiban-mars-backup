@@ -6,10 +6,10 @@
 .divider {
   height: 1px;
   border-bottom: dashed 1px #bbb;
-}
 
-.divider.solid {
-  border-bottom-style: solid;
+  &.solid {
+    border-bottom-style: solid;
+  }
 }
 
 .margined-vertical {
@@ -27,14 +27,14 @@
 .bordered {
   padding: 15px 10px;
   border: 1px solid #bbb;
-}
 
-.bordered.selected {
-  border: 2px solid #444444;
-}
+  &.selected {
+    border: 2px solid #444444;
+  }
 
-.bordered.disabled {
-  background: #ddd;
+  &.disabled {
+    background: #ddd;
+  }
 }
 
 .title {
@@ -67,4 +67,14 @@
 
 .info-table > div > span {
   color: #333;
+}
+
+.topic {
+  font-weight: bolder;
+  font-size: 20px;
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
