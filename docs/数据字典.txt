@@ -19,7 +19,10 @@ User {
 }
 
 Meeting {
-  address: String,
+  place: String, // 地点名称
+  address: String, // 详细地址
+  latitude: Number, // 地址纬度
+  longitude: Number, // 地址经度
   topic: String,
   englishTopic: String,
   bannerImg: Url,

@@ -12,7 +12,7 @@
             <icon type="time" size="20" /><date :time="order.meeting.holdAt" />
           </div>
           <div>
-            <icon type="marker" size="20" />{{order.meeting.address}}
+            <icon type="marker" size="20" />{{order.meeting.place}}
           </div>
           <div>
             <icon type="copyright" size="20" />{{order.meeting.host}}

@@ -8,7 +8,7 @@
           时间: <date :time="meeting.holdAt" />
         </div>
         <div>
-          地点: {{meeting.address}}
+          地点: {{meeting.place}}
         </div>
         <div>
           发布方: {{meeting.host}}
@@ -16,7 +16,7 @@
       </div>
       <div v-if="mini" class="meeting-info-centent">
         <div>
-          <date :time="meeting.holdAt" /> {{meeting.address}}
+          <date :time="meeting.holdAt" /> {{meeting.place}}
         </div>
         <div>
           {{meeting.host}}发布
