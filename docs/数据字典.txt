@@ -21,6 +21,7 @@ User {
 Meeting {
   address: String,
   topic: String,
+  englishTopic: String,
   bannerImg: Url,
   coverImg: Url,
   invitationCardImg: Url,

@@ -1,10 +1,12 @@
 import addMinutes from 'date-fns/add_minutes';
 
 export const example = {
-  topic: '会议名称会议名称会议名议名称会议名称最多两行，超出截断加...',
+  topic: '2018第六届全球云计算大会',
+  englishTopic: 'Cloud Connect China 2018',
   holdAt: new Date(),
   host: '上海亚德科技有限公司',
   address: '梅赛德斯奔驰中心',
+  bannerImg: '',
   coverImg: '',
   status: 'enrolling',
   statusDesc: '报名中',
