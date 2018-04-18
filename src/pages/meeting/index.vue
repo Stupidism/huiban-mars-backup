@@ -2,14 +2,15 @@
   <scroll-view class="page">
     <meeting-banner :meeting="meeting" />
 
-    <div class="divider" />
-
     <div class="ticket-grades-radio">
-      <div class="title margined-bottom">
-        选择票档
+      <div class="title">
+        <span>选择票档</span>
         <span class="sub-title">（贵宾票不参与买一赠一活动）</span>
       </div>
-      <div>
+
+      <div class="divider solid" />
+
+      <div class="ticket-grades">
         <ticket-grade
           v-for="ticketGrade in meeting.ticketGrades"
           :key="ticketGrade.id"
@@ -116,9 +117,20 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .ticket-grades-radio {
-  padding-top: 10px;
+  background: white;
+  margin-top: 10px;
+
+  .title {
+    display: flex;
+    align-items: baseline;
+    padding: 11.5px 15px;
+  }
+
+  .ticket-grades {
+    padding: 15px;
+  }
 }
 
 .amount-btn-group {
