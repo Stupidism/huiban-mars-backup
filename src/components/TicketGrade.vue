@@ -1,15 +1,18 @@
 <template>
-  <div @click="click" class="ticket-grade bordered weui-flex" :class="{ selected: selected, disabled: disabled }">
-    <div class="ticket-info weui-flex__item">
-      <div class="ticket-info-header weui-media-box__title weui-media-box__title_in-text weui-flex">
-        <span>{{ticketGrade.type}}</span>
-        <span class="ticket-rest-amount">{{restAmountDesc}}</span>
-      </div>
-      <div class="weui-media-box__desc">{{ticketGrade.desc}}</div>
+  <div @click="click" class="ticket-grade" :class="{ selected: selected, disabled: disabled }">
+    <div class="ticket-grade-type">
+      <image class="type-image" :src="typeImageUrl" />
+      <div class="type-name">{{ticketGrade.type}}</div>
     </div>
-    <div class="ticket-price weui-flex__item weui-flex">
-      <div class="ticket-price-number">{{price}}</div>
-      <div class="ticket-price-unit">元/张</div>
+    <div class="ticket-info bordered" :class="{ selected: selected }">
+      <div class="ticket-info-header">
+        <div class="ticket-price">
+          <span class="ticket-price-number">{{price}}</span>
+          <span class="ticket-price-unit">元/张</span>
+        </div>
+        <div class="ticket-rest-amount">{{restAmountDesc}}</div>
+      </div>
+      <div class="ticket-grade-desc">{{ticketGrade.desc}}</div>
     </div>
   </div>
 </template>
@@ -20,6 +23,9 @@ import toCash from '@/utils/filters/cash';
 export default {
   props: ['ticketGrade', 'selected'],
   computed: {
+    typeImageUrl() {
+      return `/static/ticket-grade/${this.ticketGrade.typeColor}.png`;
+    },
     disabled() {
       return !this.ticketGrade.restAmount;
     },
@@ -49,39 +55,104 @@ export default {
 };
 </script>
 
-<style scoped>
-.ticket-grade:not(:first-child) {
-  margin-top: 15px;
+<style scoped lang="less">
+.ticket-grade {
+  @size: 90px;
+
+  display: flex;
+  border-radius: 3px;
+  height: @size;
+
+  &:not(:first-child) {
+    margin-top: 15px;
+  }
+
+  &.disabled {
+    filter:opacity(0.5);
+
+    .ticket-rest-amount {
+      color: #FFA100;
+    }
+  }
+
+  .ticket-grade-type {
+    width: @size;
+    height: 100%;
+    position: relative;
+    border-radius: 5px 0 0 5px;
+
+    .type-image {
+      width: @size;
+      height: @size;
+    }
+
+    .type-name {
+      font-size: 18px;
+      line-height: 18px;
+      color: white;
+      white-space: nowrap;
+
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .ticket-info {
+    border-left-width: 0;
+    border-radius: 0 5px 5px 0;
+    padding: 16px 20px;
+    flex: 1;
+
+    .ticket-info-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      height: 18px;
+
+    }
+
+    .ticket-grade-desc {
+      font-size: 12px;
+      margin-top: 8px;
+      color: #8A9299;
+
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+  }
+
+  .ticket-price {
+    display: flex;
+    align-items: baseline;
+
+    .ticket-price-number {
+      font-weight: bolder;
+      font-size: 18px;
+      color: #333A40;
+      line-height: 18px;
+    }
+
+    .ticket-price-unit {
+      margin-left: 6px;
+      font-size: 12px;
+      color: #8A9299;
+      line-height: 12px;
+    }
+  }
+
+  .ticket-rest-amount {
+    font-size: 12px;
+    color: #2692F0;
+    letter-spacing: 0;
+    text-align: right;
+    line-height: 12px;
+    float: right;
+  }
 }
 
-.ticket-info {
-  padding-right: 15px;
-  flex: 3;
-}
-
-.ticket-info-header {
-  justify-content: space-between;
-}
-
-.ticket-rest-amount {
-  color: grey;
-}
-
-.ticket-price {
-  flex: 1;
-  border-left: #bbb 1px dashed;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.ticket-price-number {
-  font-weight: bolder;
-}
-
-.ticket-price-unit {
-  font-size: 12px;
-  color: grey;
-}
 
 </style>
