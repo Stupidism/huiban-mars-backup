@@ -51,6 +51,8 @@ export default {
 
 <style scoped lang="less">
 .meeting-banner {
+  background: white;
+
   .banner {
     display: flex;
     position: relative;
@@ -97,7 +99,7 @@ export default {
   .locate-place {
     font-size: 14px;
     color: #17181A;
-    padding: 15px;
+    padding: 14px 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;
