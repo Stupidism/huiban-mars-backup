@@ -17,6 +17,7 @@ export const example = {
   ticketGrades: [{
     id: 0,
     type: '早鸟票',
+    typeColor: 'blue',
     price: 19000,
     desc: '早起的鸟儿有虫吃，限量低价票尽在此刻，赶紧下手吧',
     amount: 100,
@@ -24,6 +25,7 @@ export const example = {
   }, {
     id: 1,
     type: 'VIP票',
+    typeColor: 'orange',
     price: 39000,
     desc: '坐前排，视线好，离得近，互动好，摘掉眼镜，竖起耳朵，做好笔记',
     amount: 100,
@@ -31,6 +33,7 @@ export const example = {
   }, {
     id: 2,
     type: '贵宾票',
+    typeColor: 'purple',
     price: 129000,
     desc: '想坐第一排，想和嘉宾握手合影，想...还想什么，点按钮啊→_→',
     amount: 100,
@@ -38,6 +41,7 @@ export const example = {
   }, {
     id: 3,
     type: '卖完票',
+    typeColor: 'black',
     price: 200,
     desc: '我就测一测卖完了什么样',
     amount: 100,

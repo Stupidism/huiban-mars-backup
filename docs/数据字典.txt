@@ -39,6 +39,7 @@ Meeting {
 TicketGrade { // 票档
   meeting: Meeting,
   type: String, // 由主办方决定Enum('早鸟票' | 'VIP票' | '贵宾票'),
+  typeColor: Enum('blue' | 'green' | 'orange' | 'purple' | 'black'),
   price: Number, // 单位:分
   desc: String,
   amount: Number,
