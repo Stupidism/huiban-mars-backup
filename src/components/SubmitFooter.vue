@@ -1,5 +1,5 @@
 <template>
-  <div class="submit-footer weui-footer weui-footer_fixed-bottom content-horizontal">
+  <div class="submit-footer content-horizontal">
     <span v-if="!noSummary" class="summary-content content-horizontal">
       <slot></slot>
     </span>
@@ -26,18 +26,36 @@ export default {
 
 <style lang="less">
 .submit-footer {
+  position: fixed;
   bottom: 0;
+
+  width: 100%;
+  height: 50px;
   background: white;
-  border-top: 1px #bbb solid;
+  box-shadow: 0 0 4px 0;
+
+  display: flex;
 
   .summary-content {
-    flex: 3;
+    flex: 4;
     padding: 0 15px;
+    border-top: 0.5px solid #EAEAEA;
+    line-height: 50px;
   }
 
   .submit-btn {
-    flex: 2;
+    flex: 1;
+    min-width: 100px;
     border-radius: 0;
+    color: white;
+    background: #2692F0;
+    text-align: center;
+    line-height: 50px;
+
+    &[disabled] {
+      color: white;
+      background: #C4C8CC;
+    }
   }
 }
 
