@@ -21,27 +21,37 @@
       </div>
     </div>
 
+    <div class="coupons">
+      <image @click="viewNotes" src="/static/coupons/buy-one-get-one-free.png" mode="widthFix" />
+    </div>
+
     <div
       v-if="selectedTicketGrade != null"
-      class="amount-btn-group weui-footer weui-footer_fixed-bottom"
+      class="amount-radio"
     >
-      <span class="amount-btn-title">
-        数量:
-      </span>
-      <span
-        v-for="amount in [1,2,3,4,5]"
-        class="amount-btn"
-        :class="{ selected: amount === selectedAmount }"
-        :key="amount"
-        @click="selectAmount(amount)"
-        v-if="selectedTicketGrade.restAmount >= amount"
-      >
-        {{amount}}
-      </span>
+      <div class="amount-radio-title">
+        数量：
+      </div>
+      <div class="amount-btn-group">
+        <span
+          v-for="amount in [1,2,3,4,5]"
+          class="amount-btn"
+          :class="{ selected: amount === selectedAmount }"
+          :key="amount"
+          @click="selectAmount(amount)"
+          v-if="selectedTicketGrade.restAmount >= amount"
+        >
+          {{amount}}
+        </span>
+      </div>
     </div>
 
     <submit-footer :onSubmit="startOrder" :disabled="!sumPrice">
-      合计: {{sumPriceInCash}} 元
+      <div class="sum-price">
+        合计：
+        <span class="sum-price-amount">{{sumPriceInCash}} </span>
+        <span class="sum-price-unit">元</span>
+      </div>
       <navigator url="/page/order-notice" hover-class="navigator-hover">
         《购票须知》
       </navigator>
@@ -133,34 +143,80 @@ export default {
   }
 }
 
-.amount-btn-group {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+.coupons {
+  margin-top: 10px;
 
-  background: white;
-  border-top: 1px #bbb solid;
-
-  font-weight: bolder;
-  padding: 15px;
-  bottom: 48px;
+  image {
+    width: 100%;
+  }
 }
 
-.amount-btn-title {
-  margin-right: 30px;
+.amount-radio {
+  position: fixed;
+  bottom: 50px;
+
+  width: 100%;
+  height: 30px;
+  padding: 15px;
+  background: white;
+  box-shadow: 0 -2px 2px 0 rgba(0,0,0,0.10);
+  z-index: 1;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.amount-radio-title {
+  font-weight: bolder;
+  font-size: 14px;
+  color: #8A9299;
+  margin-right: 6px;
+}
+
+.amount-btn-group {
+  width: calc(100% - 75px);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   font-weight: bolder;
 }
 
 .amount-btn {
+  width: 40px;
   height: 30px;
-  width: 12%;
-  border: 1px solid grey;
-  margin-right: 5px;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 3px;
+  text-align: center;
+  font-size: 14px;
   line-height: 30px;
+  color: #17181A;
 }
 
 .amount-btn.selected {
-  background: #bbb;
+  background: rgba(38,146,240,0.10);
+  border: 1px solid #2692F0;
+}
+
+.ticket-notes {
+  color: #8A9299;
+}
+
+.sum-price {
+  display: flex;
+  align-items: center;
+}
+
+.sum-price-amount {
+  font-size: 20px;
+  color: #2692F0;
+}
+
+.sum-price-unit {
+  margin-left: 4px;
+  color: #2692F0;
 }
 
 </style>
