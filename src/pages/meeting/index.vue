@@ -46,16 +46,24 @@
       </div>
     </div>
 
-    <submit-footer :onSubmit="startOrder" :disabled="!sumPrice">
-      <div class="sum-price">
-        合计：
-        <span class="sum-price-amount">{{sumPriceInCash}} </span>
-        <span class="sum-price-unit">元</span>
+    <div class="submit-footer content-horizontal">
+      <div class="summary-content content-horizontal">
+        <div class="sum-price">
+          合计：
+          <span class="sum-price-amount">{{sumPriceInCash}} </span>
+          <span class="sum-price-unit">元</span>
+        </div>
+        <div @click="openTicketNotes" class="ticket-notes">
+          《购票须知》
+        </div>
       </div>
-      <navigator url="/page/order-notice" hover-class="navigator-hover">
-        《购票须知》
-      </navigator>
-    </submit-footer>
+      <button class="submit-btn" :disabled="!sumPrice" @click="startOrder">
+        提交
+      </button>
+    </div>
+
+    <ticket-notes v-if="isTicketNotesOpen" :onClose="closeTicketNotes" />
+
   </scroll-view>
 </template>
 
@@ -68,6 +76,7 @@ import toCash from '@/utils/filters/cash';
 import MeetingBanner from '@/components/MeetingBanner';
 import TicketGrade from '@/components/TicketGrade';
 import SubmitFooter from '@/components/SubmitFooter';
+import TicketNotes from '@/components/TicketNotes';
 
 export default {
   data() {
@@ -75,6 +84,7 @@ export default {
       meeting: {},
       selectedTicketGrade: null,
       selectedAmount: null,
+      isTicketNotesOpen: false,
     };
   },
   computed: {
@@ -105,11 +115,26 @@ export default {
         })}`,
       });
     },
+    openTicketNotes() {
+      wx.setNavigationBarColor({
+        frontColor: '#ffffff',
+        backgroundColor: '#666666',
+      });
+      this.isTicketNotesOpen = true;
+    },
+    closeTicketNotes() {
+      wx.setNavigationBarColor({
+        frontColor: '#000000',
+        backgroundColor: '#ffffff',
+      });
+      this.isTicketNotesOpen = false;
+    },
   },
   components: {
     MeetingBanner,
     TicketGrade,
     SubmitFooter,
+    TicketNotes,
   },
   mixins: [getMeeting],
   async mounted() {
@@ -200,10 +225,6 @@ export default {
   border: 1px solid #2692F0;
 }
 
-.ticket-notes {
-  color: #8A9299;
-}
-
 .sum-price {
   display: flex;
   align-items: center;
@@ -218,5 +239,4 @@ export default {
   margin-left: 4px;
   color: #2692F0;
 }
-
 </style>
