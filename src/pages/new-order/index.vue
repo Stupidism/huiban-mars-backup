@@ -1,46 +1,72 @@
 <template>
   <scroll-view class="page new-order">
-    <meeting-card :meeting="meeting" mini="true" />
-    <div class="divider solid" />
-    <div class="order-item-summary">
-      <span class="ticket-grade-summary">
-        <image class="icon ticket-grade-icon" :src="ticketGradeIcon" />
-        票档：{{ticketGrade.type}} <span class="price">{{price}}</span> 元/张
-      </span>
-      <span class="amount">x {{amount}}张</span>
+    <div class="container">
+      <meeting-card :meeting="meeting" mini="true" />
+      <div class="order-item-summary section">
+        <span class="ticket-grade-summary">
+          <image class="icon ticket-grade-icon" :src="ticketGradeIcon" />
+          票档：{{ticketGrade.type}} <span class="price">{{priceInCash}}</span> 元/张
+        </span>
+        <span class="amount">x {{amount}}张</span>
+      </div>
     </div>
-    <div class="buyer-form">
-      <div class="title margined-vertical">
-        购票人信息
-        <div class="sub-title">（多人参会请在支付完成后邀请他人填写信息，以便现场签到）</div>
+    <div class="buyer-form container">
+      <div class="section">
+        <div class="title">购票人信息</div>
+        <div class="sub-title">多人参会请在支付完成后邀请他人填写信息，以便现场签到</div>
       </div>
 
-      <div class="bordered">
+      <div class="buyer-fields section">
         <label class="form-field">
-          姓名：
-          <input type="text" v-model="buyer.name" placeholder="必填，请输入您的真实姓名" auto-focus>
+          <span class="required-marker">*</span>
+          <span class="field-name">姓名</span>
+          <input
+            type="text"
+            v-model="buyer.name"
+            placeholder="请输入您的真实姓名"
+            auto-focus
+            confirm-type="next"
+          >
         </label>
         <label class="form-field">
-          公司：
-          <input type="text" v-model="buyer.company" placeholder="必填，请输入您的公司名称">
+          <span class="required-marker">*</span>
+          <span class="field-name">公司</span>
+          <input
+            type="text"
+            v-model="buyer.company"
+            placeholder="请输入您的公司名称"
+            confirm-type="next"
+          >
         </label>
         <label class="form-field">
-          职位：
-          <input type="text" v-model="buyer.position" placeholder="必填，请输入您的职位名称">
+          <span class="required-marker">*</span>
+          <span class="field-name">职位</span>
+          <input
+            type="text"
+            v-model="buyer.position"
+            placeholder="请输入您的职位名称"
+            confirm-type="next"
+          >
         </label>
         <label class="form-field">
-          城市：
-          <input type="text" v-model="buyer.city" placeholder="必填，请输入您所在的城市">
+          <span class="required-marker">*</span>
+          <span class="field-name">城市</span>
+          <input
+            type="text"
+            v-model="buyer.city"
+            placeholder="请输入您所在的城市"
+          >
+        </label>
+        <label class="form-field is-participant-checkbox">
+          本人参会，上述信息将作为您现场签到的唯一凭证
+          <input type="checkbox" v-model="buyer.isParticipant">
         </label>
       </div>
-      <label class="form-field is-participant-checkbox">
-        <input type="checkbox" v-model="buyer.isParticipant">
-        本人参会，上述信息将作为您现场签到的唯一凭证
-      </label>
     </div>
-    <div class="divider" />
-    <div class="payment-method-list">
-      <div class="title">支付方式<span class="sub-title">（不支持无条件退款）</span></div>
+    <div class="container">
+      <div class="title section">
+        支付方式<span class="sub-title">（不支持无条件退款）</span>
+      </div>
       <payment-method
         v-for="paymentMethod in paymentMethods"
         :key="paymentMethod.id"
@@ -50,13 +76,17 @@
       />
     </div>
     <submit-footer buttonName="支付" :onSubmit="onSubmit">
-      合计: {{sumPriceInCash}} 元
+      <div class="sum-price">
+        合计：
+        <span class="sum-price-amount">{{sumPriceInCash}} </span>
+        <span class="sum-price-unit">元</span>
+      </div>
     </submit-footer>
   </scroll-view>
 </template>
 
 <script>
-import _ from 'lodash';
+import { createNamespacedHelpers } from 'vuex';
 
 import MeetingCard from '@/components/MeetingCard';
 import PaymentMethod from '@/components/PaymentMethod';
@@ -67,7 +97,8 @@ import payOrder from '@/mixins/pay-order';
 
 import { wxRequest, paymentMethodList, orderPost } from '@/apis';
 import { example as paymentMethodsExample } from '@/apis/payment_methods/list';
-import toCash from '@/utils/filters/cash';
+
+const { mapState, mapGetters } = createNamespacedHelpers('orderItem');
 
 export default {
   data() {
@@ -90,20 +121,8 @@ export default {
     query() {
       return this.$root.$mp.query;
     },
-    amount() {
-      return this.query.amount ? Number(this.query.amount) : 1;
-    },
-    ticketGrade() {
-      return _.find(this.meeting.ticketGrades, {
-        type: this.query.ticketGrade || '早鸟票',
-      }) || this.meeting.ticketGrades[0] || {};
-    },
-    price() {
-      return toCash(this.ticketGrade.price);
-    },
-    sumPriceInCash() {
-      return toCash(this.ticketGrade.price * this.amount);
-    },
+    ...mapState(['amount', 'ticketGrade']),
+    ...mapGetters(['priceInCash', 'sumPriceInCash']),
     ticketGradeIcon() {
       return `/static/icons/ticket-grade/${this.ticketGrade.typeColor || 'blue'}.png`;
     },
@@ -111,14 +130,14 @@ export default {
       return {
         meetingId: this.meeting.id,
         items: [{
-          ticketGrade: this.query.ticketGrade,
-          ticketAmount: this.query.amount,
+          ticketGradeId: this.ticketGrade.id,
+          ticketAmount: this.amount,
           ticketPrice: this.ticketGrade.price,
           meetingId: this.meeting.id,
         }],
         paymentMethodId: this.selectedPaymentMethod ? this.selectedPaymentMethod.id : '',
       };
-    }
+    },
   },
   methods: {
     async getPaymentMethods() {
@@ -133,12 +152,29 @@ export default {
         }
       }
     },
+    promptNoStock() {
+      wx.showModal({
+        content: '门票被抢完啦，下次赶早哟',
+        cancelText: '知道了',
+        cancelColor: '#000000',
+        confirmText: '重新选票',
+        confirmColor: '#2692F0',
+        success(res) {
+          if (res.confirm) {
+            wx.navigateBack();
+          }
+        },
+      });
+    },
     async postOrder() {
       try {
         return await wxRequest(orderPost(this.order));
       } catch (e) {
         if (e.errMsg === 'request:fail url not in domain list') {
           return {};
+        }
+        if (e.statusCode === 400 && e.data.type === 'No Stock') {
+          return this.promptNoStock();
         }
         console.error(e.statusCode, e.data);
         throw e;
@@ -166,6 +202,7 @@ export default {
     await this.getPaymentMethods();
     this.selectedPaymentMethod = this.paymentMethods[0];
 
+    this.promptNoStock();
     // Mock navigate to new-order page
     // this.onPaymentSucess({ id: 1 });
     // TODO: remove mock code above
@@ -178,7 +215,6 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: white;
   padding: 13px 15px 12px;
 
   .price {
@@ -204,37 +240,59 @@ export default {
 }
 
 .buyer-form {
-  padding: 15px 0;
+  .buyer-fields {
+    padding: 0 0 0 15px;
+  }
+
+  .form-field {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    padding: 15px 15px 15px 0;
+    border-bottom: solid 0.5px #EAEAEA;
+
+    .field-name {
+      &:not(:first-child) {
+        margin-left: 12px;
+      }
+    }
+
+    .required-marker {
+      color: red;
+    }
+
+    input[type=text] {
+      margin-left: 20px;
+      flex: 1;
+    }
+
+    &.is-participant-checkbox {
+      font-size: 12px;
+      line-height: 20px;
+      justify-content: space-between;
+      border-bottom: 0;
+
+      checkbox {
+        margin-top: -3px;
+        margin-right: -6px;
+        transform: scale(0.7);
+      }
+    }
+  }
 }
 
-.form-field {
+.sum-price {
   display: flex;
   align-items: center;
-  font-size: 14px;
 }
 
-.form-field:not(:first-child) {
-  margin-top: 10px;
+.sum-price-amount {
+  font-size: 20px;
+  color: #2692F0;
 }
 
-.form-field input[type=text] {
-  font-size: 12px;
-  margin-left: 5px;
-  flex: 1;
-  border-bottom: 1px solid grey;
+.sum-price-unit {
+  margin-left: 4px;
+  color: #2692F0;
 }
-
-.form-field checkbox {
-  margin-left: -3px;
-  transform: scale(0.7);
-}
-
-.is-participant-checkbox {
-  margin-top: 15px;
-}
-
-.payment-method-list {
-  padding: 10px 0;
-}
-
 </style>
