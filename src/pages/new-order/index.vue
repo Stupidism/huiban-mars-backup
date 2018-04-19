@@ -1,11 +1,14 @@
 <template>
   <scroll-view class="page new-order">
     <meeting-card :meeting="meeting" mini="true" />
-    <div class="ticket-grade-summary bordered weui-flex">
-      <span>票档：{{ticketGrade.type}} {{price}} 元/张</span>
-      <span>X {{amount}}</span>
+    <div class="divider solid" />
+    <div class="order-item-summary">
+      <span class="ticket-grade-summary">
+        <image class="icon ticket-grade-icon" :src="ticketGradeIcon" />
+        票档：{{ticketGrade.type}} <span class="price">{{price}}</span> 元/张
+      </span>
+      <span class="amount">x {{amount}}张</span>
     </div>
-    <div class="divider" />
     <div class="buyer-form">
       <div class="title margined-vertical">
         购票人信息
@@ -101,6 +104,9 @@ export default {
     sumPriceInCash() {
       return toCash(this.ticketGrade.price * this.amount);
     },
+    ticketGradeIcon() {
+      return `/static/icons/ticket-grade/${this.ticketGrade.typeColor || 'blue'}.png`;
+    },
     order() {
       return {
         meetingId: this.meeting.id,
@@ -167,10 +173,34 @@ export default {
 };
 </script>
 
-<style scoped>
-.ticket-grade-summary {
+<style scoped lang="less">
+.order-item-summary {
+  display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
+  align-items: center;
+  background: white;
+  padding: 13px 15px 12px;
+
+  .price {
+    color: #2692F0;
+  }
+
+  .amount {
+    .price();
+
+    font-size: 12px;
+  }
+
+  .ticket-grade-summary {
+    display: flex;
+    align-items: center;
+  }
+
+  .ticket-grade-icon {
+    width: 17px;
+    height: 17px;
+    margin-right: 10px;
+  }
 }
 
 .buyer-form {
