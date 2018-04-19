@@ -14,10 +14,10 @@
     </div>
     <div class="locate-place" @click="showInMap">
       <span class="place-content">
-        <image class="icon mini marker" src="/static/icons/marker.png" />
+        <image class="icon marker" src="/static/icons/marker.png" />
         <span class="place">{{meeting.place}}</span>
       </span>
-      <image class="icon mini right-arrow" src="/static/icons/right-arrow.png" />
+      <image class="icon right-arrow" src="/static/icons/right-arrow.png" />
     </div>
   </div>
 </template>
