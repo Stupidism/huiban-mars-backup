@@ -12,7 +12,7 @@
         </div>
         <div class="ticket-rest-amount">{{restAmountDesc}}</div>
       </div>
-      <div class="ticket-grade-desc">{{ticketGrade.desc}}</div>
+      <div class="ticket-grade-desc .max-line-num-2">{{ticketGrade.desc}}</div>
     </div>
   </div>
 </template>
@@ -117,11 +117,6 @@ export default {
       font-size: 12px;
       margin-top: 8px;
       color: #8A9299;
-
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
     }
   }
 

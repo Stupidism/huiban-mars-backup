@@ -4,3 +4,12 @@
   -webkit-line-clamp: @num;
   -webkit-box-orient: vertical;
 }
+
+.generate-max-line-nums(@n, @i: 1) when (@i =< @n) {
+  .max-line-num-@{i} {
+    .max-line-num(@i);
+  }
+  .generate-max-line-nums(@n, (@i + 1));
+}
+
+.generate-max-line-nums(2);
