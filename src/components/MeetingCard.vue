@@ -1,25 +1,17 @@
 <template>
-  <div class="meeting-intro weui-flex" :class="{ mini: mini }">
-    <img class="meeting-cover" src="/static/default-meeting-cover.png" alt="封面图片" />
-    <div class="meeting-info weui-flex__item">
+  <div class="meeting-card">
+    <image class="meeting-cover" src="/static/default-meeting-cover.png" alt="封面图片" mode="aspectFill" />
+    <div class="meeting-info">
       <div class="meeting-topic topic">{{meeting.topic}}</div>
-      <div v-if="!mini" class="meeting-info-centent">
-        <div>
-          时间: <date :time="meeting.holdAt" />
+      <div class="meeting-info-centent">
+        <div class="meeting-info-content-line">
+          <image class="icon mini" src="/static/icons/marker.png" />{{' '}}<date :time="meeting.holdAt" />
         </div>
-        <div>
-          地点: {{meeting.place}}
+        <div class="meeting-info-content-line">
+          <image class="icon mini" src="/static/icons/marker.png" />{{meeting.place}}
         </div>
-        <div>
-          发布方: {{meeting.host}}
-        </div>
-      </div>
-      <div v-if="mini" class="meeting-info-centent">
-        <div>
-          <date :time="meeting.holdAt" /> {{meeting.place}}
-        </div>
-        <div>
-          {{meeting.host}}发布
+        <div class="meeting-info-content-line">
+          <image class="icon mini" src="/static/icons/marker.png" />{{meeting.host}}
         </div>
       </div>
     </div>
@@ -30,39 +22,53 @@
 import Date from '@/modules/Date';
 
 export default {
-  props: ['meeting', 'mini'],
+  props: ['meeting'],
   components: { Date },
 };
 </script>
 
-<style scoped>
-.meeting-intro {
-  padding-bottom: 15px;
-}
+<style scoped lang="less">
+.meeting-card {
+  display: flex;
 
-.meeting-cover {
-  width: 100px;
-  height: 150px;
-  margin-right: 15px;
-}
+  background: white;
+  padding: 15px;
 
-.meeting-topic {
-  font-size: 16px;
-  padding-right: 10px;
-}
+  .meeting-cover {
+    width: 82px;
+    height: 110px;
+  }
 
-.meeting-info-centent {
-  margin-top: 30px;
-  font-size: 14px;
-}
+  .meeting-info {
+    margin-left: 20px;
 
-.meeting-intro.mini .meeting-cover {
-  width: 66px;
-  height: 99px;
-}
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
-.meeting-intro.mini .meeting-info-centent {
-  margin-top: 5px;
-}
+    .meeting-topic {
+      font-size: 14px;
+      line-height: 20px;
+    }
 
+    .meeting-info-centent {
+      .meeting-info-content-line {
+        font-size: 12px;
+        line-height: 12px;
+        color: #8A9299;
+
+        display: flex;
+
+        &:not(:first-child) {
+          margin-top: 8px;
+        }
+
+        .icon {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+
+}
 </style>
