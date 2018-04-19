@@ -1,4 +1,5 @@
 @import './mixins';
+@import './layout';
 
 body {
   font-size: 14px;
@@ -10,18 +11,21 @@ button::after{
   border:none;
 }
 
-.page {
-  padding: 0 0 200px;
-  width: auto;
-  background: #f5f5f5;
+input {
+  height:20px;
+  min-height: 20px;
+  overflow: visible;
 }
 
-.divider {
-  border-bottom: dashed 0.5px #EAEAEA;
 
-  &.solid {
-    border-bottom-style: solid;
-  }
+.divider {
+  border-bottom: solid 0.5px #EAEAEA;
+}
+
+.divider-dashed {
+  .divider();
+
+  border-bottom-style: dashed;
 }
 
 .margined-vertical {
@@ -50,7 +54,8 @@ button::after{
 }
 
 .title {
-  font-size: 16px;
+  line-height: 20px;
+  font-size: 14px;
   font-weight: bold;
 }
 
@@ -60,7 +65,6 @@ button::after{
   color: #8A9299;
 }
 
-.content-vertical,
 .content-horizontal {
   display: flex;
   justify-content: space-between;
@@ -68,6 +72,8 @@ button::after{
 }
 
 .content-vertical {
+  .content-horizontal();
+
   flex-direction: column;
 }
 
