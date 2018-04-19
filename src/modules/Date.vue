@@ -7,7 +7,7 @@ import DateTime from './DateTime';
 export default {
   props: {
     format: {
-      default: 'YYYY-MM-DD',
+      default: 'YYYY.MM.DD',
     },
   },
   extends: DateTime,
