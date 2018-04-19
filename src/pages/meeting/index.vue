@@ -2,15 +2,13 @@
   <scroll-view class="page">
     <meeting-banner :meeting="meeting" />
 
-    <div class="ticket-grades-radio">
-      <div class="title">
+    <div class="ticket-grades-radio container">
+      <div class="title section-single-line">
         <span>选择票档</span>
         <span class="sub-title">（贵宾票不参与买一赠一活动）</span>
       </div>
 
-      <div class="divider solid" />
-
-      <div class="ticket-grades">
+      <div class="ticket-grades section">
         <ticket-grade
           v-for="ticketGrade in meeting.ticketGrades"
           :key="ticketGrade.id"
@@ -21,13 +19,13 @@
       </div>
     </div>
 
-    <div class="coupons">
+    <div class="coupons container">
       <image @click="viewNotes" src="/static/coupons/buy-one-get-one-free.png" mode="widthFix" />
     </div>
 
     <div
       v-if="selectedTicketGrade != null"
-      class="amount-radio"
+      class="amount-radio container-single-section"
     >
       <div class="amount-radio-title">
         数量：
@@ -154,22 +152,14 @@ export default {
 
 <style scoped lang="less">
 .ticket-grades-radio {
-  background: white;
-  margin-top: 10px;
-
   .title {
     display: flex;
     align-items: baseline;
-    padding: 11.5px 15px;
-  }
-
-  .ticket-grades {
-    padding: 15px;
   }
 }
 
 .coupons {
-  margin-top: 10px;
+  display: flex;
 
   image {
     width: 100%;
@@ -180,10 +170,7 @@ export default {
   position: fixed;
   bottom: 50px;
 
-  width: 100%;
   height: 30px;
-  padding: 15px;
-  background: white;
   box-shadow: 0 -2px 2px 0 rgba(0,0,0,0.10);
   z-index: 1;
 
