@@ -113,11 +113,12 @@ export default {
   },
   methods: {
     goToMyTickets() {
-      wx.navigateTo({
+      wx.redirectTo({
         url: `/pages/tickets/main?order=${this.order.id}`,
       });
     },
     goToPay() {
+      wx.navigateBack({ delta: 2 });
       this.payOrder(this.order);
     },
     cancelOrder() {

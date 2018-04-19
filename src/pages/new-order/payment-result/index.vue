@@ -58,7 +58,7 @@ export default {
     await this.getOrder(this.$root.$mp.query.order || 1);
 
     // Mock navigate to new-order page
-    this.onSubmit();
+    // this.onSubmit();
     // TODO: remove mock code above
   },
 };

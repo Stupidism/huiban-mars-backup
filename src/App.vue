@@ -70,6 +70,9 @@ export default {
         const user = await getCurrentUser();
         console.info('getCurrentUser succeed', user);
       } catch (e) {
+        if (e.errMsg === 'request:fail url not in domain list') {
+          return;
+        }
         console.error('getCurrentUser fail', e);
         wx.showModal({
           title: '网络异常',
