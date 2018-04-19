@@ -109,6 +109,8 @@ Transaction {
   statusDesc: Enum('待支付' | ‘已失败’ | ‘已成功’)，
   wechatErrorCode: String,
   wechatErrorMessage: String,
+  createdAt: TimeStamp,
+  expiresAt: TimeStamp,
 }
 
 WechatTransaction {

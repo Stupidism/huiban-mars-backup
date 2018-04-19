@@ -1,5 +1,5 @@
 import { example as meeting } from '../meetings/get';
-import { example as paymentMethods } from '../payment-methods/list';
+import { example as paymentMethods } from '../payment_methods/list';
 
 export const example = {
   id: 1,
@@ -23,6 +23,8 @@ export const example = {
   transaction: {
     id: '123',
     thirdPartyTransactionId: '123',
+    createdAt: new Date(),
+    expiresAt: new Date(),
   },
   paymentMethod: paymentMethods[0],
   duePayment: 76000,

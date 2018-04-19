@@ -7,5 +7,5 @@ export const example = [{
 }];
 
 export default () => ({
-  url: '/payment-methods',
+  url: '/payment_methods',
 });

@@ -4,7 +4,7 @@ import meetingGet from './meetings/get';
 import orderGet from './orders/get';
 import orderPost from './orders/post';
 import orderPatch from './orders/patch';
-import paymentMethodList from './payment-methods/list';
+import paymentMethodList from './payment_methods/list';
 import transactionPost from './transactions/post';
 
 export {

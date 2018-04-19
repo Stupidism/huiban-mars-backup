@@ -66,7 +66,7 @@ import getMeeting from '@/mixins/get-meeting';
 import payOrder from '@/mixins/pay-order';
 
 import { wxRequest, paymentMethodList, orderPost } from '@/apis';
-import { example as paymentMethodsExample } from '@/apis/payment-methods/list';
+import { example as paymentMethodsExample } from '@/apis/payment_methods/list';
 import toCash from '@/utils/filters/cash';
 
 export default {
