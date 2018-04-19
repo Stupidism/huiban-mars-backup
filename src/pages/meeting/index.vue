@@ -13,8 +13,8 @@
           v-for="ticketGrade in meeting.ticketGrades"
           :key="ticketGrade.id"
           :ticket-grade="ticketGrade"
-          :selected="ticketGrade === selectedTicketGrade"
-          @select="selectTicketGrade(ticketGrade)"
+          :selected="ticketGrade.id === selectedTicketGrade.id"
+          @select="setTicketGrade(ticketGrade)"
         />
       </div>
     </div>
@@ -24,7 +24,7 @@
     </div>
 
     <div
-      v-if="selectedTicketGrade != null"
+      v-if="selectedTicketGrade.id != null"
       class="amount-radio container-single-section"
     >
       <div class="amount-radio-title">
@@ -36,7 +36,7 @@
           class="amount-btn"
           :class="{ selected: amount === selectedAmount }"
           :key="amount"
-          @click="selectAmount(amount)"
+          @click="setAmount(amount)"
           v-if="selectedTicketGrade.restAmount >= amount"
         >
           {{amount}}
@@ -67,49 +67,36 @@
 
 <script>
 import qs from 'query-string';
+import { createNamespacedHelpers } from 'vuex';
 
 import getMeeting from '@/mixins/get-meeting';
-import toCash from '@/utils/filters/cash';
 
 import MeetingBanner from '@/components/MeetingBanner';
 import TicketGrade from '@/components/TicketGrade';
 import SubmitFooter from '@/components/SubmitFooter';
 import TicketNotes from '@/components/TicketNotes';
 
+const { mapState, mapMutations, mapGetters } = createNamespacedHelpers('orderItem');
+
 export default {
   data() {
     return {
       meeting: {},
-      selectedTicketGrade: null,
-      selectedAmount: null,
       isTicketNotesOpen: false,
     };
   },
   computed: {
-    sumPrice() {
-      if (!this.selectedTicketGrade || !this.selectedAmount) return 0;
-      return this.selectedTicketGrade.price * this.selectedAmount;
-    },
-    sumPriceInCash() {
-      return toCash(this.sumPrice);
-    },
+    ...mapState({
+      selectedAmount: 'amount',
+      selectedTicketGrade: 'ticketGrade',
+    }),
+    ...mapGetters(['sumPrice', 'sumPriceInCash']),
   },
   methods: {
-    selectTicketGrade(selectedTicketGrade) {
-      this.selectedTicketGrade = selectedTicketGrade;
-      if (selectedTicketGrade) {
-        this.selectedAmount = Math.min(this.selectedAmount, this.selectedTicketGrade.restAmount);
-      }
-    },
-    selectAmount(amount) {
-      this.selectedAmount = amount;
-    },
     startOrder() {
       wx.navigateTo({
         url: `../new-order/main?${qs.stringify({
           meeting: this.meeting.id,
-          amount: this.selectedAmount,
-          ticketGrade: this.selectedTicketGrade.type,
         })}`,
       });
     },
@@ -127,6 +114,7 @@ export default {
       });
       this.isTicketNotesOpen = false;
     },
+    ...mapMutations(['setAmount', 'setTicketGrade']),
   },
   components: {
     MeetingBanner,
