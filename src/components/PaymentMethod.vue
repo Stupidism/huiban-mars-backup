@@ -1,6 +1,6 @@
 <template>
-  <div @click="click" class="payment-method bordered content-horizontal" :class="{ selected: selected }">
-    <icon type="success" size="33" />
+  <div @click="click" class="payment-method section" :class="{ selected: selected }">
+    <image class="payment-method-icon" :src="paymentMethod.iconImg" />
     <div class="payment-method-info">
       <div>{{paymentMethod.typeDesc}}</div>
       <div class="payment-method-desc">{{paymentMethod.desc}}</div>
@@ -25,20 +25,24 @@ export default {
 };
 </script>
 
-<style scoped>
-.payment-method:not(:first-child) {
-  margin-top: 15px;
-}
+<style scoped lang="less">
+.payment-method {
+  display: flex;
+  align-items: center;
 
-.payment-method-info {
-  flex: 1;
-  margin: 0 10px;
-  font-size: 14px;
-}
+  .payment-method-icon {
+    width: 40px;
+    height: 40px;
+  }
 
-.payment-method-desc {
-  font-size: 12px;
-  color: grey;
-}
+  .payment-method-info {
+    flex: 1;
+    margin: 1px 0 1px 15px;
+  }
 
+  .payment-method-desc {
+    margin-top: 8px;
+    color: grey;
+  }
+}
 </style>
