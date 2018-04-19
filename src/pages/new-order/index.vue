@@ -119,7 +119,7 @@ export default {
       try {
         this.paymentMethods = await wxRequest(paymentMethodList());
       } catch (e) {
-        if (e.errMsg === 'request:fail url not in domain list') {
+        if (e.errMsg === 'request:fail url not in domain list' || e.statusCode === 404) {
           this.paymentMethods = paymentMethodsExample;
         } else {
           console.error(e.statusCode, e.data);
@@ -161,7 +161,7 @@ export default {
     this.selectedPaymentMethod = this.paymentMethods[0];
 
     // Mock navigate to new-order page
-    this.onPaymentSucess({ id: 1 });
+    // this.onPaymentSucess({ id: 1 });
     // TODO: remove mock code above
   },
 };
