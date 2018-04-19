@@ -28,23 +28,18 @@
   }
 
 1.1. GET /users/current
-  Cookie: {
-    access_token,
-    wechatToken,
+  Header: {
+    Authorization: `Bearer ${accessToken}`
   }
 
   200 // 老用户已登陆
 
-  401 // 老用户未登录
-
-  404 // 新用户
-
+  404 // 新用户 或者 老用户未登录
 
 2. POST /tokens
   Request: {
     type: 'wechat',
-    wechatId,
-    wechatToken,
+    wechatCode,
     phone,
     smsCode: , // 微信登录时不需要短信验证码
   }
@@ -52,12 +47,6 @@
   201 {
     access_token,
     expires_at,
-  }
-
-2.1 POST /wechat_tokens
-  Request: {
-    wechatId,
-    wechatToken,
   }
 
 3. POST /smsCodes
