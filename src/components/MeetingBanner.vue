@@ -1,5 +1,5 @@
 <template>
-  <div class="meeting-banner">
+  <div class="meeting-banner container">
     <div class="banner">
       <image class="banner-image" :src="bannerImageUrl" />
       <div class="info">
@@ -12,7 +12,7 @@
         </div>
       </div>
     </div>
-    <div class="locate-place" @click="showInMap">
+    <div class="locate-place section-single-line" @click="showInMap">
       <span class="place-content">
         <image class="icon marker" src="/static/icons/marker.png" />
         <span class="place">{{meeting.place}}</span>
@@ -51,8 +51,6 @@ export default {
 
 <style scoped lang="less">
 .meeting-banner {
-  background: white;
-
   .banner {
     display: flex;
     position: relative;
@@ -99,7 +97,6 @@ export default {
   .locate-place {
     font-size: 14px;
     color: #17181A;
-    padding: 14px 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;
