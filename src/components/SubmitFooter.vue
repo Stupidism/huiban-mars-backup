@@ -18,6 +18,7 @@ export default {
     onSubmit: {},
     disabled: {},
     noSummary: {
+      type: Boolean,
       default: false,
     },
     primary: {
