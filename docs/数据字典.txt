@@ -75,6 +75,7 @@ OrderItem {
   ticketAmount: Number,
   ticketPrice: Number,
   ticketGradeType: String,
+  ticketGradeTypeColor: String,
 }
 
 PaymentMethod {
@@ -88,11 +89,15 @@ PaymentMethod {
 Ticket {
   buyer: User,
   participant: User,
+  price: Number,
+  gradeType: String,
+  gradeTypeColor: String,
   type: Enum('bought_ticket' | 'gift_ticket'),
   typeDesc: Enum('购票' | '赠票'),
   status: Enum('no_participant' | 'has_participant'),
   statusDesc: Enum('未确认' | '已确认'),
   meeting: Meeting,
+  order: Order,
   ticketGrade: TicketGrade,
   adminssionQrCode: Url, // 入场二维码  静态二维码 + 小程序隐藏页面 => 动态二维码 + 单独举办方后台小程序
   invitationCardImg:: Url, // 邀请函图片
