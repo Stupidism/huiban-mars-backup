@@ -1,10 +1,10 @@
 <template>
   <scroll-view class="page new-order">
     <div class="container">
-      <meeting-card :meeting="meeting" mini="true" />
+      <meeting-card :meeting="meeting" />
       <div class="order-item-summary section">
         <span class="ticket-grade-summary">
-          <image class="icon ticket-grade-icon" :src="ticketGradeIcon" />
+          <image class="icon small ticket-grade-icon" :src="ticketGradeIcon" />
           票档：{{ticketGrade.type}} <span class="price">{{priceInCash}}</span> 元/张
         </span>
         <span class="amount">x {{amount}}张</span>
@@ -233,8 +233,6 @@ export default {
   }
 
   .ticket-grade-icon {
-    width: 17px;
-    height: 17px;
     margin-right: 10px;
   }
 }
