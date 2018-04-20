@@ -6,9 +6,14 @@ body {
   color: #17181A;
 }
 
-// remove wechat default border-radius
-button::after{
-  border:none;
+// remove wechat default border
+button {
+  border-radius: 0;
+  background: white;
+
+  &::after{
+    border: none;
+  }
 }
 
 input {

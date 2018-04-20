@@ -46,9 +46,7 @@ export default {
   .submit-btn {
     flex: 1;
     min-width: 100px;
-    border-radius: 0;
-    color: white;
-    background: #2692F0;
+    color: #2692F0;
     text-align: center;
     line-height: 50px;
 
