@@ -51,19 +51,11 @@ export default {
   .submit-btn {
     flex: 1;
     min-width: 100px;
-    color: #2692F0;
     text-align: center;
     line-height: 50px;
 
-    &.primary {
-      color: white;
-      background: #2692F0;
-    }
-
-    &[disabled] {
-      color: white;
-      background: #C4C8CC;
-    }
+    // .no-radius()
+    border-radius: 0;
   }
 }
 

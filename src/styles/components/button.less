@@ -1,0 +1,25 @@
+@import '../colors';
+
+button {
+  // remove wechat default border
+  color: @primary;
+  background: white;
+
+  &::after{
+    border: none;
+  }
+
+  &.primary {
+    color: white;
+    background: @primary;
+  }
+
+  &[disabled] {
+    color: white;
+    background: @disabled;
+  }
+
+  &.no-radius {
+    border-radius: 0;
+  }
+}
