@@ -19,8 +19,8 @@
       </div>
     </div>
 
-    <div class="coupons container">
-      <image @click="viewNotes" src="/static/coupons/buy-one-get-one-free.png" mode="widthFix" />
+    <div class="image-container">
+      <image src="/static/coupons/buy-one-get-one-free.png" mode="widthFix" />
     </div>
 
     <div
@@ -141,14 +141,6 @@ export default {
   .title {
     display: flex;
     align-items: baseline;
-  }
-}
-
-.coupons {
-  display: flex;
-
-  image {
-    width: 100%;
   }
 }
 
