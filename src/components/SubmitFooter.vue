@@ -3,7 +3,7 @@
     <span v-if="!noSummary" class="summary-content content-horizontal">
       <slot></slot>
     </span>
-    <button class="submit-btn" :disabled="disabled" @click="onSubmit">
+    <button class="submit-btn" :class="{primary: primary}" :disabled="disabled" @click="onSubmit">
       {{buttonName}}
     </button>
   </div>
@@ -20,6 +20,10 @@ export default {
     noSummary: {
       default: false,
     },
+    primary: {
+      type: Boolean,
+      default: false,
+    },
   },
 };
 </script>
@@ -32,7 +36,7 @@ export default {
   width: 100%;
   height: 50px;
   background: white;
-  box-shadow: 0 0 4px 0;
+  box-shadow: 0 0 4px 0 rgba(0,0,0,0.20);
 
   display: flex;
 
@@ -49,6 +53,11 @@ export default {
     color: #2692F0;
     text-align: center;
     line-height: 50px;
+
+    &.primary {
+      color: white;
+      background: #2692F0;
+    }
 
     &[disabled] {
       color: white;

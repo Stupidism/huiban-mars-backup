@@ -55,7 +55,7 @@
           《购票须知》
         </div>
       </div>
-      <button class="submit-btn" :disabled="!sumPrice" @click="startOrder">
+      <button class="submit-btn primary" :disabled="!sumPrice" @click="startOrder">
         提交
       </button>
     </div>
@@ -73,7 +73,6 @@ import getMeeting from '@/mixins/get-meeting';
 
 import MeetingBanner from '@/components/MeetingBanner';
 import TicketGrade from '@/components/TicketGrade';
-import SubmitFooter from '@/components/SubmitFooter';
 import TicketNotes from '@/components/TicketNotes';
 
 const { mapState, mapMutations, mapGetters } = createNamespacedHelpers('orderItem');
@@ -119,7 +118,6 @@ export default {
   components: {
     MeetingBanner,
     TicketGrade,
-    SubmitFooter,
     TicketNotes,
   },
   mixins: [getMeeting],

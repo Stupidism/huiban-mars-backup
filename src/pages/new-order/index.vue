@@ -75,7 +75,7 @@
         @select="selectePaymentMethod(paymentMethod)"
       />
     </div>
-    <submit-footer buttonName="支付" :onSubmit="onSubmit">
+    <submit-footer buttonName="支付" :onSubmit="onSubmit" primary>
       <div class="sum-price">
         合计：
         <span class="sum-price-amount">{{sumPriceInCash}} </span>
