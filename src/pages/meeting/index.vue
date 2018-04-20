@@ -128,9 +128,9 @@ export default {
     await this.getMeeting(this.$root.$mp.query.id || 1);
 
     // Mock navigate to new-order page
-    // this.selectedAmount = 2;
-    // this.selectedTicketGrade = this.meeting.ticketGrades[0];
-    // this.startOrder();
+    this.setAmount(2);
+    this.setTicketGrade(this.meeting.ticketGrades[0]);
+    this.startOrder();
     // TODO: remove mock code above
   },
 };

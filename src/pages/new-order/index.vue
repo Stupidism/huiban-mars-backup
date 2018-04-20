@@ -204,7 +204,7 @@ export default {
 
     this.promptNoStock();
     // Mock navigate to new-order page
-    // this.onPaymentSucess({ id: 1 });
+    this.onSubmit();
     // TODO: remove mock code above
   },
 };
