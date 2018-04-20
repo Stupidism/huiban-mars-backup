@@ -4,7 +4,7 @@ export const example = {
   wechatName: '猫哆哩',
   wechatAvatar: '',
 
-  phone: '123123123123',
+  phone: '12312312312',
   company: '公司地址',
   position: '职位名称',
   city: '城市名称',

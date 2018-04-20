@@ -1,5 +1,6 @@
 <script>
 import { wxRequest, userCurrentGet, tokensPost } from '@/apis';
+import { example as userExample } from '@/apis/users/current';
 import store from './store';
 
 wxRequest.setOptions({
@@ -69,8 +70,11 @@ export default {
       try {
         const user = await getCurrentUser();
         console.info('getCurrentUser succeed', user);
+        this.$store.commit('setCurrentUser', user);
       } catch (e) {
         if (e.errMsg === 'request:fail url not in domain list') {
+          console.info('getCurrentUser succeed', userExample);
+          this.$store.commit('setCurrentUser', userExample);
           return;
         }
         console.error('getCurrentUser fail', e);
