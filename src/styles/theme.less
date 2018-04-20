@@ -2,6 +2,7 @@
 @import './layout';
 @import './colors';
 @import './components/icon';
+@import './components/text';
 
 body {
   font-size: 14px;
@@ -23,7 +24,6 @@ input {
   min-height: 20px;
   overflow: visible;
 }
-
 
 .divider {
   border-bottom: solid 0.5px #EAEAEA;
@@ -66,10 +66,15 @@ input {
   font-weight: bold;
 }
 
-.sub-title,
-.helper-text {
+.sub-title {
   font-size: 12px;
   color: @textSecondary;
+}
+
+.helper-text {
+  &.large {
+    font-size: 18px;
+  }
 }
 
 .content-horizontal {
