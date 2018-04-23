@@ -35,7 +35,7 @@
           />
         </div>
       </scroll-view>
-      <div class="section">
+      <div class="section centered-horizontal">
         <button :data-ticket-grade-type="sharedTicket.gradeType" class="share-btn primary" open-type="share">
           送给Ta
         </button>
