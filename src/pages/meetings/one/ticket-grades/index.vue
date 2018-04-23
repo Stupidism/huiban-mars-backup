@@ -94,7 +94,7 @@ export default {
   methods: {
     startOrder() {
       wx.navigateTo({
-        url: `../new-order/main?${qs.stringify({
+        url: `/pages/new-order/main?${qs.stringify({
           meeting: this.meeting.id,
         })}`,
       });
