@@ -1,0 +1,18 @@
+<template>
+  <scroll-view class="page">
+  </scroll-view>
+</template>
+
+<script>
+export default {
+  async mounted() {
+    wx.setNavigationBarTitle({
+      title: '个人中心',
+    });
+  },
+};
+</script>
+
+<style scoped>
+
+</style>

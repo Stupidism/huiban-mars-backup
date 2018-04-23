@@ -14,6 +14,8 @@ export default {
   // 这个字段走 app.json
   config: {
     pages: [
+      'pages/meetings/main',
+      'pages/me/personal-center/main',
       '^pages/meetings/one/ticket-grades/main',
       'pages/new-order/main',
       'pages/new-order/payment-result/main',
@@ -26,6 +28,20 @@ export default {
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black',
+    },
+    tabBar: {
+      selectedColor: '#2692F0',
+      list: [{
+        pagePath: 'pages/meetings/main',
+        text: '近期会议',
+        iconPath: 'static/tabbar/meetings.png',
+        selectedIconPath: '/static/tabbar/meetings-checked.png',
+      }, {
+        pagePath: 'pages/me/personal-center/main',
+        text: '个人中心',
+        iconPath: '/static/tabbar/personal-center.png',
+        selectedIconPath: '/static/tabbar/personal-center-checked.png',
+      }],
     },
   },
 };

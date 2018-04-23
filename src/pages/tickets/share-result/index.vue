@@ -21,8 +21,8 @@ export default {
   computed: mapState('runtime', ['sharedTicket']),
   methods: {
     onFinish() {
-      wx.reLaunch({
-        url: '/pages/tickets/main',
+      wx.switchTab({
+        url: '/pages/me/personal-center/main',
       });
     },
     onContinue() {
