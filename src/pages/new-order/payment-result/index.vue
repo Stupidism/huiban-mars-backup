@@ -73,6 +73,10 @@ const getSharableTickets = async (orderId) => {
   }
 };
 
+const onShareSuccess = () => wx.navigateTo({
+  url: '/pages/tickets/share-result/main',
+});
+
 export default {
   data: {
     order: {},
@@ -96,11 +100,6 @@ export default {
           : `/pages/orders/one/main?id=${this.order.id}`,
       });
     },
-    shareWithFriend() {
-      wx.showShareMenu({
-        withShareTicket: true,
-      });
-    },
     ...mapMutations('runtime', ['setRuntime']),
   },
   mixins: [getOrder],
@@ -119,6 +118,10 @@ export default {
     await this.getOrder(orderId);
     this.sharableTickets = await getSharableTickets(orderId);
     this.setRuntime({ sharedTicket: this.sharableTickets[0] });
+    // Mock navigate to share-result page
+    onShareSuccess();
+    // TODO: remove mock code above
+
     // Mock navigate to new-order page
     // this.onSubmit();
     // TODO: remove mock code above
@@ -128,14 +131,10 @@ export default {
       title: `送您一张${res.target.dataset.ticketGradeType}`,
       path: '/page/tickets/acquire/main?id=1',
       imageUrl: `/static/ticket/${this.sharedTicket.gradeTypeColor}.png`,
-      success() {
-        wx.navigateTo({
-          url: '/pages/tickets/share-result/main',
-        });
-      },
+      success: onShareSuccess,
       fail(error) {
         // 转发失败
-        console.log('share failed', error);
+        console.error('share failed', error);
       },
     };
   },
