@@ -22,17 +22,12 @@
       </div>
       <scroll-view scroll-x="true" class="section sharable-tickets-radio content-horizontal">
         <div
-          class="ticket-card"
-          :class="'ticket-card' + ticket.gradeTypeColor"
+          class="sharable-tickets-radio-item"
           v-for="ticket in sharableTickets"
           :key="ticket.id"
           @click="setRuntime({ sharedTicket: ticket })"
         >
-          <image class="background-image" :src="'/static/ticket/' + ticket.gradeTypeColor + '.png'" />
-          <div class="ticket-card-content">
-            <span class="grade-type text large">{{ticket.gradeType}}</span>
-            <span class="price sub-title">价值 <cash :amount="ticket.price" /> 元</span>
-          </div>
+          <ticket-card :ticket="ticket" />
           <image
             v-if="sharedTicket.id === ticket.id"
             class="ticket-card-check icon"
@@ -60,6 +55,7 @@ import { wxRequest, ticketList } from '@/apis';
 import { example as ticketsExample } from '@/apis/tickets/list';
 import getOrder from '@/mixins/get-order';
 import SubmitFooter from '@/components/SubmitFooter';
+import TicketCard from '@/components/TicketCard';
 import Cash from '@/modules/Cash';
 
 const getSharableTickets = async (orderId) => {
@@ -111,6 +107,7 @@ export default {
   components: {
     SubmitFooter,
     Cash,
+    TicketCard,
   },
   async mounted() {
     wx.setNavigationBarTitle({
@@ -161,11 +158,9 @@ export default {
   padding-right: 0;
   height: 100px;
 
-  .ticket-card {
+  .sharable-tickets-radio-item {
     display: inline-block;
     position: relative;
-    width: 150px;
-    height: 100px;
 
     &:first-child {
       margin-left: 15px;
@@ -175,41 +170,10 @@ export default {
       margin-left: 10px;
     }
 
-    & > .background-image {
-      position: absolute;
-      width: 150px;
-      height: 100px;
-      top: 0;
-      left: 0;
-    }
-
     .ticket-card-check {
       position: absolute;
       right: 10px;
       top: 10px;
-    }
-
-    .ticket-card-content {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 15px;
-
-      .grade-type {
-        color: white;
-        line-height: 1;
-      }
-
-      .price {
-        color: white;
-        line-height: 1;
-      }
     }
   }
 }
