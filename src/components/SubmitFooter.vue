@@ -52,6 +52,7 @@ export default {
     flex: 1;
     min-width: 100px;
     text-align: center;
+    height: 50px;
     line-height: 50px;
 
     // .no-radius()

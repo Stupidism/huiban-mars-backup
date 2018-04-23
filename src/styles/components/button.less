@@ -1,11 +1,17 @@
 @import '../colors';
 
 button {
-  // remove wechat default border
+  display: inline-flex;
+  width: 150px;
+  height: 40px;
   color: @primary;
   background: white;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
 
   &::after{
+    // remove wechat default border
     border: none;
   }
 
