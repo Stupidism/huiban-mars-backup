@@ -20,7 +20,10 @@ export default {
         this.meeting.ticketGrades = addTypeColorForTicketGrades(this.meeting.ticketGrades);
       } catch (e) {
         if (e.errMsg === 'request:fail url not in domain list') {
-          this.meeting = meetingExample;
+          this.meeting = {
+            ...meetingExample,
+            id,
+          };
         } else {
           console.error(e.statusCode, e.data);
           throw e;

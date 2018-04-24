@@ -125,7 +125,7 @@ export default {
     wx.setNavigationBarTitle({
       title: '选择票档',
     });
-    await this.getMeeting(this.$root.$mp.query.id || 1);
+    await this.getMeeting(this.$root.$mp.query.meeting || 1);
 
     // Mock navigate to new-order page
     this.setAmount(2);

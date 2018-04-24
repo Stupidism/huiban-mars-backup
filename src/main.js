@@ -14,9 +14,9 @@ export default {
   // 这个字段走 app.json
   config: {
     pages: [
-      'pages/meetings/main',
+      '^pages/meetings/main',
       'pages/me/personal-center/main',
-      '^pages/meetings/one/ticket-grades/main',
+      'pages/meetings/one/ticket-grades/main',
       'pages/new-order/main',
       'pages/new-order/payment-result/main',
       'pages/orders/one/main',
