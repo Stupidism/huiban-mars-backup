@@ -1,6 +1,7 @@
 import addMinutes from 'date-fns/add_minutes';
 
 export const example = {
+  id: 1,
   topic: '2018第六届全球云计算大会',
   englishTopic: 'Cloud Connect China 2018',
   holdAt: new Date(),
@@ -10,7 +11,7 @@ export const example = {
   latitude: 31.1892897,
   longitude: 121.4931109,
   bannerImg: '',
-  coverImg: '',
+  coverImg: '/static/default-meeting-banner.png',
   status: 'enrolling',
   statusDesc: '报名中',
   enrollEndAt: addMinutes(new Date(), 15),

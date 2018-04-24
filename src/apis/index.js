@@ -1,6 +1,7 @@
 import wxRequest from './wxRequest';
 
 import meetingGet from './meetings/get';
+import meetingList from './meetings/list';
 import orderGet from './orders/get';
 import orderPost from './orders/post';
 import orderPatch from './orders/patch';
@@ -13,6 +14,7 @@ import ticketList from './tickets/list';
 export {
   wxRequest,
   meetingGet,
+  meetingList,
   orderGet,
   orderPost,
   orderPatch,
