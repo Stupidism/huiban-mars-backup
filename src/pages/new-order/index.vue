@@ -1,5 +1,5 @@
 <template>
-  <scroll-view class="page new-order">
+  <scroll-view class="page page-with-footer new-order">
     <div class="container">
       <meeting-card :meeting="meeting" />
       <div class="order-item-summary section">
@@ -204,7 +204,7 @@ export default {
 
     this.promptNoStock();
     // Mock navigate to new-order page
-    this.onSubmit();
+    // this.onSubmit();
     // TODO: remove mock code above
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <scroll-view class="page meetings-list">
+  <scroll-view class="page page-with-tabbar meetings-list">
     <div class="content-vertical">
       <image
         class="meeting-cover"

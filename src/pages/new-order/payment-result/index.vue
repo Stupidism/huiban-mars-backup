@@ -1,5 +1,5 @@
 <template>
-  <scroll-view class="page payment-result">
+  <scroll-view class="page page-with-footer payment-result">
     <div v-if="isCompleted" class="container">
       <div class="section content-vertical">
         <image class="icon huge" src="/static/icons/check-circle.png" />
@@ -67,8 +67,7 @@ const getSharableTickets = async (orderId) => {
       return ticketsExample
         .filter(ticket => ticket.status === 'no_participant');
     }
-    console.error(e);
-    console.error(e.statusCode, e.data);
+    console.error(e.statusCode, e.data, e);
     throw e;
   }
 };
@@ -78,9 +77,11 @@ const onShareSuccess = () => wx.navigateTo({
 });
 
 export default {
-  data: {
-    order: {},
-    sharableTickets: [],
+  data() {
+    return {
+      order: {},
+      sharableTickets: [],
+    };
   },
   computed: {
     isCompleted() {
@@ -119,7 +120,7 @@ export default {
     this.sharableTickets = await getSharableTickets(orderId);
     this.setRuntime({ sharedTicket: this.sharableTickets[0] });
     // Mock navigate to share-result page
-    onShareSuccess();
+    // onShareSuccess();
     // TODO: remove mock code above
 
     // Mock navigate to new-order page

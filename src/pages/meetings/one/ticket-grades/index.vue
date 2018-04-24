@@ -1,5 +1,5 @@
 <template>
-  <scroll-view class="page">
+  <scroll-view class="page page-with-footer">
     <meeting-banner :meeting="meeting" />
 
     <div class="ticket-grades-radio container">
@@ -128,9 +128,9 @@ export default {
     await this.getMeeting(this.$root.$mp.query.meeting || 1);
 
     // Mock navigate to new-order page
-    this.setAmount(2);
-    this.setTicketGrade(this.meeting.ticketGrades[0]);
-    this.startOrder();
+    // this.setAmount(2);
+    // this.setTicketGrade(this.meeting.ticketGrades[0]);
+    // this.startOrder();
     // TODO: remove mock code above
   },
 };
