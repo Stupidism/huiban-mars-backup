@@ -202,7 +202,7 @@ export default {
     await this.getPaymentMethods();
     this.selectedPaymentMethod = this.paymentMethods[0];
 
-    this.promptNoStock();
+    // this.promptNoStock();
     // Mock navigate to new-order page
     // this.onSubmit();
     // TODO: remove mock code above
