@@ -27,7 +27,7 @@
           :key="ticket.id"
           @click="setRuntime({ sharedTicket: ticket })"
         >
-          <ticket-card :ticket="ticket" />
+          <ticket-item :ticket="ticket" />
           <image
             v-if="sharedTicket.id === ticket.id"
             class="ticket-card-check icon"
@@ -55,7 +55,7 @@ import { wxRequest, ticketList } from '@/apis';
 import { example as ticketsExample } from '@/apis/tickets/list';
 import getOrder from '@/mixins/get-order';
 import SubmitFooter from '@/components/SubmitFooter';
-import TicketCard from '@/components/TicketCard';
+import TicketItem from '@/components/TicketItem';
 import Cash from '@/modules/Cash';
 
 const getSharableTickets = async (orderId) => {
@@ -107,7 +107,7 @@ export default {
   components: {
     SubmitFooter,
     Cash,
-    TicketCard,
+    TicketItem,
   },
   async mounted() {
     wx.setNavigationBarTitle({

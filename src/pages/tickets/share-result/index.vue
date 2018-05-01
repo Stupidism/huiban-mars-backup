@@ -15,7 +15,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import TicketCard from '@/components/TicketCard';
+import TicketItem from '@/components/TicketItem';
 
 export default {
   computed: mapState('runtime', ['sharedTicket']),
@@ -30,7 +30,7 @@ export default {
     },
   },
   components: {
-    TicketCard,
+    TicketItem,
   },
   async mounted() {
     wx.setNavigationBarTitle({

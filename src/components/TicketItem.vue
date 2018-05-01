@@ -1,10 +1,10 @@
 <template>
   <div
-    class="ticket-card background-image-container"
-    :class="'ticket-card' + ticket.gradeTypeColor"
+    class="ticket-item background-image-container"
+    :class="'ticket-item' + ticket.gradeTypeColor"
   >
     <image class="background-image" :src="backgroundImage" />
-    <div class="ticket-card-content background-image-content">
+    <div class="ticket-item-content background-image-content">
       <span class="grade-type text large">{{ticket.gradeType}}</span>
       <span class="price sub-title">价值 <cash :amount="ticket.price" /> 元</span>
     </div>
@@ -26,11 +26,11 @@ export default {
 </script>
 
 <style lang="less">
-.ticket-card {
+.ticket-item {
   width: 150px;
   height: 100px;
 
-  .ticket-card-content {
+  .ticket-item-content {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
