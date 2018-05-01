@@ -1,8 +1,8 @@
 <template>
   <div @click="click" class="ticket-grade" :class="{ selected: selected, disabled: disabled }">
-    <div class="ticket-grade-type">
-      <image class="type-image" :src="typeImageUrl" />
-      <div class="type-name">{{ticketGrade.type}}</div>
+    <div class="ticket-grade-type background-image-container">
+      <image class="background-image" :src="typeImageUrl" />
+      <div class="type-name background-image-content">{{ticketGrade.type}}</div>
     </div>
     <div class="ticket-info bordered" :class="{ selected: selected }">
       <div class="ticket-info-header">
@@ -77,25 +77,14 @@ export default {
 
   .ticket-grade-type {
     width: @size;
-    height: 100%;
-    position: relative;
+    height: @size;
     border-radius: 5px 0 0 5px;
-
-    .type-image {
-      width: @size;
-      height: @size;
-    }
 
     .type-name {
       font-size: 18px;
-      line-height: 18px;
-      color: white;
+      line-height: @size - 2px;
       white-space: nowrap;
-
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
+      text-align: center;
     }
   }
 

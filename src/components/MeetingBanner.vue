@@ -1,8 +1,8 @@
 <template>
   <div class="meeting-banner container">
-    <div class="banner">
-      <image class="banner-image" :src="bannerImageUrl" />
-      <div class="info">
+    <div class="banner background-image-container">
+      <image class="background-image" :src="bannerImageUrl" />
+      <div class="info background-image-content">
         <div class="topic">{{meeting.topic}}</div>
         <div class="english-topic">{{meeting.englishTopic}}</div>
         <div class="hold-time">
@@ -52,22 +52,14 @@ export default {
 <style scoped lang="less">
 .meeting-banner {
   .banner {
-    display: flex;
-    position: relative;
-  }
+    height: 250px;
 
-  .info {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    color: white;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    .info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   .english-topic {
@@ -88,10 +80,6 @@ export default {
       height: 2px;
       background: white;
     }
-  }
-
-  .banner-image {
-    width: 100%;
   }
 
   .locate-place {
