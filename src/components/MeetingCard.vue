@@ -1,5 +1,5 @@
 <template>
-  <div class="meeting-card">
+  <div class="meeting-card section">
     <image class="meeting-cover" src="/static/default-meeting-cover.png" alt="封面图片" mode="aspectFill" />
     <div class="meeting-info">
       <div class="meeting-topic topic">{{meeting.topic}}</div>
@@ -30,9 +30,6 @@ export default {
 <style scoped lang="less">
 .meeting-card {
   display: flex;
-
-  background: white;
-  padding: 15px;
 
   .meeting-cover {
     width: 82px;
