@@ -5,13 +5,13 @@
       <div class="meeting-topic topic">{{meeting.topic}}</div>
       <div class="meeting-info-centent">
         <div class="meeting-info-content-line">
-          <image class="icon tiny info-icon" src="/static/icons/marker.png" />{{' '}}<date :time="meeting.holdAt" />
+          <image class="icon tiny info-icon" src="/static/icons/time.svg" /><date :time="meeting.holdAt" />
         </div>
         <div class="meeting-info-content-line">
-          <image class="icon tiny info-icon" src="/static/icons/marker.png" />{{meeting.place}}
+          <image class="icon tiny info-icon" src="/static/icons/marker-grey.svg" />{{meeting.place}}
         </div>
         <div class="meeting-info-content-line">
-          <image class="icon tiny info-icon" src="/static/icons/marker.png" />{{meeting.host}}
+          <image class="icon tiny info-icon" src="/static/icons/company.svg" />{{meeting.host}}
         </div>
       </div>
     </div>
