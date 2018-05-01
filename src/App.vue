@@ -59,11 +59,6 @@ const getCurrentUser = async () => {
 
 export default {
   store,
-  computed: {
-    userInfo() {
-      return this.$store.state.userInfo;
-    },
-  },
   methods: {
     async getCurrentUser() {
       console.info('getCurrentUser start');
@@ -94,8 +89,8 @@ export default {
       console.info('getUserInfo start');
       wx.getUserInfo({
         success: (res) => {
-          console.info('getUserInfo success');
-          this.$store.commit('setUserInfo', res.userInfo);
+          console.info('getUserInfo success', res.userInfo);
+          this.$store.commit('setWechatUserInfo', res.userInfo);
         },
         fail(error) {
           console.info('getUserInfo fail', error);
@@ -107,6 +102,7 @@ export default {
   created() {
     console.info('app created');
     this.getCurrentUser();
+    this.getUserInfo();
   },
 };
 </script>

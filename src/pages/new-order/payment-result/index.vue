@@ -88,7 +88,7 @@ export default {
       return this.order.status === 'completed';
     },
     ...mapState({
-      user: 'userInfo',
+      user: 'wechatUserInfo',
     }),
     ...mapState('runtime', ['sharedTicket']),
     ...mapGetters(['protectedCurrentUserPhone']),

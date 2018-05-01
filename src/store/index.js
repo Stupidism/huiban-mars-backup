@@ -7,18 +7,27 @@ import runtime from './modules/runtime';
 Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
-    userInfo: undefined,
+    wechatUserInfo: undefined,
     currentUser: undefined,
   },
   mutations: {
-    setUserInfo(state, userInfo) {
-      state.userInfo = userInfo;
+    setWechatUserInfo(state, wechatUserInfo) {
+      state.wechatUserInfo = wechatUserInfo;
     },
     setCurrentUser(state, currentUser) {
       state.currentUser = currentUser;
     },
   },
   getters: {
+    currentUser({ currentUser = {}, wechatUserInfo }) {
+      if (!wechatUserInfo) return currentUser;
+      return {
+        ...currentUser,
+        name: currentUser.name || wechatUserInfo.nickName,
+        wechatAvatar: wechatUserInfo.avatarUrl,
+        wechatName: wechatUserInfo.nickName,
+      };
+    },
     protectedCurrentUserPhone(state) {
       if (!state.currentUser) return '';
       const phone = state.currentUser.phone;

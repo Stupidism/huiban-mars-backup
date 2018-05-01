@@ -1,11 +1,11 @@
 export const example = {
-  name: '马克吐温',
+  name: '',
 
-  wechatName: '猫哆哩',
+  wechatName: '',
   wechatAvatar: '',
 
   phone: '12312312312',
-  company: '公司地址',
+  company: '公司名称',
   position: '职位名称',
   city: '城市名称',
 };
