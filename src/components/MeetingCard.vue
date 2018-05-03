@@ -1,6 +1,9 @@
 <template>
   <div class="meeting-card section">
-    <image class="meeting-cover" src="/static/default-meeting-cover.png" alt="封面图片" mode="aspectFill" />
+    <div class="meeting-cover background-image-container">
+      <image class="background-image" src="/static/default-meeting-cover.png" alt="封面图片" mode="aspectFill" />
+      <div v-if="!hideStatus" class="meeting-status">{{meeting.statusDesc}}</div>
+    </div>
     <div class="meeting-info">
       <div class="meeting-topic topic">{{meeting.topic}}</div>
       <div class="meeting-info-centent">
@@ -22,7 +25,12 @@
 import Date from '@/modules/Date';
 
 export default {
-  props: ['meeting'],
+  props: {
+    meeting: {},
+    hideStatus: {
+      type: Boolean,
+    },
+  },
   components: { Date },
 };
 </script>
@@ -34,6 +42,19 @@ export default {
   .meeting-cover {
     width: 82px;
     height: 110px;
+
+    position: relative;
+
+    .meeting-status {
+      font-size: 12px;
+      line-height: 20px;
+      position: absolute;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.80);;
+      width: 100%;
+      color: white;
+      text-align: center;
+    }
   }
 
   .meeting-info {

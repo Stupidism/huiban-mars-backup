@@ -1,7 +1,7 @@
 <template>
   <scroll-view class="page page-with-footer new-order">
     <div class="container">
-      <meeting-card :meeting="meeting" />
+      <meeting-card :meeting="meeting" hide-status />
       <div class="order-item-summary section">
         <span class="ticket-grade-summary">
           <image class="icon small ticket-grade-icon" :src="ticketGradeIcon" />
