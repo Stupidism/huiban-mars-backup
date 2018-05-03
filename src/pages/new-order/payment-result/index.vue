@@ -51,26 +51,16 @@
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
 
-import { wxRequest, ticketList } from '@/apis';
-import { example as ticketsExample } from '@/apis/tickets/list';
 import getOrder from '@/mixins/get-order';
 import SubmitFooter from '@/components/SubmitFooter';
 import TicketItem from '@/components/TicketItem';
 import Cash from '@/modules/Cash';
 
-const getSharableTickets = async (orderId) => {
-  try {
-    const sharableTickets = await wxRequest(ticketList({ orderId, status: 'no_participant' }));
-    return sharableTickets;
-  } catch (e) {
-    if (e.errMsg === 'request:fail url not in domain list') {
-      return ticketsExample
-        .filter(ticket => ticket.status === 'no_participant');
-    }
-    console.error(e.statusCode, e.data, e);
-    throw e;
-  }
-};
+import getTickets from '@/pages/tickets/getTickets';
+
+const getSharableTickets = orderId =>
+  getTickets({ orderId, status: 'no_participant' })
+    .then(tickets => tickets.filter(ticket => ticket.status === 'no_participant'));
 
 const onShareSuccess = () => wx.navigateTo({
   url: '/pages/tickets/share-result/main',
