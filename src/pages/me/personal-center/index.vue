@@ -69,7 +69,7 @@ export default {
     this.tickets = await getTickets();
 
     // Mock navigate to orders page
-    // goToMyOrders();
+    goToMyOrders();
     // TODO: remove mock code above
   },
 };

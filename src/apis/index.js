@@ -3,6 +3,7 @@ import wxRequest from './wxRequest';
 import meetingGet from './meetings/get';
 import meetingList from './meetings/list';
 import orderGet from './orders/get';
+import orderList from './orders/list';
 import orderPost from './orders/post';
 import orderPatch from './orders/patch';
 import paymentMethodList from './payment_methods/list';
@@ -16,6 +17,7 @@ export {
   meetingGet,
   meetingList,
   orderGet,
+  orderList,
   orderPost,
   orderPatch,
   paymentMethodList,
