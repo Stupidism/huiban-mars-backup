@@ -13,6 +13,7 @@
         <div>我的订单</div>
         <div class="sub-title">查看全部</div>
       </div>
+      <order-card v-if="recentOrder" :order="recentOrder" />
     </div>
   </scroll-view>
 </template>
@@ -22,8 +23,10 @@ import { mapGetters } from 'vuex';
 
 import UserCard from '@/components/UserCard';
 import TicketCard from '@/components/TicketCard';
+import OrderCard from '@/components/OrderCard';
 
 import getTickets from '@/pages/tickets/getTickets';
+import getOrders from '@/pages/orders/getOrders';
 
 const goToMyTickets = () => wx.navigateTo({
   url: '/pages/tickets/main',
@@ -37,6 +40,7 @@ export default {
   data() {
     return {
       tickets: [],
+      orders: [],
     };
   },
   computed: {
@@ -51,6 +55,10 @@ export default {
       if (!this.tickets.length || !this.recentMeeting) return [];
       return this.tickets.filter(ticket => ticket.meeting.id === this.recentMeeting.id);
     },
+    recentOrder() {
+      if (!this.orders.length) return null;
+      return this.orders[0];
+    },
     ...mapGetters(['currentUser']),
   },
   methods: {
@@ -60,6 +68,7 @@ export default {
   components: {
     UserCard,
     TicketCard,
+    OrderCard,
   },
   async mounted() {
     wx.setNavigationBarTitle({
@@ -67,6 +76,7 @@ export default {
     });
 
     this.tickets = await getTickets();
+    this.orders = await getOrders();
 
     // Mock navigate to orders page
     goToMyOrders();

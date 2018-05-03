@@ -12,28 +12,13 @@
 </template>
 
 <script>
-import { wxRequest, orderList } from '@/apis';
-import { example as orderssExample } from '@/apis/orders/list';
-
 import OrderCard from '@/components/OrderCard';
+
+import getOrders from './getOrders';
 
 const goToOrder = id => wx.navigateTo({
   url: `/pages/orders/one/main?id=${id}`,
 });
-
-const getOrders = async () => {
-  try {
-    const orders = await wxRequest(orderList());
-    return orders;
-  } catch (e) {
-    if (e.errMsg === 'request:fail url not in domain list') {
-      return orderssExample;
-    }
-
-    console.error(e.statusCode, e.data, e);
-    throw e;
-  }
-};
 
 export default {
   data() {
