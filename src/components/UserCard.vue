@@ -1,6 +1,6 @@
 <template>
   <div class="user-card container background-image-container">
-    <image class="background-image" :src="user.wechatAvatar" mode="center" />
+    <image class="background-image" :src="user.wechatAvatar" mode="aspectFill" />
     <div class="user-card-content background-image-content">
       <div class="user-info">
         <div class="user-info-title">
