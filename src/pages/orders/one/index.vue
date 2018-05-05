@@ -1,6 +1,8 @@
 <template>
   <scroll-view class="page root">
-    <order-card v-if="order" :order="order" />
+    <div v-if="order" class="section-no-padding">
+      <order-card :order="order" />
+    </div>
     <div class="divider solid margined-vertical"></div>
     <div class="info-table">
       <div>

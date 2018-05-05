@@ -1,7 +1,9 @@
 <template>
   <scroll-view class="page page-with-footer new-order">
     <div class="container">
-      <meeting-card :meeting="meeting" hide-status />
+      <div class="section-no-padding">
+        <meeting-card :meeting="meeting" hide-status />
+      </div>
       <div class="order-item-summary section">
         <span class="ticket-grade-summary">
           <image class="icon small ticket-grade-icon" :src="ticketGradeIcon" />
@@ -15,7 +17,6 @@
         <div class="title">购票人信息</div>
         <div class="sub-title">多人参会请在支付完成后邀请他人填写信息，以便现场签到</div>
       </div>
-
       <div class="buyer-fields section">
         <label class="form-field">
           <span class="required-marker">*</span>

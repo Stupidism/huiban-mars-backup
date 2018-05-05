@@ -1,5 +1,5 @@
 <template>
-  <div class="order-card section">
+  <div class="order-card section-no-padding">
     <div class="status-wrapper">
       <meeting-card :meeting="order.meeting" />
       <div class="order-status" :class="order.status">
@@ -48,8 +48,6 @@ export default {
 
 <style scoped lang="less">
 .order-card {
-  padding: 0;
-
   .status-wrapper {
     position: relative;
   }
