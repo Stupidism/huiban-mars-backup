@@ -61,6 +61,7 @@ export default {
     width: 100%;
     height: 120px;
     border-radius: 5px;
+    background-color: white;
 
     &:not(:first-child) {
       margin-top: 10px;
