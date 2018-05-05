@@ -60,6 +60,7 @@ export default {
   .meeting-cover {
     width: 100%;
     height: 120px;
+    border-radius: 5px;
 
     &:not(:first-child) {
       margin-top: 10px;
