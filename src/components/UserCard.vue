@@ -47,7 +47,7 @@ export default {
   }
 
   .user-card-content {
-    background: rgba(38,146,240,0.10);
+    background: rgba(38,146,240,0.30);
     color: white;
     padding: 15px;
 
