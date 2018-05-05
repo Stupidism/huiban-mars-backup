@@ -1,5 +1,8 @@
 <template>
-  <scroll-view class="page page-with-footer">
+  <scroll-view
+    class="ticket-grades page page-with-footer"
+    :class="{'with-high-footer': selectedTicketGrade.id != null}"
+  >
     <meeting-banner :meeting="meeting" />
 
     <div class="ticket-grades-radio container">
@@ -8,7 +11,7 @@
         <span class="sub-title">（贵宾票不参与买一赠一活动）</span>
       </div>
 
-      <div class="ticket-grades section">
+      <div class="section">
         <ticket-grade
           v-for="ticketGrade in meeting.ticketGrades"
           :key="ticketGrade.id"
@@ -137,71 +140,78 @@ export default {
 </script>
 
 <style scoped lang="less">
-.ticket-grades-radio {
-  .title {
-    display: flex;
-    align-items: baseline;
+.ticket-grades {
+  &.with-high-footer {
+    @footerGap: 120px;
+    padding-bottom: @footerGap;
+    min-height: calc(100vh - @footerGap);
   }
-}
 
-.amount-radio {
-  position: fixed;
-  bottom: 50px;
+  .ticket-grades-radio {
+    .title {
+      display: flex;
+      align-items: baseline;
+    }
+  }
 
-  height: 30px;
-  box-shadow: 0 -2px 2px 0 rgba(0,0,0,0.10);
-  z-index: 1;
+  .amount-radio {
+    position: fixed;
+    bottom: 50px;
 
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
+    height: 30px;
+    box-shadow: 0 -2px 2px 0 rgba(0,0,0,0.10);
+    z-index: 1;
 
-.amount-radio-title {
-  font-weight: bolder;
-  font-size: 14px;
-  color: #8A9299;
-  margin-right: 6px;
-}
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
 
-.amount-btn-group {
-  width: calc(100% - 75px);
+  .amount-radio-title {
+    font-weight: bolder;
+    font-size: 14px;
+    color: #8A9299;
+    margin-right: 6px;
+  }
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  .amount-btn-group {
+    width: calc(100% - 75px);
 
-  font-weight: bolder;
-}
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-.amount-btn {
-  width: 40px;
-  height: 30px;
-  border: 1px solid rgba(0,0,0,0.06);
-  border-radius: 3px;
-  text-align: center;
-  font-size: 14px;
-  line-height: 30px;
-  color: #17181A;
-}
+  .amount-btn {
+    width: 40px;
+    height: 30px;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 3px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 30px;
+    color: #17181A;
+  }
 
-.amount-btn.selected {
-  background: rgba(38,146,240,0.10);
-  border: 1px solid #2692F0;
-}
+  .amount-btn.selected {
+    background: rgba(38,146,240,0.10);
+    border: 1px solid #2692F0;
+    color: #2692F0;
+  }
 
-.sum-price {
-  display: flex;
-  align-items: center;
-}
+  .sum-price {
+    display: flex;
+    align-items: center;
+  }
 
-.sum-price-amount {
-  font-size: 20px;
-  color: #2692F0;
-}
+  .sum-price-amount {
+    font-size: 20px;
+    color: #2692F0;
+  }
 
-.sum-price-unit {
-  margin-left: 4px;
-  color: #2692F0;
+  .sum-price-unit {
+    margin-left: 4px;
+    color: #2692F0;
+  }
 }
 </style>
