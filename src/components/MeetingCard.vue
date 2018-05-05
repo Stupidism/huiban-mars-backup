@@ -55,7 +55,7 @@ export default {
       line-height: 20px;
       position: absolute;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.80);;
+      background: rgba(0, 0, 0, 0.70);
       width: 100%;
       color: white;
       text-align: center;
