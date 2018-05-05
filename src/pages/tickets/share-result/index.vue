@@ -2,7 +2,7 @@
   <scroll-view class="page share-result">
     <div class="container">
       <div class="section ticket-section">
-        <ticket-card :ticket="sharedTicket" />
+        <ticket-item :ticket="sharedTicket" />
         <div class="result-desc text large success">已赠送</div>
       </div>
       <div class="section actions">
