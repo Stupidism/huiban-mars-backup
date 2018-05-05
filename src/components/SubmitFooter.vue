@@ -1,6 +1,6 @@
 <template>
-  <div class="submit-footer content-horizontal">
-    <span v-if="!noSummary" class="summary-content content-horizontal">
+  <div class="submit-footer">
+    <span v-if="!noSummary" class="summary-content">
       <slot></slot>
     </span>
     <button class="submit-btn" :class="{primary: primary}" :disabled="disabled" @click="onSubmit">
@@ -40,12 +40,16 @@ export default {
   box-shadow: 0 0 4px 0 rgba(0,0,0,0.20);
 
   display: flex;
+  justify-content: space-between;
 
   .summary-content {
     flex: 4;
     padding: 0 15px;
     border-top: 0.5px solid #EAEAEA;
     line-height: 50px;
+
+    display: flex;
+    justify-content: space-between;
   }
 
   .submit-btn {

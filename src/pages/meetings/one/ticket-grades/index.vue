@@ -47,8 +47,8 @@
       </div>
     </div>
 
-    <div class="submit-footer content-horizontal">
-      <div class="summary-content content-horizontal">
+    <div class="submit-footer">
+      <div class="summary-content">
         <div class="sum-price">
           合计：
           <span class="sum-price-amount">{{sumPriceInCash}} </span>

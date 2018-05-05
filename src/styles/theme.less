@@ -1,6 +1,7 @@
 @import './mixins';
 @import './layout';
 @import './colors';
+@import './flex';
 @import './components/icon';
 @import './components/text';
 @import './components/button';
@@ -67,20 +68,6 @@ input {
   &.large {
     font-size: 18px;
   }
-}
-
-.centered-vertical,
-.content-horizontal {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.centered-horizontal,
-.content-vertical {
-  .content-horizontal();
-
-  flex-direction: column;
 }
 
 .info-table > div {

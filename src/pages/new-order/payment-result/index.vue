@@ -1,7 +1,7 @@
 <template>
   <scroll-view class="page page-with-footer payment-result">
     <div v-if="isCompleted" class="container">
-      <div class="section content-vertical">
+      <div class="section flex aligned vertically">
         <image class="icon huge" src="/static/icons/check-circle.png" />
         <div class="result-desc text large success">支付成功</div>
         <div class="text secondary">门票信息已通过短信发送至{{protectedCurrentUserPhone}}</div>
@@ -9,7 +9,7 @@
       </div>
     </div>
     <div v-else class="container">
-      <div class="section content-vertical">
+      <div class="section flex aligned vertically">
         <image class="icon huge" src="/static/icons/close-circle.png" />
         <div class="result-desc text large warning">支付失败</div>
         <div class="text secondary">请检查订单状态</div>
@@ -20,7 +20,7 @@
       <div class="section-single-line title">
         可赠送的门票 <span class="sub-title">（{{sharableTickets.length}}）</span>
       </div>
-      <scroll-view scroll-x="true" class="section sharable-tickets-radio content-horizontal">
+      <scroll-view scroll-x="true" class="section sharable-tickets-radio">
         <div
           class="sharable-tickets-radio-item"
           v-for="ticket in sharableTickets"
@@ -35,7 +35,7 @@
           />
         </div>
       </scroll-view>
-      <div class="section centered-horizontal">
+      <div class="section flex aligned vertically">
         <button :data-ticket-grade-type="sharedTicket.gradeType" class="share-btn primary" open-type="share">
           送给Ta
         </button>
@@ -140,7 +140,6 @@ export default {
 }
 
 .sharable-tickets-radio {
-  justify-content: flex-start;
   overflow-x: scroll;
   overflow-y: hidden;
   white-space: nowrap;

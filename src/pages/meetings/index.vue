@@ -1,6 +1,6 @@
 <template>
   <scroll-view class="page page-with-tabbar meetings-list">
-    <div class="content-vertical">
+    <div class="flex vertically">
       <image
         class="meeting-banner"
         v-for="meeting in meetings"

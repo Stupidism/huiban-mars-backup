@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="section-single-line">
-      <div class="order-info content-horizontal">
+      <div class="order-info flex justified aligned">
         <div class="order-number">订单号：<span>{{order.id}}</span></div>
         <div class="order-summary">
           共 <span>{{order.items.length}}</span> 件商品 合计：<span>¥<cash :amount="order.duePayment" /></span>
