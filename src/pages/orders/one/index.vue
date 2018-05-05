@@ -1,73 +1,74 @@
 <template>
-  <scroll-view class="page root">
-    <div v-if="order" class="section-no-padding">
-      <order-card :order="order" />
-    </div>
-    <div class="divider solid margined-vertical"></div>
-    <div class="info-table">
-      <div>
-        {{orderItem.ticketGradeType}}
-        <span>
-          ¥ <cash :amount="orderItem.ticketPrice" /> x {{orderItem.ticketAmount}}
-        </span>
+  <scroll-view v-if="order" class="page page-with-footer order-detail">
+    <div class="container">
+      <div v-if="order.meeting" class="section-no-padding">
+        <meeting-card :meeting="order.meeting" />
+      </div>
+      <div v-if="orderItem" class="info-table section-single-line">
+        <div class="info-table-line">
+          {{orderItem.ticketGradeType}}
+          <span class="info-table-value price">
+          ¥ <cash :amount="orderItem.ticketPrice" /> * {{orderItem.ticketAmount}}
+          </span>
+        </div>
       </div>
     </div>
-    <div class="divider solid margined-vertical"></div>
-    <div class="info-table">
-      <div>
-        商品总价: <span>¥<cash :amount="sumPrice" /></span>
+
+    <div class="container info-table order-info">
+      <div class="section info-table-line">
+        商品总价 <span class="info-table-value price">¥<cash :amount="sumPrice" /></span>
       </div>
-      <div>
-        折扣优惠（买一赠一）: <span>- ¥ 00.00</span>
+      <div class="section info-table-line">
+        折扣优惠（买一赠一） <span class="info-table-value price">- ¥ 00.00</span>
       </div>
-      <div>
-        应付款: <span>¥<cash :amount="order.duePayment" /></span>
+      <div class="section info-table-line">
+        应付款 <span class="info-table-value price">¥<cash :amount="order.duePayment" /></span>
       </div>
-      <div>
-        实际付款:
-        <span>¥<cash :amount="order.actualPayment" /></span>
-      </div>
-    </div>
-    <div class="divider margined-vertical"></div>
-    <div class="info-table">
-      <div>
-        姓名: <span>{{order.userName}}</span>
-      </div>
-      <div>
-        手机号: <span>{{order.userPhone}}</span>
+      <div class="section info-table-line">
+        实际付款 <span class="info-table-value price">¥<cash :amount="order.actualPayment" /></span>
       </div>
     </div>
-    <div class="divider margined-vertical"></div>
-    <div class="info-table">
-      <div>
-        订单编号: <span>{{order.transaction.id}}</span>
+
+    <div class="container info-table user-info">
+      <div class="section info-table-line">
+        姓名 <span class="info-table-value">{{order.userName}}</span>
       </div>
-      <div>
-        付款方式: <span>{{order.paymentMethod.typeDesc}}</span>
-      </div>
-      <div v-if="isCompleted">
-        {{order.paymentMethod.typeDesc}}交易号: <span>{{order.transaction.thirdPartyTransactionId}}</span>
-      </div>
-      <div>
-        下单时间: <date-time :time="order.createdAt" />
-      </div>
-      <div v-if="isCompleted">
-        付款时间: <date-time :time="order.payedAt" />
-      </div>
-      <div v-if="isCompleted">
-        成交时间: <date-time :time="order.finishedAt" />
-      </div>
-      <div v-if="order.status === 'cancelled'">
-        取消时间: <date-time :time="order.cancelledAt" />
-      </div>
-      <div v-if="order.status === 'closed'">
-        关闭时间: <date-time :time="order.meeting.enrollEndAt" />
+      <div class="section info-table-line">
+        手机号 <span class="info-table-value">{{order.userPhone}}</span>
       </div>
     </div>
+
+    <div class="container-single-section info-table transaction-info">
+      <div class="info-table-line">
+        订单编号 <span class="info-table-value">{{order.transaction.id}}</span>
+      </div>
+      <div class="info-table-line">
+        付款方式 <span class="info-table-value">{{order.paymentMethod.typeDesc}}</span>
+      </div>
+      <div v-if="isCompleted" class="info-table-line">
+        交易号 <span class="info-table-value">{{order.transaction.thirdPartyTransactionId}}</span>
+      </div>
+      <div class="info-table-line">
+        下单时间 <span class="info-table-value"><date-time :time="order.createdAt" /></span>
+      </div>
+      <div v-if="isCompleted" class="info-table-line">
+        付款时间 <span class="info-table-value"><date-time :time="order.payedAt" /></span>
+      </div>
+      <div v-if="isCompleted" class="info-table-line">
+        成交时间 <span class="info-table-value"><date-time :time="order.finishedAt" /></span>
+      </div>
+      <div v-if="order.status === 'cancelled'" class="info-table-line">
+        取消时间 <span class="info-table-value"><date-time :time="order.cancelledAt" /></span>
+      </div>
+      <div v-if="order.status === 'closed'" class="info-table-line">
+        关闭时间 <span class="info-table-value"><date-time :time="order.meeting.enrollEndAt" /></span>
+      </div>
+    </div>
+
     <submit-footer v-if="isCompleted" buttonName="查看门票" no-summary="true" :onSubmit="goToMyTickets" />
 
-    <div v-if="isToBePaid" class="submit-footer weui-footer weui-footer_fixed-bottom content-horizontal">
-      <span v-if="!noSummary" class="summary-content content-horizontal">
+    <div v-if="isToBePaid" class="submit-footer">
+      <span v-if="!noSummary" class="summary-content">
         剩余<count-down :endTime="order.meeting.enrollEndAt" />
         <button @click="cancelOrder" size="mini">取消订单</button>
       </span>
@@ -77,7 +78,7 @@
 </template>
 
 <script>
-import OrderCard from '@/components/OrderCard';
+import MeetingCard from '@/components/MeetingCard';
 import SubmitFooter from '@/components/SubmitFooter';
 import DateTime from '@/modules/DateTime';
 import CountDown from '@/modules/CountDown';
@@ -91,25 +92,24 @@ import payOrder from '@/mixins/pay-order';
 export default {
   data() {
     return {
-      order: {
-        meeting: {},
-        transaction: {},
-        paymentMethod: {},
-      },
+      order: null,
     };
   },
   computed: {
     orderItem() {
-      if (!this.order.items) return {};
+      if (!this.order || !this.order.items) return null;
       return this.order.items[0];
     },
     sumPrice() {
+      if (!this.orderItem) return 0;
       return this.orderItem.ticketPrice * this.orderItem.ticketAmount;
     },
     isCompleted() {
+      if (!this.order) return false;
       return this.order.status === 'completed';
     },
     isToBePaid() {
+      if (!this.order) return false;
       return this.order.status === 'to_be_paid';
     },
   },
@@ -128,7 +128,13 @@ export default {
     },
   },
   mixins: [getOrder, payOrder],
-  components: { OrderCard, DateTime, Cash, SubmitFooter, CountDown },
+  components: {
+    MeetingCard,
+    DateTime,
+    Cash,
+    SubmitFooter,
+    CountDown,
+  },
   async mounted() {
     wx.setNavigationBarTitle({
       title: '订单详情',
@@ -139,12 +145,27 @@ export default {
 </script>
 
 <style scoped lang="less">
-.root {
-  font-size: 12px;
-}
+.order-detail {
+  .price {
+    color: #2692F0;
+  }
 
-.sum-price {
-  font-size: 16px;
-  color: red;
+  .order-info,
+  .user-info {
+    padding-left: 15px;
+
+    .section {
+      padding-left: 0;
+      width: auto;
+    }
+  }
+
+  .transaction-info {
+    &.info-table {
+      .info-table-line:not(:first-child) {
+        margin-top: 6px;
+      }
+    }
+  }
 }
 </style>
