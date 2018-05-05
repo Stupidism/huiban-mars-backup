@@ -2,10 +2,10 @@
   <scroll-view class="page page-with-tabbar meetings-list">
     <div class="content-vertical">
       <image
-        class="meeting-cover"
+        class="meeting-banner"
         v-for="meeting in meetings"
         :key="meeting.id"
-        :src="meeting.coverImg"
+        :src="meeting.bannerImg"
         mode="center"
         @click="onClickMeeting(meeting)"
       />
@@ -57,7 +57,7 @@ export default {
 .meetings-list {
   padding: 15px;
 
-  .meeting-cover {
+  .meeting-banner {
     width: 100%;
     height: 120px;
     border-radius: 5px;

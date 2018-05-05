@@ -1,7 +1,7 @@
 <template>
   <div class="meeting-card section">
     <div class="meeting-cover background-image-container">
-      <image class="background-image" src="/static/default-meeting-cover.png" alt="封面图片" mode="aspectFill" />
+      <image class="background-image" :src="coverImg" alt="封面图片" mode="aspectFill" />
       <div v-if="!hideStatus" class="meeting-status">{{meeting.statusDesc}}</div>
     </div>
     <div class="meeting-info">
@@ -29,6 +29,11 @@ export default {
     meeting: {},
     hideStatus: {
       type: Boolean,
+    },
+  },
+  computed: {
+    coverImg() {
+      return this.meeting.coverImg || '/static/default-meeting-cover.png';
     },
   },
   components: { Date },
