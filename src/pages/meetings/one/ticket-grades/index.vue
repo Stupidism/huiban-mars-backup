@@ -28,7 +28,7 @@
 
     <div
       v-if="selectedTicketGrade.id != null"
-      class="amount-radio container-single-section"
+      class="amount-radio section"
     >
       <div class="amount-radio-title">
         数量：
@@ -156,7 +156,10 @@ export default {
 
   .amount-radio {
     position: fixed;
+    left: 0;
+    right: 0;
     bottom: 50px;
+    background: white;
 
     height: 30px;
     box-shadow: 0 -2px 2px 0 rgba(0,0,0,0.10);
