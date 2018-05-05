@@ -19,6 +19,7 @@ export default {
       'pages/meetings/one/ticket-grades/main',
       'pages/new-order/main',
       'pages/new-order/payment-result/main',
+      'pages/orders/one/tickets/main',
       'pages/orders/one/main',
       'pages/orders/main',
       'pages/tickets/main',
