@@ -7,7 +7,7 @@
         <div class="sub-title">共{{sharableTickets.length}}张门票可赠送</div>
       </div>
       <div v-if="recentTicket" class="section-no-padding" @click="goToTicketsDetail(recentTicket.orderId)">
-        <ticket-card :tickets="ticketsOfRecentMeeting" :meeting="recentMeeting" />
+        <tickets-card :tickets="ticketsOfRecentMeeting" :meeting="recentMeeting" />
       </div>
     </div>
     <div class="container">
@@ -26,7 +26,7 @@
 import { mapGetters } from 'vuex';
 
 import UserCard from '@/components/UserCard';
-import TicketCard from '@/components/TicketCard';
+import TicketsCard from '@/components/TicketsCard';
 import OrderCard from '@/components/OrderCard';
 
 import getTickets from '@/pages/tickets/getTickets';
@@ -85,7 +85,7 @@ export default {
   },
   components: {
     UserCard,
-    TicketCard,
+    TicketsCard,
     OrderCard,
   },
   async mounted() {
