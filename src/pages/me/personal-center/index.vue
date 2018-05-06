@@ -30,6 +30,7 @@ import TicketsCard from '@/components/TicketsCard';
 import OrderCard from '@/components/OrderCard';
 
 import getTickets from '@/pages/tickets/getTickets';
+import goToTicketsDetail from '@/pages/orders/one/tickets/goToTicketsDetail';
 import getOrders from '@/pages/orders/getOrders';
 
 const goToMyTickets = () => wx.navigateTo({
@@ -42,10 +43,6 @@ const goToMyOrders = () => wx.navigateTo({
 
 const goToOrderDetail = id => wx.navigateTo({
   url: `/pages/orders/one/main?id=${id}`,
-});
-
-const goToTicketsDetail = orderId => wx.navigateTo({
-  url: `/pages/orders/one/tickets/main?orderId=${orderId}`,
 });
 
 export default {
