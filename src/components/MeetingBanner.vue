@@ -1,23 +1,14 @@
 <template>
-  <div class="meeting-banner container">
-    <div class="banner background-image-container">
-      <image class="background-image" :src="bannerImageUrl" />
-      <div class="info background-image-content">
-        <div class="topic">{{meeting.topic}}</div>
-        <div class="english-topic">{{meeting.englishTopic}}</div>
-        <div class="hold-time">
-          <div class="fancy-wire"></div>
-          <date :time="meeting.holdAt" />
-          <div class="fancy-wire"></div>
-        </div>
+  <div class="meeting-banner background-image-container">
+    <image class="background-image" :src="bannerImageUrl" />
+    <div class="info background-image-content">
+      <div class="topic">{{meeting.topic}}</div>
+      <div class="english-topic">{{meeting.englishTopic}}</div>
+      <div class="hold-time">
+        <div class="fancy-wire"></div>
+        <date :time="meeting.holdAt" />
+        <div class="fancy-wire"></div>
       </div>
-    </div>
-    <div class="locate-place section-single-line" @click="showInMap">
-      <span class="place-content">
-        <image class="icon small marker" src="/static/icons/marker.png" />
-        <span class="place">{{meeting.place}}</span>
-      </span>
-      <image class="icon small" src="/static/icons/right-arrow.png" />
     </div>
   </div>
 </template>
@@ -33,33 +24,19 @@ export default {
       return bannerImg || '/static/default-meeting-banner.png';
     },
   },
-  methods: {
-    showInMap() {
-      const { latitude, longitude, place, address } = this.meeting;
-      wx.openLocation({
-        latitude,
-        longitude,
-        scale: 28,
-        name: place,
-        address,
-      });
-    },
-  },
   components: { Date },
 };
 </script>
 
 <style scoped lang="less">
 .meeting-banner {
-  .banner {
-    height: 250px;
+  height: 250px;
 
-    .info {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+  .info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   .english-topic {
@@ -81,28 +58,5 @@ export default {
       background: white;
     }
   }
-
-  .locate-place {
-    font-size: 14px;
-    color: #17181A;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .place-content {
-      display: flex;
-      align-items: center;
-
-      .marker {
-        margin: 0 2.5px;
-      }
-
-      .place {
-        margin: 0 10px;
-      }
-    }
-  }
 }
-
-
 </style>

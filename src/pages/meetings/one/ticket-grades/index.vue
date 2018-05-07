@@ -3,7 +3,10 @@
     class="ticket-grades page page-with-footer"
     :class="{'with-high-footer': selectedTicketGrade.id != null}"
   >
-    <meeting-banner :meeting="meeting" />
+    <div class="container">
+      <meeting-banner :meeting="meeting" />
+      <location-row v-bind="meeting" />
+    </div>
 
     <div class="ticket-grades-radio container">
       <div class="title section-single-line">
@@ -77,6 +80,7 @@ import getMeeting from '@/methods/getMeeting';
 import MeetingBanner from '@/components/MeetingBanner';
 import TicketGrade from '@/components/TicketGrade';
 import TicketNotes from '@/components/TicketNotes';
+import LocationRow from '@/modules/LocationRow';
 
 const { mapState, mapMutations, mapGetters } = createNamespacedHelpers('orderItem');
 
@@ -122,6 +126,7 @@ export default {
     MeetingBanner,
     TicketGrade,
     TicketNotes,
+    LocationRow,
   },
   async mounted() {
     wx.setNavigationBarTitle({
