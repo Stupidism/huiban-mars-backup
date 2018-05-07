@@ -93,7 +93,7 @@ import MeetingCard from '@/components/MeetingCard';
 import PaymentMethod from '@/components/PaymentMethod';
 import SubmitFooter from '@/components/SubmitFooter';
 
-import getMeeting from '@/mixins/get-meeting';
+import getMeeting from '@/methods/getMeeting';
 import payOrder from '@/mixins/pay-order';
 
 import { wxRequest, paymentMethodList, orderPost } from '@/apis';
@@ -193,13 +193,13 @@ export default {
       this.payOrder(order);
     },
   },
-  mixins: [getMeeting, payOrder],
+  mixins: [payOrder],
   components: { MeetingCard, PaymentMethod, SubmitFooter },
   async mounted() {
     wx.setNavigationBarTitle({
       title: '订单确认及支付',
     });
-    this.getMeeting(this.$root.$mp.query.meeting || 1);
+    this.meeting = getMeeting(this.$root.$mp.query.meeting || 1);
     await this.getPaymentMethods();
     this.selectedPaymentMethod = this.paymentMethods[0];
 

@@ -72,7 +72,7 @@
 import qs from 'query-string';
 import { createNamespacedHelpers } from 'vuex';
 
-import getMeeting from '@/mixins/get-meeting';
+import getMeeting from '@/methods/getMeeting';
 
 import MeetingBanner from '@/components/MeetingBanner';
 import TicketGrade from '@/components/TicketGrade';
@@ -123,12 +123,11 @@ export default {
     TicketGrade,
     TicketNotes,
   },
-  mixins: [getMeeting],
   async mounted() {
     wx.setNavigationBarTitle({
       title: '选择票档',
     });
-    await this.getMeeting(this.$root.$mp.query.meeting || 1);
+    this.meeting = await getMeeting(this.$root.$mp.query.meeting || 1);
 
     // Mock navigate to new-order page
     // this.setAmount(2);
