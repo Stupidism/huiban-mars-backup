@@ -15,7 +15,7 @@ import _ from 'lodash';
 import TicketsCard from '@/components/TicketsCard';
 import goToTicketsDetail from '@/pages/orders/one/tickets/goToTicketsDetail';
 
-import getTickets from './getTickets';
+import getTickets from '@/methods/getTickets';
 
 const getTicketsGroupByOrder = () => getTickets()
   .then(tickets => _.groupBy(tickets, 'orderId'));

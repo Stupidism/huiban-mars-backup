@@ -29,9 +29,9 @@ import UserCard from '@/components/UserCard';
 import TicketsCard from '@/components/TicketsCard';
 import OrderCard from '@/components/OrderCard';
 
-import getTickets from '@/pages/tickets/getTickets';
+import getTickets from '@/methods/getTickets';
+import getOrders from '@/methods/getOrders';
 import goToTicketsDetail from '@/pages/orders/one/tickets/goToTicketsDetail';
-import getOrders from '@/pages/orders/getOrders';
 
 const goToMyTickets = () => wx.navigateTo({
   url: '/pages/tickets/main',

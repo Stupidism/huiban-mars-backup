@@ -56,7 +56,7 @@ import SubmitFooter from '@/components/SubmitFooter';
 import TicketItem from '@/components/TicketItem';
 import Cash from '@/modules/Cash';
 
-import getTickets from '@/pages/tickets/getTickets';
+import getTickets from '@/methods/getTickets';
 
 const getSharableTickets = orderId =>
   getTickets({ orderId, status: 'no_participant' })

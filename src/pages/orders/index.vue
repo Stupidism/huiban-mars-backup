@@ -14,7 +14,7 @@
 <script>
 import OrderCard from '@/components/OrderCard';
 
-import getOrders from './getOrders';
+import getOrders from '@/methods/getOrders';
 
 const goToOrder = id => wx.navigateTo({
   url: `/pages/orders/one/main?id=${id}`,
