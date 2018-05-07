@@ -13,7 +13,8 @@ const onPaymentFail = error => console.error(error);
 
 const postTransaction = async (orderId) => {
   try {
-    return await wxRequest(transactionPost(orderId));
+    const transaction = await wxRequest(transactionPost(orderId));
+    return transaction;
   } catch (e) {
     if (e.errMsg === 'request:fail url not in domain list') {
       return {};
@@ -41,14 +42,11 @@ const payTransaction = (transaction) => {
   });
 };
 
-export default {
-  methods: {
-    async payOrder(order) {
-      if (!order.transaction || (new Date(order.transaction.expiresAt) < new Date())) {
-        const transaction = await postTransaction(order.id);
-        return payTransaction(transaction);
-      }
-      return payTransaction(order.transaction);
-    },
+export default async function payTransactionForOrder(order) {
+  let transaction = order.transaction;
+  if (!transaction || (new Date(transaction.expiresAt) < new Date())) {
+    transaction = await postTransaction(order.id);
   }
+
+  payTransaction(transaction);
 };

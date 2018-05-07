@@ -94,7 +94,7 @@ import PaymentMethod from '@/components/PaymentMethod';
 import SubmitFooter from '@/components/SubmitFooter';
 
 import getMeeting from '@/methods/getMeeting';
-import payOrder from '@/mixins/pay-order';
+import payTransactionForOrder from '@/methods/payTransactionForOrder';
 
 import { wxRequest, paymentMethodList, orderPost } from '@/apis';
 import { example as paymentMethodsExample } from '@/apis/payment_methods/list';
@@ -190,10 +190,9 @@ export default {
     },
     async onSubmit() {
       const order = await this.postOrder();
-      this.payOrder(order);
+      payTransactionForOrder(order);
     },
   },
-  mixins: [payOrder],
   components: { MeetingCard, PaymentMethod, SubmitFooter },
   async mounted() {
     wx.setNavigationBarTitle({

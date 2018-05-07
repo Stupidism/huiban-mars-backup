@@ -87,7 +87,7 @@ import Cash from '@/modules/Cash';
 import { wxRequest, orderPatch } from '@/apis';
 
 import getOrder from '@/methods/getOrder';
-import payOrder from '@/mixins/pay-order';
+import payTransactionForOrder from '@/methods/payTransactionForOrder';
 
 export default {
   data() {
@@ -121,13 +121,12 @@ export default {
     },
     goToPay() {
       wx.navigateBack({ delta: 2 });
-      this.payOrder(this.order);
+      payTransactionForOrder(this.order);
     },
     cancelOrder() {
       wxRequest(orderPatch(this.order.id, { status: 'cancelled' }));
     },
   },
-  mixins: [payOrder],
   components: {
     MeetingCard,
     DateTime,
