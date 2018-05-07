@@ -51,7 +51,7 @@
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
 
-import getOrder from '@/mixins/get-order';
+import getOrder from '@/methods/getOrder';
 import SubmitFooter from '@/components/SubmitFooter';
 import TicketItem from '@/components/TicketItem';
 import Cash from '@/modules/Cash';
@@ -93,7 +93,6 @@ export default {
     },
     ...mapMutations('runtime', ['setRuntime']),
   },
-  mixins: [getOrder],
   components: {
     SubmitFooter,
     Cash,
@@ -106,7 +105,7 @@ export default {
     wx.hideShareMenu();
 
     const orderId = this.$root.$mp.query.order || 1;
-    await this.getOrder(orderId);
+    this.order = await getOrder(orderId);
     this.sharableTickets = await getSharableTickets(orderId);
     this.setRuntime({ sharedTicket: this.sharableTickets[0] });
     // Mock navigate to share-result page

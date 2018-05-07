@@ -86,7 +86,7 @@ import Cash from '@/modules/Cash';
 
 import { wxRequest, orderPatch } from '@/apis';
 
-import getOrder from '@/mixins/get-order';
+import getOrder from '@/methods/getOrder';
 import payOrder from '@/mixins/pay-order';
 
 export default {
@@ -127,7 +127,7 @@ export default {
       wxRequest(orderPatch(this.order.id, { status: 'cancelled' }));
     },
   },
-  mixins: [getOrder, payOrder],
+  mixins: [payOrder],
   components: {
     MeetingCard,
     DateTime,
@@ -139,7 +139,8 @@ export default {
     wx.setNavigationBarTitle({
       title: '订单详情',
     });
-    await this.getOrder(this.$root.$mp.query.id || 1);
+
+    this.order = await getOrder(this.$root.$mp.query.id || 1);
   },
 };
 </script>
