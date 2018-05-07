@@ -1,4 +1,5 @@
 export const example = {
+  id: 1,
   name: '',
 
   wechatName: '',

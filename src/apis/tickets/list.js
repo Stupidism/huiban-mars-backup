@@ -20,11 +20,12 @@ export const example = [{
 }, {
   id: 2,
   buyerId: 1,
-  participantId: undefined,
+  participantId: 2,
+  participantName: '李小龙',
   type: 'bought_ticket',
   typeDesc: '购票',
-  status: 'no_participant',
-  statusDesc: '未确认',
+  status: 'has_participant',
+  statusDesc: '已确认',
   meeting: {
     ...meetings[0],
     status: '报名中',
@@ -36,11 +37,11 @@ export const example = [{
 }, {
   id: 3,
   buyerId: 1,
-  participantId: undefined,
-  type: 'bought_ticket',
-  typeDesc: '购票',
-  status: 'no_participant',
-  statusDesc: '未确认',
+  participantId: 1,
+  type: 'gift_ticket',
+  typeDesc: '赠票',
+  status: 'has_participant',
+  statusDesc: '已确认',
   meeting: {
     ...meetings[0],
     status: '报名中',
@@ -51,10 +52,11 @@ export const example = [{
   gradeTypeColor: 'black',
 }, {
   id: 4,
-  buyerId: 1,
+  buyerId: 2,
+  buyerName: '李大龙',
   participantId: 1,
-  type: 'bought_ticket',
-  typeDesc: '购票',
+  type: 'gift_ticket',
+  typeDesc: '赠票',
   status: 'has_participant',
   statusDesc: '已确认',
   meeting: {

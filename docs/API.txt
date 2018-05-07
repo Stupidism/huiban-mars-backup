@@ -149,6 +149,13 @@
   }
 
 8. GET /tickets
+  200 [{
+    buyerId,
+    buyerName,
+    participantId,
+    participantName,
+    ...
+  }]
 
 8.1. GET /tickets/:id
 

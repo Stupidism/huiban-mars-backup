@@ -87,8 +87,8 @@ PaymentMethod {
 }
 
 Ticket {
-  buyer: User,
-  participant: User,
+  buyer: User, // 除了 id 之外, 额外冗余一下 name
+  participant: User, // 除了 id 之外, 额外冗余一下 name
   price: Number,
   gradeType: String,
   gradeTypeColor: String,
