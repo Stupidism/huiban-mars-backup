@@ -94,10 +94,9 @@ import PaymentMethod from '@/components/PaymentMethod';
 import SubmitFooter from '@/components/SubmitFooter';
 
 import getMeeting from '@/methods/getMeeting';
+import getPaymentMethods from '@/methods/getPaymentMethods';
+import postOrder from '@/methods/postOrder';
 import payTransactionForOrder from '@/methods/payTransactionForOrder';
-
-import { wxRequest, paymentMethodList, orderPost } from '@/apis';
-import { example as paymentMethodsExample } from '@/apis/payment_methods/list';
 
 const { mapState, mapGetters } = createNamespacedHelpers('orderItem');
 
@@ -141,18 +140,6 @@ export default {
     },
   },
   methods: {
-    async getPaymentMethods() {
-      try {
-        this.paymentMethods = await wxRequest(paymentMethodList());
-      } catch (e) {
-        if (e.errMsg === 'request:fail url not in domain list' || e.statusCode === 404) {
-          this.paymentMethods = paymentMethodsExample;
-        } else {
-          console.error(e.statusCode, e.data);
-          throw e;
-        }
-      }
-    },
     promptNoStock() {
       wx.showModal({
         content: '门票被抢完啦，下次赶早哟',
@@ -167,20 +154,6 @@ export default {
         },
       });
     },
-    async postOrder() {
-      try {
-        return await wxRequest(orderPost(this.order));
-      } catch (e) {
-        if (e.errMsg === 'request:fail url not in domain list') {
-          return {};
-        }
-        if (e.statusCode === 400 && e.data.type === 'No Stock') {
-          return this.promptNoStock();
-        }
-        console.error(e.statusCode, e.data);
-        throw e;
-      }
-    },
     selectePaymentMethod(paymentMethod) {
       if (this.selectedPaymentMethod === paymentMethod) {
         this.selectedPaymentMethod = null;
@@ -189,8 +162,16 @@ export default {
       }
     },
     async onSubmit() {
-      const order = await this.postOrder();
-      payTransactionForOrder(order);
+      try {
+        const order = await postOrder(this.order);
+        payTransactionForOrder(order);
+      } catch (e) {
+        if (e.statusCode === 400 && e.data.type === 'No Stock') {
+          this.promptNoStock();
+        } else {
+          throw e;
+        }
+      }
     },
   },
   components: { MeetingCard, PaymentMethod, SubmitFooter },
@@ -198,8 +179,8 @@ export default {
     wx.setNavigationBarTitle({
       title: '订单确认及支付',
     });
-    this.meeting = getMeeting(this.$root.$mp.query.meeting || 1);
-    await this.getPaymentMethods();
+    this.meeting = await getMeeting(this.$root.$mp.query.meeting || 1);
+    this.paymentMethods = await getPaymentMethods();
     this.selectedPaymentMethod = this.paymentMethods[0];
 
     // this.promptNoStock();
