@@ -18,7 +18,7 @@
         <button class="small bordered">
           取消订单
         </button>
-        <button class="primary small">
+        <button class="primary small" @click.stop="payTransactionForOrder(order)">
           付款
         </button>
       </div>
@@ -31,12 +31,17 @@ import MeetingCard from '@/components/MeetingCard';
 import Date from '@/modules/Date';
 import Cash from '@/modules/Cash';
 
+import payTransactionForOrder from '@/methods/payTransactionForOrder';
+
 export default {
   props: ['order'],
   computed: {
     statusImage() {
       return `/static/order-status/${this.order.status}.png`;
-    }
+    },
+  },
+  methods: {
+    payTransactionForOrder,
   },
   components: {
     MeetingCard,
