@@ -96,7 +96,8 @@ export default {
     // Mock navigate to orders page
     // goToMyOrders();
     // goToOrderDetail(2);
-    goToMyTickets();
+    // goToMyTickets();
+    goToTicketsDetail(1);
     // TODO: remove mock code above
   },
 };
