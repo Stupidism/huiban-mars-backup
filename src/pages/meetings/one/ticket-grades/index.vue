@@ -66,7 +66,14 @@
       </button>
     </div>
 
-    <ticket-notes v-if="isTicketNotesOpen" :onClose="closeTicketNotes" />
+    <div v-if="isTicketNotesOpen" class="modal" @click="closeTicketNotes">
+      <div @click.stop class="ticket-notes-locator">
+        <ticket-notes />
+      </div>
+      <div class="footer">
+        <button class="large" @click="closeTicketNotes">关闭</button>
+      </div>
+    </div>
 
   </scroll-view>
 </template>
@@ -202,6 +209,11 @@ export default {
   .sum-price-unit {
     margin-left: 4px;
     color: #2692F0;
+  }
+
+  .ticket-notes-locator {
+    position: absolute;
+    bottom: 50px;
   }
 }
 </style>
