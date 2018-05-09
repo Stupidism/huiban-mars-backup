@@ -102,13 +102,6 @@ export default {
     this.order = await getOrder(orderId);
     this.sharableTickets = await getSharableTickets(orderId);
     this.setRuntime({ sharedTicket: this.sharableTickets[0] });
-    // Mock navigate to share-result page
-    // onShareSuccess();
-    // TODO: remove mock code above
-
-    // Mock navigate to new-order page
-    // this.onSubmit();
-    // TODO: remove mock code above
   },
   onShareAppMessage(res) {
     return {

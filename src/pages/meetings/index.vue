@@ -28,10 +28,6 @@ export default {
   },
   async mounted() {
     this.meetings = await getMeetings();
-
-    // Mock navigate to meeting-ticket-grades
-    goToMeetingTicketGrades(1);
-    // TODO: remove mock code above
   },
 };
 </script>

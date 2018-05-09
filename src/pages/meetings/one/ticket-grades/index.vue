@@ -127,12 +127,6 @@ export default {
   },
   async mounted() {
     this.meeting = await getMeeting(this.$root.$mp.query.meetingId || 1);
-
-    // Mock navigate to new-order page
-    // this.setAmount(2);
-    // this.setTicketGrade(this.meeting.ticketGrades[0]);
-    // this.startOrder();
-    // TODO: remove mock code above
   },
 };
 </script>

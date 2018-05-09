@@ -79,13 +79,6 @@ export default {
   async mounted() {
     this.tickets = await getTickets();
     this.orders = await getOrders();
-
-    // Mock navigate to orders page
-    // goToMyOrders();
-    // goToOrderDetail(2);
-    // goToMyTickets();
-    // goToTicketsDetail(1);
-    // TODO: remove mock code above
   },
 };
 </script>

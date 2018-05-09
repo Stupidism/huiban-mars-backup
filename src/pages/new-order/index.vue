@@ -179,11 +179,6 @@ export default {
     this.meeting = await getMeeting(this.$root.$mp.query.meetingId || 1);
     this.paymentMethods = await getPaymentMethods();
     this.selectedPaymentMethod = this.paymentMethods[0];
-
-    // this.promptNoStock();
-    // Mock navigate to new-order page
-    // this.onSubmit();
-    // TODO: remove mock code above
   },
 };
 </script>
