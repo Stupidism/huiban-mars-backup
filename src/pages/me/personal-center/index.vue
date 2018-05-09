@@ -31,19 +31,10 @@ import OrderCard from '@/components/OrderCard';
 
 import getTickets from '@/methods/getTickets';
 import getOrders from '@/methods/getOrders';
+import goToMyTickets from '@/pages/tickets/goToMyTickets';
+import goToMyOrders from '@/pages/orders/goToMyOrders';
+import goToOrderDetail from '@/pages/orders/one/goToOrderDetail';
 import goToTicketsDetail from '@/pages/orders/one/tickets/goToTicketsDetail';
-
-const goToMyTickets = () => wx.navigateTo({
-  url: '/pages/tickets/main',
-});
-
-const goToMyOrders = () => wx.navigateTo({
-  url: '/pages/orders/main',
-});
-
-const goToOrderDetail = id => wx.navigateTo({
-  url: `/pages/orders/one/main?id=${id}`,
-});
 
 export default {
   data() {
@@ -93,7 +84,7 @@ export default {
     // goToMyOrders();
     // goToOrderDetail(2);
     // goToMyTickets();
-    goToTicketsDetail(1);
+    // goToTicketsDetail(1);
     // TODO: remove mock code above
   },
 };

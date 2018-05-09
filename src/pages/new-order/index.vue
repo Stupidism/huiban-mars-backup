@@ -176,7 +176,7 @@ export default {
   },
   components: { MeetingCard, PaymentMethod, SubmitFooter },
   async mounted() {
-    this.meeting = await getMeeting(this.$root.$mp.query.meeting || 1);
+    this.meeting = await getMeeting(this.$root.$mp.query.meetingId || 1);
     this.paymentMethods = await getPaymentMethods();
     this.selectedPaymentMethod = this.paymentMethods[0];
 

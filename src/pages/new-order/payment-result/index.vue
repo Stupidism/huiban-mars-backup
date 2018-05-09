@@ -57,14 +57,13 @@ import TicketItem from '@/components/TicketItem';
 import Cash from '@/modules/Cash';
 
 import getTickets from '@/methods/getTickets';
+import goToShareResult from '@/pages/tickets/share-result/goToShareResult';
+import goToOrderDetail from '@/pages/orders/one/goToOrderDetail';
+import goToTicketsDetail from '@/pages/orders/one/tickets/goToTicketsDetail';
 
 const getSharableTickets = orderId =>
   getTickets({ orderId, status: 'no_participant' })
     .then(tickets => tickets.filter(ticket => ticket.status === 'no_participant'));
-
-const onShareSuccess = () => wx.navigateTo({
-  url: '/pages/tickets/share-result/main',
-});
 
 export default {
   data() {
@@ -85,11 +84,11 @@ export default {
   },
   methods: {
     onSubmit() {
-      wx.navigateTo({
-        url: this.isCompleted
-          ? `/pages/tickets/main?order=${this.order.id}`
-          : `/pages/orders/one/main?id=${this.order.id}`,
-      });
+      if (this.isCompleted) {
+        goToTicketsDetail(this.order.id);
+      } else {
+        goToOrderDetail(this.order.id);
+      }
     },
     ...mapMutations('runtime', ['setRuntime']),
   },
@@ -99,7 +98,7 @@ export default {
     TicketItem,
   },
   async mounted() {
-    const orderId = this.$root.$mp.query.order || 1;
+    const orderId = this.$root.$mp.query.orderId || 1;
     this.order = await getOrder(orderId);
     this.sharableTickets = await getSharableTickets(orderId);
     this.setRuntime({ sharedTicket: this.sharableTickets[0] });
@@ -116,7 +115,7 @@ export default {
       title: `送您一张${res.target.dataset.ticketGradeType}`,
       path: '/page/tickets/acquire/main?id=1',
       imageUrl: `/static/ticket/${this.sharedTicket.gradeTypeColor}.png`,
-      success: onShareSuccess,
+      success: goToShareResult,
       fail(error) {
         // 转发失败
         console.error('share failed', error);

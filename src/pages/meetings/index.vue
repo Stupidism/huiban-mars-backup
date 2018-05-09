@@ -7,7 +7,7 @@
         :key="meeting.id"
         :src="meeting.bannerImg"
         mode="center"
-        @click="onClickMeeting(meeting)"
+        @click="goToMeetingTicketGrades(meeting.id)"
       />
     </div>
   </scroll-view>
@@ -15,6 +15,7 @@
 
 <script>
 import getMeetings from '@/methods/getMeetings';
+import goToMeetingTicketGrades from './one/ticket-grades/goToMeetingTicketGrades';
 
 export default {
   data() {
@@ -23,14 +24,14 @@ export default {
     };
   },
   methods: {
-    onClickMeeting(meeting) {
-      wx.navigateTo({
-        url: `/pages/meetings/one/ticket-grades/main?meeting=${meeting.id}`,
-      });
-    },
+    goToMeetingTicketGrades,
   },
   async mounted() {
     this.meetings = await getMeetings();
+
+    // Mock navigate to meeting-ticket-grades
+    goToMeetingTicketGrades(1);
+    // TODO: remove mock code above
   },
 };
 </script>

@@ -1,13 +1,5 @@
-import qs from 'query-string';
 import { wxRequest, transactionPost } from '@/apis';
-
-const onPaymentSucess = (orderId) => {
-  wx.navigateTo({
-    url: `/pages/new-order/payment-result/main?${qs.stringify({
-      order: orderId || 1,
-    })}`,
-  });
-};
+import goToPaymentResult from '@/pages/new-order/payment-result/goToPaymentResult';
 
 const onPaymentFail = error => console.error(error);
 
@@ -27,14 +19,14 @@ const postTransaction = async (orderId) => {
 const payTransaction = (transaction) => {
   console.info('transaction', transaction);
   if (!transaction.thirdPartyTransactionInfo) {
-    onPaymentSucess(1);
+    goToPaymentResult(1);
     return;
   }
 
   wx.requestPayment({
     ...transaction.thirdPartyTransactionInfo,
-    success: (res) => {
-      onPaymentSucess(res);
+    success: () => {
+      goToPaymentResult(transaction.orderId);
     },
     fail: (res) => {
       onPaymentFail(res);

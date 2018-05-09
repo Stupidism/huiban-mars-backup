@@ -72,7 +72,6 @@
 </template>
 
 <script>
-import qs from 'query-string';
 import { createNamespacedHelpers } from 'vuex';
 
 import getMeeting from '@/methods/getMeeting';
@@ -81,6 +80,8 @@ import MeetingBanner from '@/components/MeetingBanner';
 import TicketGrade from '@/components/TicketGrade';
 import TicketNotes from '@/components/TicketNotes';
 import LocationRow from '@/modules/LocationRow';
+
+import goToNewOrder from '@/pages/new-order/goToNewOrder';
 
 const { mapState, mapMutations, mapGetters } = createNamespacedHelpers('orderItem');
 
@@ -100,11 +101,7 @@ export default {
   },
   methods: {
     startOrder() {
-      wx.navigateTo({
-        url: `/pages/new-order/main?${qs.stringify({
-          meeting: this.meeting.id,
-        })}`,
-      });
+      goToNewOrder({ meetingId: this.meeting.id });
     },
     openTicketNotes() {
       wx.setNavigationBarColor({
@@ -129,7 +126,7 @@ export default {
     LocationRow,
   },
   async mounted() {
-    this.meeting = await getMeeting(this.$root.$mp.query.meeting || 1);
+    this.meeting = await getMeeting(this.$root.$mp.query.meetingId || 1);
 
     // Mock navigate to new-order page
     // this.setAmount(2);
