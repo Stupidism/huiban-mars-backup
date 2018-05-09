@@ -1,5 +1,8 @@
 <template>
-  <div class="ticket-row section-single-line">
+  <div
+    class="ticket-row section-single-line"
+    :class="{disabled: showShareInfo && ticket.status === 'has_participant'}"
+  >
     <div class="ticket-row-content">
       <div class="ticket-info">
         <image class="icon small ticket-info-icon" :src="ticketGradeIcon" />
@@ -16,8 +19,11 @@
         </div>
       </div>
     </div>
-    <div v-if="ticket.showShareInfo">
-      <button v-if="ticket.status === 'has_participant'" class="small">赠送</button>
+    <div v-if="showShareInfo">
+      <button v-if="ticket.status === 'no_participant'" class="small bordered">赠送</button>
+      <div v-else class="share-info">
+        {{ticket.participantName}}已领取
+      </div>
     </div>
     <div v-else>
       <button v-if="ticket.status === 'no_participant'" class="primary small">确认参会</button>
@@ -56,9 +62,21 @@ export default {
 
 <style lang="less">
 .ticket-row {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  &.disabled::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.6);
+    z-index: 1;
+  }
 
   .ticket-row-content {
     flex: 1;
