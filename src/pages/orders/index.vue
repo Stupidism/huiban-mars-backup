@@ -33,9 +33,6 @@ export default {
     OrderCard,
   },
   async mounted() {
-    wx.setNavigationBarTitle({
-      title: '我的订单',
-    });
     this.orders = await getOrders();
   },
 };

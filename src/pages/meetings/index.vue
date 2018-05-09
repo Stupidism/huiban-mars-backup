@@ -30,9 +30,6 @@ export default {
     },
   },
   async mounted() {
-    wx.setNavigationBarTitle({
-      title: '会伴',
-    });
     this.meetings = await getMeetings();
   },
 };

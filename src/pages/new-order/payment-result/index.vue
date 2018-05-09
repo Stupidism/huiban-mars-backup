@@ -99,11 +99,6 @@ export default {
     TicketItem,
   },
   async mounted() {
-    wx.setNavigationBarTitle({
-      title: '支付结果',
-    });
-    wx.hideShareMenu();
-
     const orderId = this.$root.$mp.query.order || 1;
     this.order = await getOrder(orderId);
     this.sharableTickets = await getSharableTickets(orderId);

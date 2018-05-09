@@ -129,9 +129,6 @@ export default {
     LocationRow,
   },
   async mounted() {
-    wx.setNavigationBarTitle({
-      title: '选择票档',
-    });
     this.meeting = await getMeeting(this.$root.$mp.query.meeting || 1);
 
     // Mock navigate to new-order page

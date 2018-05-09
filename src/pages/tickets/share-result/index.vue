@@ -32,11 +32,6 @@ export default {
   components: {
     TicketItem,
   },
-  async mounted() {
-    wx.setNavigationBarTitle({
-      title: '赠送结果',
-    });
-  },
 };
 </script>
 

@@ -86,10 +86,6 @@ export default {
     OrderCard,
   },
   async mounted() {
-    wx.setNavigationBarTitle({
-      title: '个人中心',
-    });
-
     this.tickets = await getTickets();
     this.orders = await getOrders();
 

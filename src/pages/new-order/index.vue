@@ -176,9 +176,6 @@ export default {
   },
   components: { MeetingCard, PaymentMethod, SubmitFooter },
   async mounted() {
-    wx.setNavigationBarTitle({
-      title: '订单确认及支付',
-    });
     this.meeting = await getMeeting(this.$root.$mp.query.meeting || 1);
     this.paymentMethods = await getPaymentMethods();
     this.selectedPaymentMethod = this.paymentMethods[0];

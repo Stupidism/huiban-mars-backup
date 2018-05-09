@@ -76,10 +76,6 @@ export default {
     TicketRow,
   },
   async mounted() {
-    wx.setNavigationBarTitle({
-      title: '门票详情',
-    });
-
     const orderId = this.$root.$mp.query.orderId;
     this.tickets = await getTickets({ orderId });
   },

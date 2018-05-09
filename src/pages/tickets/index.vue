@@ -33,10 +33,6 @@ export default {
     TicketsCard,
   },
   async mounted() {
-    wx.setNavigationBarTitle({
-      title: '我的门票',
-    });
-
     this.ticketsGroupByOrder = await getTicketsGroupByOrder();
   },
 };

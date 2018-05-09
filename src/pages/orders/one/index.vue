@@ -135,10 +135,6 @@ export default {
     CountDown,
   },
   async mounted() {
-    wx.setNavigationBarTitle({
-      title: '订单详情',
-    });
-
     this.order = await getOrder(this.$root.$mp.query.id || 1);
   },
 };
