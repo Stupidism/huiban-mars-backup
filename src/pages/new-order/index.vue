@@ -76,13 +76,14 @@
         @select="selectePaymentMethod(paymentMethod)"
       />
     </div>
-    <submit-footer buttonName="支付" :onSubmit="onSubmit" primary>
-      <div class="sum-price">
+    <div class="footer">
+      <div class="section flex aligned">
         合计：
         <span class="sum-price-amount">{{sumPriceInCash}} </span>
         <span class="sum-price-unit">元</span>
       </div>
-    </submit-footer>
+      <button class="primary large narrow" @click="onSubmit">支付</button>
+    </div>
   </scroll-view>
 </template>
 
@@ -91,7 +92,6 @@ import { createNamespacedHelpers } from 'vuex';
 
 import MeetingCard from '@/components/MeetingCard';
 import PaymentMethod from '@/components/PaymentMethod';
-import SubmitFooter from '@/components/SubmitFooter';
 
 import getMeeting from '@/methods/getMeeting';
 import getPaymentMethods from '@/methods/getPaymentMethods';
@@ -174,7 +174,10 @@ export default {
       }
     },
   },
-  components: { MeetingCard, PaymentMethod, SubmitFooter },
+  components: {
+    MeetingCard,
+    PaymentMethod,
+  },
   async mounted() {
     this.meeting = await getMeeting(this.$root.$mp.query.meetingId || 1);
     this.paymentMethods = await getPaymentMethods();
@@ -250,11 +253,6 @@ export default {
       }
     }
   }
-}
-
-.sum-price {
-  display: flex;
-  align-items: center;
 }
 
 .sum-price-amount {

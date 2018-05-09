@@ -65,21 +65,26 @@
       </div>
     </div>
 
-    <submit-footer v-if="isCompleted" buttonName="查看门票" no-summary="true" :onSubmit="goToMyTickets" />
-
-    <div v-if="isToBePaid" class="submit-footer">
-      <span v-if="!noSummary" class="summary-content">
-        剩余<count-down :endTime="order.meeting.enrollEndAt" />
-        <button @click="cancelOrder" size="mini">取消订单</button>
+    <div v-if="isToBePaid" class="footer">
+      <span class="flex justified grow section aligned">
+        <div>
+          剩余:
+          <span class="text danger extreme-large">
+            <count-down :endTime="order.meeting.enrollEndAt" />
+          </span>
+        </div>
+        <button @click="cancelOrder" class="large narrow">取消订单</button>
       </span>
-      <button class="submit-btn" :disabled="disabled" @click="goToPay">去支付</button>
+      <button class="primary large narrow" :disabled="disabled" @click="goToPay">去支付</button>
+    </div>
+    <div v-if="isCompleted" class="footer">
+      <button class="large" @click="goToMyTickets">查看门票</button>
     </div>
   </scroll-view>
 </template>
 
 <script>
 import MeetingCard from '@/components/MeetingCard';
-import SubmitFooter from '@/components/SubmitFooter';
 import DateTime from '@/modules/DateTime';
 import CountDown from '@/modules/CountDown';
 import Cash from '@/modules/Cash';
@@ -131,7 +136,6 @@ export default {
     MeetingCard,
     DateTime,
     Cash,
-    SubmitFooter,
     CountDown,
   },
   async mounted() {

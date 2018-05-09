@@ -44,7 +44,9 @@
     <div class="image-container">
       <image src="/static/coupons/buy-one-get-one-free.png" mode="widthFix" />
     </div>
-    <submit-footer :buttonName="`查看${isCompleted ? '门票' : '订单'}`" no-summary :onSubmit="onSubmit" />
+    <div class="footer">
+      <button class="large" @click="onSubmit">查看{{isCompleted ? '门票' : '订单'}}</button>
+    </div>
   </scroll-view>
 </template>
 
@@ -52,7 +54,6 @@
 import { mapState, mapGetters, mapMutations } from 'vuex';
 
 import getOrder from '@/methods/getOrder';
-import SubmitFooter from '@/components/SubmitFooter';
 import TicketItem from '@/components/TicketItem';
 import Cash from '@/modules/Cash';
 
@@ -93,7 +94,6 @@ export default {
     ...mapMutations('runtime', ['setRuntime']),
   },
   components: {
-    SubmitFooter,
     Cash,
     TicketItem,
   },

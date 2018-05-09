@@ -50,9 +50,9 @@
       </div>
     </div>
 
-    <div class="submit-footer">
-      <div class="summary-content">
-        <div class="sum-price">
+    <div class="footer">
+      <div class="section flex justified grow">
+        <div class="flex aligned">
           合计：
           <span class="sum-price-amount">{{sumPriceInCash}} </span>
           <span class="sum-price-unit">元</span>
@@ -61,7 +61,7 @@
           《购票须知》
         </div>
       </div>
-      <button class="submit-btn primary" :disabled="!sumPrice" @click="startOrder">
+      <button class="primary large narrow" :disabled="!sumPrice" @click="startOrder">
         提交
       </button>
     </div>
@@ -192,11 +192,6 @@ export default {
     background: rgba(38,146,240,0.10);
     border: 1px solid #2692F0;
     color: #2692F0;
-  }
-
-  .sum-price {
-    display: flex;
-    align-items: center;
   }
 
   .sum-price-amount {

@@ -1,9 +1,10 @@
 @import '../colors';
 
 button {
-  display: inline-flex;
+  display: block;
   width: 150px;
   height: 40px;
+  line-height: 40px;
   color: @primary;
   background: white;
   align-items: center;
@@ -11,6 +12,7 @@ button {
   font-size: 14px;
   white-space: nowrap;
   box-sizing: border-box;
+  margin: 0;
 
   &::after{
     // remove wechat default border
@@ -39,9 +41,22 @@ button {
   &.small {
     width: 80px;
     height: 30px;
+    line-height: 30px;
+  }
+
+  &.large {
+    .no-radius();
+
+    width: 100vw;
+    height: 50px;
+    line-height: 50px;
   }
 
   &.bordered {
     box-shadow:0 0 0 1px @primary inset;
+  }
+
+  &.narrow {
+    width: 100px;
   }
 }
