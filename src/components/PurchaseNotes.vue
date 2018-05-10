@@ -1,7 +1,7 @@
 <template>
-  <div class="ticket-notes container">
-    <div class="ticket-notes-title section-single-line">购票须知</div>
-    <div class="ticket-notes-content section">
+  <div class="purchase-notes container">
+    <div class="purchase-notes-title section-single-line">购票须知</div>
+    <div class="purchase-notes-content section">
       <div class="note-item">
         <serial-number number="1" />
         <div class="note-content">下单区域固定在页面底端，</div>
@@ -24,13 +24,13 @@ export default {
 };
 </script>
 <style scoped lang="less">
-.ticket-notes {
-  .ticket-notes-title {
+.purchase-notes {
+  .purchase-notes-title {
     text-align: center;
     font-weight: bold;
   }
 
-  .ticket-notes-content {
+  .purchase-notes-content {
     .note-item {
       display: flex;
       margin-bottom: 10px;
@@ -44,12 +44,6 @@ export default {
         color: #8A9299;
       }
     }
-  }
-
-  .ticket-notes-close-btn {
-    color: #2692F0;
-    line-height: 50px;
-    text-align: center;
   }
 }
 </style>

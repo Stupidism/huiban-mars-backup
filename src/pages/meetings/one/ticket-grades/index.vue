@@ -57,7 +57,7 @@
           <span class="sum-price-amount">{{sumPriceInCash}} </span>
           <span class="sum-price-unit">元</span>
         </div>
-        <div @click="openTicketNotes" class="ticket-notes">
+        <div @click="openTicketNotes" class="purchase-notes">
           《购票须知》
         </div>
       </div>
@@ -67,8 +67,8 @@
     </div>
 
     <div v-if="isTicketNotesOpen" class="modal" @click="closeTicketNotes">
-      <div @click.stop class="ticket-notes-locator">
-        <ticket-notes />
+      <div @click.stop class="purchase-notes-locator">
+        <purchase-notes />
       </div>
       <div class="footer">
         <button class="large" @click="closeTicketNotes">关闭</button>
@@ -85,7 +85,7 @@ import getMeeting from '@/methods/getMeeting';
 
 import MeetingBanner from '@/components/MeetingBanner';
 import TicketGrade from '@/components/TicketGrade';
-import TicketNotes from '@/components/TicketNotes';
+import PurchaseNotes from '@/components/PurchaseNotes';
 import LocationRow from '@/modules/LocationRow';
 
 import goToNewOrder from '@/pages/new-order/goToNewOrder';
@@ -129,7 +129,7 @@ export default {
   components: {
     MeetingBanner,
     TicketGrade,
-    TicketNotes,
+    PurchaseNotes,
     LocationRow,
   },
   async mounted() {
@@ -211,7 +211,7 @@ export default {
     color: #2692F0;
   }
 
-  .ticket-notes-locator {
+  .purchase-notes-locator {
     position: absolute;
     bottom: 50px;
   }
