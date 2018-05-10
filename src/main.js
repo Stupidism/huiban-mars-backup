@@ -15,7 +15,7 @@ export default {
   config: {
     pages: [
       'pages/meetings/main',
-      '^pages/me/personal-center/main',
+      'pages/me/personal-center/main',
       'pages/meetings/one/ticket-grades/main',
       'pages/new-order/main',
       'pages/new-order/payment-result/main',
@@ -23,6 +23,7 @@ export default {
       'pages/orders/one/main',
       'pages/orders/main',
       'pages/tickets/main',
+      '^pages/tickets/one/acquire/main',
       'pages/tickets/share-result/main',
     ], // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
     window: {

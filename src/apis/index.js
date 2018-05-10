@@ -10,6 +10,7 @@ import paymentMethodList from './payment_methods/list';
 import transactionPost from './transactions/post';
 import userCurrentGet from './users/current';
 import tokensPost from './tokens/post';
+import ticketGet from './tickets/get';
 import ticketList from './tickets/list';
 
 export {
@@ -24,5 +25,6 @@ export {
   transactionPost,
   userCurrentGet,
   tokensPost,
+  ticketGet,
   ticketList,
 };
