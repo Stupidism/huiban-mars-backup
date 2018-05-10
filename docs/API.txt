@@ -184,3 +184,54 @@
 404 Not Found
 409 Conflict
 410 Gone
+
+统一的API要求:
+# 这里的resources 泛指任意 RESTful 资源
+
+1. 分页
+1.1 GET /resources?skip&limit&withTotalCount
+
+skip: 跳过前skip数量的resource, 一般固定每页数量分页时候 skip = 一页的大小 * (当前页数 - 1)
+limit: 一页的大小
+withTotalCount: 在response的header中附加上当前筛选条件下这个resources的总数, key为 'X-TOTAL-COUNT'
+
+2. 级联
+当资源需要级联时, 需要前端指定级联的目标, 在query中用populate参数
+
+2.1 GET /resources/:id?populate=foo
+  200 {
+    id,
+    fooId,
+    foo: {},
+    barId,
+  }
+
+2.1.1 GET /resources/:id
+  200 {
+    id,
+    fooId,
+    barId,
+  }
+
+2.2 GET /resources?populate=foo
+  200 [{
+    id,
+    fooId,
+    foo: {},
+    barId,
+  }]
+
+2.2 POST /resources?populate=foo
+  Request {
+    fooId,
+    barId,
+  }
+  200 {
+    id,
+    fooId,
+    foo: {},
+    barId,
+  }
+
+3. 过滤(TODO)
+4. 排序(TODO)

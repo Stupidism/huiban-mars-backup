@@ -21,7 +21,9 @@ export const example = [{
   id: 2,
   buyerId: 1,
   participantId: 2,
-  participantName: '李小龙',
+  participant: {
+    name: '李小龙',
+  },
   type: 'bought_ticket',
   typeDesc: '购票',
   status: 'has_participant',
@@ -38,6 +40,9 @@ export const example = [{
   id: 3,
   buyerId: 1,
   participantId: 1,
+  participant: {
+    name: '我',
+  },
   type: 'gift_ticket',
   typeDesc: '赠票',
   status: 'has_participant',
@@ -53,8 +58,14 @@ export const example = [{
 }, {
   id: 4,
   buyerId: 2,
-  buyerName: '李大龙',
+  buyer: {
+    name: '李大龙',
+    wechatAvatar: 'https://s1.ax1x.com/2018/05/10/C0tVz9.png',
+  },
   participantId: 1,
+  participant: {
+    name: '我',
+  },
   type: 'gift_ticket',
   typeDesc: '赠票',
   status: 'has_participant',

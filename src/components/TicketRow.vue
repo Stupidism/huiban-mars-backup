@@ -11,10 +11,10 @@
       <div v-if="!showShareInfo" class="participate-info">
         <div v-if="participatedBySelf">
           <div v-if="boughtBySelf" class="warning">本人参会</div>
-          <div v-else="boughtBySelf">接受{{ticket.buyerName}}邀请参加</div>
+          <div v-else>接受{{ticket.buyer.name}}邀请参加</div>
         </div>
         <div v-else>
-          <div v-if="ticket.status === 'has_participant'">{{ticket.participantName}}已确认参加</div>
+          <div v-if="ticket.status === 'has_participant'">{{ticket.participant.name}}已确认参加</div>
           <div v-else>本人购买</div>
         </div>
       </div>
@@ -22,7 +22,7 @@
     <div v-if="showShareInfo">
       <button v-if="ticket.status === 'no_participant'" class="small bordered">赠送</button>
       <div v-else class="share-info">
-        {{ticket.participantName}}已领取
+        {{ticket.participant.name}}已领取
       </div>
     </div>
     <div v-else>
@@ -49,10 +49,10 @@ export default {
       return `/static/icons/ticket-grade/${this.ticket.gradeTypeColor}.png`;
     },
     boughtBySelf() {
-      return this.ticket.buyerId === this.currentUser.id;
+      return this.currentUser.id && this.ticket.buyerId === this.currentUser.id;
     },
     participatedBySelf() {
-      return this.ticket.participantId === this.currentUser.id;
+      return this.currentUser.id && this.ticket.participantId === this.currentUser.id;
     },
     ...mapState(['currentUser']),
   },

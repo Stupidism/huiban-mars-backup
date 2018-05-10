@@ -8,7 +8,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     wechatUserInfo: undefined,
-    currentUser: undefined,
+    currentUser: {},
   },
   mutations: {
     setWechatUserInfo(state, wechatUserInfo) {
