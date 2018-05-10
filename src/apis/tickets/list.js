@@ -1,4 +1,4 @@
-import qs from 'query-string';
+import _ from 'lodash';
 import { example as meetings } from '../meetings/list';
 
 export const example = [{
@@ -69,13 +69,7 @@ export const example = [{
   gradeTypeColor: 'black',
 }];
 
-export default (query = {}) => {
-  let url = '/tickets';
-
-  if (query) {
-    const { orderId } = query;
-    url += `?${qs.stringify({ orderId })}`;
-  }
-
-  return { url };
-};
+export default (query = {}) => ({
+  url: '/tickets',
+  query: _.pick(query, ['orderId', 'populate']),
+});
