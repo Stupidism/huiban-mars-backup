@@ -19,7 +19,7 @@ export default {
   computed: {
     backgroundImage() {
       return `/static/ticket/${this.ticket.gradeTypeColor}.png`;
-    }
+    },
   },
   components: { Cash },
 };

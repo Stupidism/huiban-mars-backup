@@ -1,7 +1,7 @@
 export default {
   namespaced: true,
   state: {
-    sharedTicket: {}
+    sharedTicket: {},
   },
   mutations: {
     setRuntime(runtime, newRuntime) {

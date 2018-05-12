@@ -104,7 +104,7 @@ export default {
   data() {
     return {
       meeting: {
-        ticketGrades: []
+        ticketGrades: [],
       },
       buyer: {
         name: '',

@@ -16,7 +16,7 @@ export default {
   computed: {
     formattedTime() {
       return format(this.time, this.format);
-    }
+    },
   },
 };
 

@@ -9,7 +9,7 @@ export default {
   computed: {
     formattedAmount() {
       return toCash(this.amount);
-    }
+    },
   },
 };
 </script>

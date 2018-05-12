@@ -30,7 +30,7 @@ const payTransaction = (transaction) => {
     },
     fail: (res) => {
       onPaymentFail(res);
-    }
+    },
   });
 };
 
