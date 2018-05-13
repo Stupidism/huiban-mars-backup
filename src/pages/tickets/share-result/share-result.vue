@@ -16,15 +16,12 @@
 <script>
 import { mapState } from 'vuex';
 import TicketItem from '@/components/TicketItem';
+import goToPersonalCenter from '@/pages/users/me/goToPersonalCenter';
 
 export default {
   computed: mapState('runtime', ['sharedTicket']),
   methods: {
-    onFinish() {
-      wx.switchTab({
-        url: '/pages/me/personal-center/main',
-      });
-    },
+    onFinish: goToPersonalCenter,
     onContinue() {
       wx.navigateBack();
     },

@@ -1,11 +1,11 @@
 import Vue from 'vue';
-import App from './index';
+import App from './payment-result';
 
 const app = new Vue(App);
 app.$mount();
 
 export default {
   config: {
-    navigationBarTitleText: '订单确认及支付',
+    navigationBarTitleText: '支付结果',
   },
 };

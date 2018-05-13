@@ -1,11 +1,11 @@
 import Vue from 'vue';
-import App from './index';
+import App from './new-order';
 
 const app = new Vue(App);
 app.$mount();
 
 export default {
   config: {
-    navigationBarTitleText: '个人中心',
+    navigationBarTitleText: '订单确认及支付',
   },
 };

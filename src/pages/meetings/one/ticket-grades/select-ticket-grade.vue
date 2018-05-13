@@ -1,6 +1,6 @@
 <template>
   <scroll-view
-    class="ticket-grades page page-with-footer"
+    class="select-ticket-grade page page-with-footer"
     :class="{'with-high-footer': selectedTicketGrade.id != null}"
   >
     <div class="container">
@@ -88,7 +88,7 @@ import TicketGrade from '@/components/TicketGrade';
 import PurchaseNotes from '@/components/PurchaseNotes';
 import LocationRow from '@/modules/LocationRow';
 
-import goToNewOrder from '@/pages/new-order/goToNewOrder';
+import goToNewOrder from '@/pages/orders/new/goToNewOrder';
 
 const { mapState, mapMutations, mapGetters } = createNamespacedHelpers('orderItem');
 
@@ -139,7 +139,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-.ticket-grades {
+.select-ticket-grade {
   &.with-high-footer {
     @footerGap: 120px;
     padding-bottom: @footerGap;

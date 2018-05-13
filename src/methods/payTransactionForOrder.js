@@ -1,5 +1,5 @@
 import { wxRequest, transactionPost } from '@/apis';
-import goToPaymentResult from '@/pages/new-order/payment-result/goToPaymentResult';
+import goToPaymentResult from '@/pages/orders/transaction/goToPaymentResult';
 
 const onPaymentFail = error => console.error(error);
 
