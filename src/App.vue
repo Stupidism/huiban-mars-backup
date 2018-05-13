@@ -94,7 +94,7 @@ export default {
         },
         fail(error) {
           console.info('getUserInfo fail', error);
-          wx.openSetting();
+          // wx.openSetting();
         },
       });
     },
