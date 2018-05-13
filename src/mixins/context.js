@@ -6,39 +6,52 @@ import _get from 'lodash/fp/get';
 
 const getOptions = _get('$vnode.componentOptions.Ctor.options');
 
-export const provider = {
-  beforeCreate() {
-    const options = getOptions(this);
-    if (!options.provide) return;
-    options.computed.$context = () => options.provide.call(this, this);
-  },
-};
-
 const $consume = (vm, { token, all }) => {
   let parent = vm;
   const ret = [];
   while (parent) {
     const $context = parent.$context;
     if ($context && _.has($context, token)) {
-      if (all) ret.push($context[token]);
-      else return $context[token];
+      const value = _.get($context, token);
+      if (!all) return value;
+      ret.push(value);
     }
     parent = parent.$parent;
   }
   return all ? ret : undefined;
 };
 
+const exposeContext = (vm) => {
+  const options = getOptions(vm);
+  if (!options.expose) return;
+  options.computed.$context = () => options.expose.call(vm, vm);
+};
+
+const consumeContext = (vm) => {
+  const options = getOptions(vm);
+  if (!options.consume) return;
+  const consumeMap = _.isFunction(options.consume) ? options.consume() : options.consume;
+
+  options.computed = options.computed || {};
+  _.forEach(consumeMap, (token, key) => {
+    options.computed[key] = () => $consume(vm, { token });
+  });
+};
+
+export const exposer = {
+  beforeCreate() {
+    exposeContext(this);
+  },
+  beforeUpdate() {
+    exposeContext(this);
+  },
+};
+
 export const consumer = {
   beforeCreate() {
-    console.log('consumer beforeCreate');
-    const options = getOptions(this);
-    if (!options.consume) return;
-    const vm = this;
-    const computed = options.computed || {};
-    _.forEach(options.consume, (token, key) => {
-      computed[key] = () => $consume(vm, { token });
-    });
-
-    options.computed = computed;
+    consumeContext(this);
+  },
+  beforeUpdate() {
+    consumeContext(this);
   },
 };
