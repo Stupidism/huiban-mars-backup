@@ -1,20 +1,16 @@
-const vModelBugfillMixin = {
+const VModelBugfill = {
   data() {
     return {
-      ownValue: null,
+      ownValue: this.valueFromProp,
     };
   },
   model: {
     prop: 'valueFromProp',
   },
-  props: {
-    valueFromProp: {
-      type: String,
-    },
-  },
+  props: ['valueFromProp'],
   computed: {
     value() {
-      return this.ownValue == null ? this.valueFromProp : this.ownValue;
+      return this.ownValue === undefined ? this.valueFromProp : this.ownValue;
     },
   },
   methods: {
@@ -25,4 +21,4 @@ const vModelBugfillMixin = {
   },
 };
 
-export default vModelBugfillMixin;
+export default VModelBugfill;
