@@ -12,58 +12,55 @@
         <span class="amount">x {{amount}}张</span>
       </div>
     </div>
-    <div class="buyer-form container">
+    <provider-form
+      name="buyer-info"
+      class-name="buyer-form container"
+      show-required-column
+      no-left-padding
+    >
       <div class="section">
         <div class="title">购票人信息</div>
         <div class="sub-title">多人参会请在支付完成后邀请他人填写信息，以便现场签到</div>
       </div>
       <div class="buyer-fields section">
-        <label class="form-field">
-          <span class="required-marker">*</span>
-          <span class="field-name">姓名</span>
-          <input
-            type="text"
-            v-model="buyer.name"
-            placeholder="请输入您的真实姓名"
-            auto-focus
-            confirm-type="next"
-          >
-        </label>
-        <label class="form-field">
-          <span class="required-marker">*</span>
-          <span class="field-name">公司</span>
-          <input
-            type="text"
-            v-model="buyer.company"
-            placeholder="请输入您的公司名称"
-            confirm-type="next"
-          >
-        </label>
-        <label class="form-field">
-          <span class="required-marker">*</span>
-          <span class="field-name">职位</span>
-          <input
-            type="text"
-            v-model="buyer.position"
-            placeholder="请输入您的职位名称"
-            confirm-type="next"
-          >
-        </label>
-        <label class="form-field">
-          <span class="required-marker">*</span>
-          <span class="field-name">城市</span>
-          <input
-            type="text"
-            v-model="buyer.city"
-            placeholder="请输入您所在的城市"
-          >
-        </label>
+        <text-field
+          name="name"
+          label="姓名"
+          placeholder="请输入您的真实姓名"
+          auto-focus
+          required
+          confirm-type="next"
+        />
+        <text-field
+          name="company"
+          label="公司"
+          placeholder="请输入您的公司名称"
+          auto-focus
+          required
+          confirm-type="next"
+        />
+        <text-field
+          name="position"
+          label="职位"
+          placeholder="请输入您的职位名称"
+          auto-focus
+          required
+          confirm-type="next"
+        />
+        <text-field
+          name="city"
+          label="城市"
+          placeholder="请输入您所在的城市"
+          auto-focus
+          required
+          confirm-type="next"
+        />
         <label class="form-field is-participant-checkbox">
           本人参会，上述信息将作为您现场签到的唯一凭证
           <input type="checkbox" v-model="buyer.isParticipant">
         </label>
       </div>
-    </div>
+    </provider-form>
     <div class="container">
       <div class="title section">
         支付方式<span class="sub-title">（不支持无条件退款）</span>
@@ -92,6 +89,8 @@ import { createNamespacedHelpers } from 'vuex';
 
 import MeetingCard from '@/components/MeetingCard';
 import PaymentMethod from '@/components/PaymentMethod';
+import ProviderForm from '@/modules/ProviderForm';
+import TextField from '@/modules/TextField';
 
 import getMeeting from '@/methods/getMeeting';
 import getPaymentMethods from '@/methods/getPaymentMethods';
@@ -177,6 +176,8 @@ export default {
   components: {
     MeetingCard,
     PaymentMethod,
+    ProviderForm,
+    TextField,
   },
   async mounted() {
     this.meeting = await getMeeting(this.$root.$mp.query.meetingId || 1);
