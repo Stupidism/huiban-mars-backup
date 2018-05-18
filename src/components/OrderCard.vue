@@ -1,7 +1,7 @@
 <template>
   <div class="order-card section-no-padding">
     <div class="status-wrapper">
-      <meeting-card :meeting="order.meeting" />
+      <meeting-card v-if="order.meeting" :meeting="order.meeting" />
       <div class="order-status" :class="order.status">
         <image :src="statusImage" />
         <span>{{order.statusDesc}}</span>

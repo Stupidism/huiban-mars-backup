@@ -3,7 +3,7 @@ import { example as meetingExample } from '@/apis/meetings/get';
 
 const colors = ['blue', 'green', 'orange', 'purple', 'black'];
 
-const addTypeColorForTicketGrades = ticketGrades => ticketGrades.map(
+export const addTypeColorForTicketGrades = (ticketGrades = []) => ticketGrades.map(
   (ticketGrade, index) => ({
     ...ticketGrade,
     typeColor: colors[Math.round(index * ((colors.length - 1) / (ticketGrades.length - 1)))],

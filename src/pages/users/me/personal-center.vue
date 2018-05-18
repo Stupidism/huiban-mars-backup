@@ -52,12 +52,11 @@ export default {
       return this.tickets[0];
     },
     recentMeeting() {
-      if (!this.recentTicket) return null;
-      return this.recentTicket.meeting;
+      return this.recentTicket && this.recentTicket.meeting;
     },
     ticketsOfRecentMeeting() {
       if (!this.tickets.length || !this.recentMeeting) return [];
-      return this.tickets.filter(ticket => ticket.meeting.id === this.recentMeeting.id);
+      return this.tickets.filter(ticket => ticket.meetingId === this.recentMeeting.id);
     },
     recentOrder() {
       if (!this.orders.length) return null;

@@ -46,7 +46,7 @@ export default {
   },
   computed: {
     ticketGradeIcon() {
-      return `/static/icons/ticket-grade/${this.ticket.gradeTypeColor}.png`;
+      return `/static/icons/ticket-grade/${this.ticket.gradeTypeColor || 'blue'}.png`;
     },
     boughtBySelf() {
       return this.currentUser.id && this.ticket.buyerId === this.currentUser.id;

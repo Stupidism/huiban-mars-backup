@@ -32,6 +32,8 @@ import { mapState } from 'vuex';
 
 import MeetingBanner from '@/components/MeetingBanner';
 import TicketRow from '@/components/TicketRow';
+
+import { addTypeColorForTicketGrades } from '@/methods/getMeeting';
 import getTickets from '@/methods/getTickets';
 
 export default {
@@ -67,7 +69,11 @@ export default {
     },
     meeting() {
       if (!this.tickets.length) return null;
-      return this.tickets[0].meeting;
+      const recentMeeting = this.tickets[0].meeting;
+      return {
+        ...recentMeeting,
+        ticketGrades: addTypeColorForTicketGrades(recentMeeting.ticketGrades),
+      };
     },
     ...mapState(['currentUser']),
   },
@@ -76,8 +82,8 @@ export default {
     TicketRow,
   },
   async mounted() {
-    const orderId = this.$root.$mp.query.orderId;
     this.tickets = await getTickets({ orderId });
+    const orderId = this.$root.$mp.query.orderId || 1;
   },
 };
 </script>

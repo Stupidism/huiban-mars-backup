@@ -39,13 +39,13 @@
     </div>
 
     <div class="container-single-section info-table transaction-info">
-      <div class="info-table-line">
+      <div v-if="order.transaction" class="info-table-line">
         订单编号 <span class="info-table-value">{{order.transaction.id}}</span>
       </div>
-      <div class="info-table-line">
+      <div v-if="order.paymentMethod" class="info-table-line">
         付款方式 <span class="info-table-value">{{order.paymentMethod.typeDesc}}</span>
       </div>
-      <div v-if="isCompleted" class="info-table-line">
+      <div v-if="isCompleted && order.transaction" class="info-table-line">
         交易号 <span class="info-table-value">{{order.transaction.thirdPartyTransactionId}}</span>
       </div>
       <div class="info-table-line">
@@ -60,7 +60,7 @@
       <div v-if="order.status === 'cancelled'" class="info-table-line">
         取消时间 <span class="info-table-value"><date-time :time="order.cancelledAt" /></span>
       </div>
-      <div v-if="order.status === 'closed'" class="info-table-line">
+      <div v-if="order.status === 'closed' && order.meeting" class="info-table-line">
         关闭时间 <span class="info-table-value"><date-time :time="order.meeting.enrollEndAt" /></span>
       </div>
     </div>
@@ -70,7 +70,7 @@
         <div>
           剩余:
           <span class="text danger extreme-large">
-            <count-down :endTime="order.meeting.enrollEndAt" />
+            <count-down v-if="order.meeting" :endTime="order.meeting.enrollEndAt" />
           </span>
         </div>
         <button @click="cancelOrder" class="large narrow">取消订单</button>
