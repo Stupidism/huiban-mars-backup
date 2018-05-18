@@ -15,7 +15,7 @@
         </div>
       </div>
       <div v-if="order.status === 'to_be_paid'" class="order-actions">
-        <button class="small bordered">
+        <button class="small bordered" @click.stop="cancelOrder(order.id)">
           取消订单
         </button>
         <button class="primary small" @click.stop="payTransactionForOrder(order)">
@@ -32,6 +32,7 @@ import Date from '@/modules/Date';
 import Cash from '@/modules/Cash';
 
 import payTransactionForOrder from '@/methods/payTransactionForOrder';
+import cancelOrder from '@/methods/cancelOrder';
 
 export default {
   props: ['order'],
@@ -42,6 +43,7 @@ export default {
   },
   methods: {
     payTransactionForOrder,
+    cancelOrder,
   },
   components: {
     MeetingCard,

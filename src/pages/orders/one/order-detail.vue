@@ -73,7 +73,7 @@
             <count-down v-if="order.meeting" :endTime="order.meeting.enrollEndAt" />
           </span>
         </div>
-        <button @click="cancelOrder" class="large narrow">取消订单</button>
+        <button @click="cancelOrder(order.id)" class="large narrow">取消订单</button>
       </span>
       <button class="primary large narrow" :disabled="disabled" @click="goToPay">去支付</button>
     </div>
@@ -89,9 +89,8 @@ import DateTime from '@/modules/DateTime';
 import CountDown from '@/modules/CountDown';
 import Cash from '@/modules/Cash';
 
-import { wxRequest, orderPatch } from '@/apis';
-
 import getOrder from '@/methods/getOrder';
+import cancelOrder from '@/methods/cancelOrder';
 import payTransactionForOrder from '@/methods/payTransactionForOrder';
 
 export default {
@@ -128,9 +127,7 @@ export default {
       wx.navigateBack({ delta: 2 });
       payTransactionForOrder(this.order);
     },
-    cancelOrder() {
-      wxRequest(orderPatch(this.order.id, { status: 'cancelled' }));
-    },
+    cancelOrder,
   },
   components: {
     MeetingCard,
