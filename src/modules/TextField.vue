@@ -36,7 +36,6 @@ export default {
       return this.fields[this.name];
     },
     value() {
-      console.log(this.ownValue === undefined ? this.fieldValue : this.ownValue);
       return this.ownValue === undefined ? this.fieldValue : this.ownValue;
     },
   },
@@ -58,8 +57,6 @@ export default {
     },
   },
   created() {
-    console.log('created', this);
-
     this.registerField(this.name, this.ownValue);
   },
 };

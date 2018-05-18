@@ -22,11 +22,9 @@ export default {
   },
   methods: {
     registerField(name, initValue) {
-      console.log('this', this);
       this.fields[name] = initValue;
     },
     updateFields(newFields) {
-      console.log('updateFields', this.fields, newFields);
       this.fields = { ...this.fields, ...newFields };
     },
   },
