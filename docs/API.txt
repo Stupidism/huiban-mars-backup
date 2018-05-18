@@ -116,7 +116,7 @@
 5.2. GET /orders/:id
   200 order
 
-5.3. PATCH /orders/:id  // 唯一能做的操作就是把状态从‘待支付’改成‘已取消’
+5.3. PUT /orders/:id  // 唯一能做的操作就是把状态从‘待支付’改成‘已取消’
   Request {
     status: '已取消',
   }
@@ -159,7 +159,7 @@
 
 8.1. GET /tickets/:id
 
-8.2. PATCH /tickets/:id // 唯一能做的是添加新的与会人
+8.2. PUT /tickets/:id // 唯一能做的是添加新的与会人
   Request {
     participant,
   }

@@ -1,5 +1,5 @@
 export default (id, body) => ({
   url: `/orders/${id}`,
-  method: 'PATCH',
+  method: 'PUT',
   data: JSON.stringify(body),
 });
