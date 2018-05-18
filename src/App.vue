@@ -5,7 +5,8 @@ import store from './store';
 
 wxRequest.setOptions({
   getAuthHeader: () => ({
-    Authorization: `Bearer ${wx.getStorageSync('access_token')}`,
+    // TODO: remove below default value for test
+    Authorization: `Bearer ${wx.getStorageSync('access_token') || '111'}`,
   }),
 });
 
