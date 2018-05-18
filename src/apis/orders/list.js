@@ -23,6 +23,6 @@ export const example = [
 ];
 
 export default () => ({
-  url: '/orders',
+  url: '/orders?populate=meeting,paymentMethod,transaction',
 });
 

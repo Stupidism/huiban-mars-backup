@@ -82,8 +82,8 @@ export default {
     TicketRow,
   },
   async mounted() {
-    this.tickets = await getTickets({ orderId });
     const orderId = this.$root.$mp.query.orderId || 1;
+    this.tickets = await getTickets({ orderId, populate: 'meeting.ticketGrades' });
   },
 };
 </script>
