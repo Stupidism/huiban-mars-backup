@@ -78,7 +78,7 @@
       <button class="primary large narrow" :disabled="disabled" @click="goToPay">去支付</button>
     </div>
     <div v-if="isCompleted" class="footer">
-      <button class="large" @click="goToTicketsDetail(order.id)">查看门票</button>
+      <button class="large" @click="goToTicketsDetail({ orderId: order.id })">查看门票</button>
     </div>
   </scroll-view>
 </template>
@@ -92,7 +92,7 @@ import Cash from '@/modules/Cash';
 import getOrder from '@/methods/getOrder';
 import cancelOrder from '@/methods/cancelOrder';
 import payTransactionForOrder from '@/methods/payTransactionForOrder';
-import goToTicketsDetail from '@/pages/orders/one/tickets/goToTicketsDetail';
+import goToTicketsDetail from '@/pages/meetings/one/tickets/goToTicketsDetail';
 
 export default {
   data() {

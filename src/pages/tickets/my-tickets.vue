@@ -1,9 +1,9 @@
 <template>
   <scroll-view class="page">
     <div
-      v-for="(tickets, orderId) in ticketsGroupByOrder"
-      :key="orderId"
-      @click="goToTicketsDetail(orderId)"
+      v-for="(tickets, meetingId) in ticketsGroupByMeeting"
+      :key="meetingId"
+      @click="goToTicketsDetail(meetingId)"
       class="container"
     >
       <tickets-card :tickets="tickets" :meeting="tickets[0].meeting" />
@@ -13,17 +13,17 @@
 <script>
 import _ from 'lodash';
 import TicketsCard from '@/components/TicketsCard';
-import goToTicketsDetail from '@/pages/orders/one/tickets/goToTicketsDetail';
+import goToTicketsDetail from '@/pages/meetings/one/tickets/goToTicketsDetail';
 
 import getTickets from '@/methods/getTickets';
 
-const getTicketsGroupByOrder = () => getTickets()
-  .then(tickets => _.groupBy(tickets, 'orderId'));
+const getTicketsGroupByMeeting = () => getTickets()
+  .then(tickets => _.groupBy(tickets, 'meetingId'));
 
 export default {
   data() {
     return {
-      ticketsGroupByOrder: {},
+      ticketsGroupByMeeting: {},
     };
   },
   methods: {
@@ -33,7 +33,7 @@ export default {
     TicketsCard,
   },
   async mounted() {
-    this.ticketsGroupByOrder = await getTicketsGroupByOrder();
+    this.ticketsGroupByMeeting = await getTicketsGroupByMeeting();
   },
 };
 </script>

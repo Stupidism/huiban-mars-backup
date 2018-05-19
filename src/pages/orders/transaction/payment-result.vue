@@ -60,7 +60,7 @@ import Cash from '@/modules/Cash';
 import getTickets from '@/methods/getTickets';
 import goToShareResult from '@/pages/tickets/share-result/goToShareResult';
 import goToOrderDetail from '@/pages/orders/one/goToOrderDetail';
-import goToTicketsDetail from '@/pages/orders/one/tickets/goToTicketsDetail';
+import goToTicketsDetail from '@/pages/meetings/one/tickets/goToTicketsDetail';
 
 const getSharableTickets = orderId =>
   getTickets({ orderId, status: 'no_participant' })
@@ -86,7 +86,7 @@ export default {
   methods: {
     onSubmit() {
       if (this.isCompleted) {
-        goToTicketsDetail(this.order.id);
+        goToTicketsDetail({ orderId: this.order.id });
       } else {
         goToOrderDetail(this.order.id);
       }

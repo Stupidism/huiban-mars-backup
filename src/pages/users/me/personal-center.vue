@@ -6,7 +6,7 @@
         <div>我的门票</div>
         <div class="sub-title">共{{sharableTickets.length}}张门票可赠送</div>
       </div>
-      <div v-if="recentTicket" class="section-no-padding" @click="goToTicketsDetail(recentTicket.orderId)">
+      <div v-if="recentTicket" class="section-no-padding" @click="goToTicketsDetail(recentTicket.meetingId)">
         <tickets-card :tickets="ticketsOfRecentMeeting" :meeting="recentMeeting" />
       </div>
     </div>
@@ -34,7 +34,7 @@ import getOrders from '@/methods/getOrders';
 import goToMyTickets from '@/pages/tickets/goToMyTickets';
 import goToMyOrders from '@/pages/orders/goToMyOrders';
 import goToOrderDetail from '@/pages/orders/one/goToOrderDetail';
-import goToTicketsDetail from '@/pages/orders/one/tickets/goToTicketsDetail';
+import goToTicketsDetail from '@/pages/meetings/one/tickets/goToTicketsDetail';
 
 export default {
   data() {

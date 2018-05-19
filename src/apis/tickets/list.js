@@ -9,6 +9,7 @@ export const example = [{
   typeDesc: '购票',
   status: 'no_participant',
   statusDesc: '未确认',
+  meetingId: 1,
   meeting: {
     ...meetings[0],
     status: '报名中',
@@ -28,6 +29,7 @@ export const example = [{
   typeDesc: '购票',
   status: 'has_participant',
   statusDesc: '已确认',
+  meetingId: 1,
   meeting: {
     ...meetings[0],
     status: '报名中',
@@ -47,6 +49,7 @@ export const example = [{
   typeDesc: '赠票',
   status: 'has_participant',
   statusDesc: '已确认',
+  meetingId: 1,
   meeting: {
     ...meetings[0],
     status: '报名中',
@@ -70,6 +73,7 @@ export const example = [{
   typeDesc: '赠票',
   status: 'has_participant',
   statusDesc: '已确认',
+  meetingId: 1,
   meeting: {
     ...meetings[0],
     status: '报名中',
@@ -82,5 +86,5 @@ export const example = [{
 
 export default (query = {}) => ({
   url: '/tickets',
-  query: _.pick(query, ['orderId', 'populate']),
+  query: _.pick(query, ['meetingId', 'orderId', 'populate']),
 });
