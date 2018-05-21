@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import orderItem from './modules/orderItem';
 import runtime from './modules/runtime';
 
 Vue.use(Vuex);
@@ -36,7 +35,6 @@ const store = new Vuex.Store({
     },
   },
   modules: {
-    orderItem,
     runtime,
   },
 });

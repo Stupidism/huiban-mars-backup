@@ -7,7 +7,7 @@
       <div class="order-item-summary section">
         <span class="ticket-grade-summary">
           <image class="icon small ticket-grade-icon" :src="ticketGradeIcon" />
-          票档：{{ticketGrade.type}} <span class="price">{{priceInCash}}</span> 元/张
+          票档：{{ticketGrade.type}} <span class="price"><cash :amount="ticketGrade.price" /></span> 元/张
         </span>
         <span class="amount">x {{amount}}张</span>
       </div>
@@ -76,7 +76,7 @@
     <div class="footer">
       <div class="section flex aligned">
         合计：
-        <span class="sum-price-amount">{{sumPriceInCash}} </span>
+        <span class="sum-price-amount"><cash :amount="sumPrice" /> </span>
         <span class="sum-price-unit">元</span>
       </div>
       <button class="primary large narrow" @click="onSubmit">支付</button>
@@ -85,19 +85,18 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
+import _ from 'lodash';
 
 import MeetingCard from '@/components/MeetingCard';
 import PaymentMethod from '@/components/PaymentMethod';
 import ProviderForm from '@/modules/ProviderForm';
 import TextField from '@/modules/TextField';
+import Cash from '@/modules/Cash';
 
 import getMeeting from '@/methods/getMeeting';
 import getPaymentMethods from '@/methods/getPaymentMethods';
 import postOrder from '@/methods/postOrder';
 import payTransactionForOrder from '@/methods/payTransactionForOrder';
-
-const { mapState, mapGetters } = createNamespacedHelpers('orderItem');
 
 export default {
   data() {
@@ -114,14 +113,11 @@ export default {
       },
       paymentMethods: [],
       selectedPaymentMethod: null,
+      amount: 0,
+      ticketGrade: {},
     };
   },
   computed: {
-    query() {
-      return this.$root.$mp.query;
-    },
-    ...mapState(['amount', 'ticketGrade']),
-    ...mapGetters(['priceInCash', 'sumPriceInCash']),
     ticketGradeIcon() {
       return `/static/icons/ticket-grade/${this.ticketGrade.typeColor || 'blue'}.png`;
     },
@@ -136,6 +132,10 @@ export default {
         }],
         paymentMethodId: this.selectedPaymentMethod ? this.selectedPaymentMethod.id : '',
       };
+    },
+    sumPrice() {
+      if (!this.ticketGrade || !this.amount) return 0;
+      return this.ticketGrade.price * this.amount;
     },
   },
   methods: {
@@ -178,9 +178,13 @@ export default {
     PaymentMethod,
     ProviderForm,
     TextField,
+    Cash,
   },
   async mounted() {
-    this.meeting = await getMeeting(this.$root.$mp.query.meetingId || 1);
+    const query = this.$root.$mp.query;
+    this.meeting = await getMeeting(query.meetingId || 1);
+    this.amount = Number(query.amount);
+    this.ticketGrade = _.find(this.meeting.ticketGrades, ['id', Number(query.ticketGradeId)]);
     this.paymentMethods = await getPaymentMethods();
     this.selectedPaymentMethod = this.paymentMethods[0];
   },

@@ -1,7 +1,7 @@
 <template>
   <scroll-view
     class="select-ticket-grade page page-with-footer"
-    :class="{'with-high-footer': selectedTicketGrade.id != null}"
+    :class="{'with-high-footer': orderItem.ticketGrade.id != null}"
   >
     <div class="container">
       <meeting-banner :meeting="meeting" />
@@ -19,7 +19,7 @@
           v-for="ticketGrade in meeting.ticketGrades"
           :key="ticketGrade.id"
           :ticket-grade="ticketGrade"
-          :selected="ticketGrade.id === selectedTicketGrade.id"
+          :selected="ticketGrade.id === orderItem.ticketGrade.id"
           @select="setTicketGrade(ticketGrade)"
         />
       </div>
@@ -30,7 +30,7 @@
     </div>
 
     <div
-      v-if="selectedTicketGrade.id != null"
+      v-if="orderItem.ticketGrade.id != null"
       class="amount-radio section"
     >
       <div class="amount-radio-title">
@@ -40,10 +40,10 @@
         <span
           v-for="amount in [1,2,3,4,5]"
           class="amount-btn"
-          :class="{ selected: amount === selectedAmount }"
+          :class="{ selected: amount === orderItem.amount }"
           :key="amount"
           @click="setAmount(amount)"
-          v-if="selectedTicketGrade.restAmount >= amount"
+          v-if="orderItem.ticketGrade.restAmount >= amount"
         >
           {{amount}}
         </span>
@@ -54,7 +54,7 @@
       <div class="section flex justified grow">
         <div class="flex aligned">
           合计：
-          <span class="sum-price-amount">{{sumPriceInCash}} </span>
+          <span class="sum-price-amount"><cash :amount="sumPrice" /></span>
           <span class="sum-price-unit">元</span>
         </div>
         <div @click="openPurchaseNotes" class="purchase-notes">
@@ -79,37 +79,40 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
-
 import getMeeting from '@/methods/getMeeting';
 
 import MeetingBanner from '@/components/MeetingBanner';
 import TicketGrade from '@/components/TicketGrade';
 import PurchaseNotes from '@/components/PurchaseNotes';
 import LocationRow from '@/modules/LocationRow';
+import Cash from '@/modules/Cash';
 
 import goToNewOrder from '@/pages/orders/new/goToNewOrder';
-
-const { mapState, mapMutations, mapGetters } = createNamespacedHelpers('orderItem');
 
 export default {
   data() {
     return {
       meeting: {},
       isPurchaseNotesOpen: false,
-      order: {},
+      orderItem: {
+        ticketGrade: {},
+        amount: 0,
+      },
     };
   },
   computed: {
-    ...mapState({
-      selectedAmount: 'amount',
-      selectedTicketGrade: 'ticketGrade',
-    }),
-    ...mapGetters(['sumPrice', 'sumPriceInCash']),
+    sumPrice() {
+      if (!this.orderItem.ticketGrade || !this.orderItem.amount) return 0;
+      return this.orderItem.ticketGrade.price * this.orderItem.amount;
+    },
   },
   methods: {
     startOrder() {
-      goToNewOrder({ meetingId: this.meeting.id });
+      goToNewOrder({
+        meetingId: this.meeting.id,
+        amount: this.orderItem.amount,
+        ticketGradeId: this.orderItem.ticketGrade.id,
+      });
     },
     openPurchaseNotes() {
       wx.setNavigationBarColor({
@@ -125,13 +128,22 @@ export default {
       });
       this.isPurchaseNotesOpen = false;
     },
-    ...mapMutations(['setAmount', 'setTicketGrade']),
+    setTicketGrade(ticketGrade) {
+      this.orderItem.ticketGrade = ticketGrade;
+      if (ticketGrade) {
+        this.orderItem.amount = Math.min(this.orderItem.amount || 1, ticketGrade.restAmount);
+      }
+    },
+    setAmount(amount) {
+      this.orderItem.amount = amount;
+    },
   },
   components: {
     MeetingBanner,
     TicketGrade,
     PurchaseNotes,
     LocationRow,
+    Cash,
   },
   async mounted() {
     this.meeting = await getMeeting(this.$root.$mp.query.meetingId || 1);
@@ -194,12 +206,12 @@ export default {
     font-size: 14px;
     line-height: 30px;
     color: #17181A;
-  }
 
-  .amount-btn.selected {
-    background: rgba(38,146,240,0.10);
-    border: 1px solid #2692F0;
-    color: #2692F0;
+    &.selected {
+      background: rgba(38, 146, 240, 0.10);
+      border: 1px solid #2692F0;
+      color: #2692F0;
+    }
   }
 
   .sum-price-amount {
