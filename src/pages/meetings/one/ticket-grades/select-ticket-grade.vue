@@ -57,7 +57,7 @@
           <span class="sum-price-amount">{{sumPriceInCash}} </span>
           <span class="sum-price-unit">元</span>
         </div>
-        <div @click="openTicketNotes" class="purchase-notes">
+        <div @click="openPurchaseNotes" class="purchase-notes">
           《购票须知》
         </div>
       </div>
@@ -66,12 +66,12 @@
       </button>
     </div>
 
-    <div v-if="isTicketNotesOpen" class="modal" @click="closeTicketNotes">
+    <div v-if="isPurchaseNotesOpen" class="modal" @click="closePurchaseNotes">
       <div @click.stop class="purchase-notes-locator">
         <purchase-notes />
       </div>
       <div class="footer">
-        <button class="large" @click="closeTicketNotes">关闭</button>
+        <button class="large" @click="closePurchaseNotes">关闭</button>
       </div>
     </div>
 
@@ -96,7 +96,8 @@ export default {
   data() {
     return {
       meeting: {},
-      isTicketNotesOpen: false,
+      isPurchaseNotesOpen: false,
+      order: {},
     };
   },
   computed: {
@@ -110,19 +111,19 @@ export default {
     startOrder() {
       goToNewOrder({ meetingId: this.meeting.id });
     },
-    openTicketNotes() {
+    openPurchaseNotes() {
       wx.setNavigationBarColor({
         frontColor: '#ffffff',
         backgroundColor: '#666666',
       });
-      this.isTicketNotesOpen = true;
+      this.isPurchaseNotesOpen = true;
     },
-    closeTicketNotes() {
+    closePurchaseNotes() {
       wx.setNavigationBarColor({
         frontColor: '#000000',
         backgroundColor: '#ffffff',
       });
-      this.isTicketNotesOpen = false;
+      this.isPurchaseNotesOpen = false;
     },
     ...mapMutations(['setAmount', 'setTicketGrade']),
   },
