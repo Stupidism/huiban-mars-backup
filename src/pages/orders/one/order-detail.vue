@@ -70,7 +70,7 @@
         <div>
           剩余:
           <span class="text danger extreme-large">
-            <count-down v-if="order.meeting" :endTime="order.meeting.enrollEndAt" />
+            <count-down-time v-if="order.meeting" :endTime="order.meeting.enrollEndAt" />
           </span>
         </div>
         <button @click="cancelOrder(order.id)" class="large narrow">取消订单</button>
@@ -86,7 +86,7 @@
 <script>
 import MeetingCard from '@/components/MeetingCard';
 import DateTime from '@/modules/DateTime';
-import CountDown from '@/modules/CountDown';
+import CountDownTime from '@/modules/CountDownTime';
 import Cash from '@/modules/Cash';
 
 import getOrder from '@/methods/getOrder';
@@ -130,7 +130,7 @@ export default {
     MeetingCard,
     DateTime,
     Cash,
-    CountDown,
+    CountDownTime,
   },
   async mounted() {
     this.order = await getOrder(this.$root.$mp.query.id || 1);
