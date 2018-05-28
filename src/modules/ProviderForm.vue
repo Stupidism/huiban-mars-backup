@@ -12,21 +12,31 @@ export default {
     className: String,
     showRequiredColumn: Boolean,
     noLeftPadding: Boolean,
+    initialValues: Object,
+    values: Object,
+    onChange: Function,
   },
   data() {
     return {
-      fields: {},
+      ownFields: this.initialValues,
     };
   },
   computed: {
+    fields() {
+      return {
+        ...this.values,
+        ...this.ownFields,
+      };
+    },
   },
   methods: {
-    registerField(name, initValue) {
-      this.fields[name] = initValue;
-    },
     updateFields(newFields) {
-      this.fields = { ...this.fields, ...newFields };
+      this.ownFields = { ...this.ownFields, ...newFields };
+      this.onChange(this.ownFields);
     },
+  },
+  mounted() {
+    this.fields = this.initialValues;
   },
   expose() {
     return {
@@ -34,7 +44,6 @@ export default {
       showRequiredColumn: this.showRequiredColumn,
       noLeftPadding: this.noLeftPadding,
       fields: this.fields,
-      registerField: this.registerField.bind(this),
       updateFields: this.updateFields.bind(this),
     };
   },
