@@ -17,6 +17,8 @@
       class-name="buyer-form container"
       show-required-column
       no-left-padding
+      :values="buyer"
+      :onChange="onBuyerChange"
     >
       <div class="section">
         <div class="title">购票人信息</div>
@@ -79,13 +81,15 @@
         <span class="sum-price-amount"><cash :amount="sumPrice" /> </span>
         <span class="sum-price-unit">元</span>
       </div>
-      <button class="primary large narrow" @click="onSubmit">支付</button>
+      <button v-if="currentUser.id" class="primary large narrow" @click="onSubmit">支付</button>
+      <button v-else class="primary large narrow" open-type="getPhoneNumber" @getphonenumber="onPhoneNumberGet">获取信息</button>
     </div>
   </scroll-view>
 </template>
 
 <script>
 import _ from 'lodash';
+import { mapGetters } from 'vuex';
 
 import MeetingCard from '@/components/MeetingCard';
 import PaymentMethod from '@/components/PaymentMethod';
@@ -97,6 +101,9 @@ import getMeeting from '@/methods/getMeeting';
 import getPaymentMethods from '@/methods/getPaymentMethods';
 import postOrder from '@/methods/postOrder';
 import payTransactionForOrder from '@/methods/payTransactionForOrder';
+import registerUser from '@/methods/registerUser';
+
+import goToUserLoginOrRegister from '@/pages/users/new/goToUserLoginOrRegister';
 
 export default {
   data() {
@@ -112,7 +119,7 @@ export default {
         isParticipant: false,
       },
       paymentMethods: [],
-      selectedPaymentMethod: null,
+      selectedPaymentMethod: {},
       amount: 0,
       ticketGrade: {},
     };
@@ -124,19 +131,20 @@ export default {
     order() {
       return {
         meetingId: this.meeting.id,
+        paymentMethodId: this.selectedPaymentMethod.id,
         items: [{
           ticketGradeId: this.ticketGrade.id,
           ticketAmount: this.amount,
           ticketPrice: this.ticketGrade.price,
           meetingId: this.meeting.id,
         }],
-        paymentMethodId: this.selectedPaymentMethod ? this.selectedPaymentMethod.id : '',
       };
     },
     sumPrice() {
       if (!this.ticketGrade || !this.amount) return 0;
       return this.ticketGrade.price * this.amount;
     },
+    ...mapGetters(['currentUser']),
   },
   methods: {
     promptNoStock() {
@@ -160,6 +168,22 @@ export default {
         this.selectedPaymentMethod = paymentMethod;
       }
     },
+    async onPhoneNumberGet({ mp: { detail } }) {
+      if (detail.errMsg === 'getPhoneNumber:ok') {
+        const user = await registerUser({
+          type: 'wechatPhoneNumber',
+          encryptedData: detail.encryptedData,
+          iv: detail.iv,
+        });
+        this.$store.commit('setCurrentUser', user);
+        this.onSubmit();
+      } else {
+        goToUserLoginOrRegister();
+      }
+    },
+    onBuyerChange(values) {
+      this.buyer = { ...this.buyer, ...values };
+    },
     async onSubmit() {
       try {
         const order = await postOrder(this.order);
@@ -179,6 +203,16 @@ export default {
     ProviderForm,
     TextField,
     Cash,
+  },
+  beforeMount() {
+    if (!_.isEmpty(this.currentUser)) {
+      this.buyer = _.pick(this.currentUser, [
+        'name',
+        'company',
+        'city',
+        'position',
+      ]);
+    }
   },
   async mounted() {
     const query = this.$root.$mp.query;
