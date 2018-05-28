@@ -5,13 +5,16 @@ import meetingList from './meetings/list';
 import orderGet from './orders/get';
 import orderList from './orders/list';
 import orderPost from './orders/post';
-import orderPatch from './orders/patch';
+import orderPut from './orders/put';
 import paymentMethodList from './payment_methods/list';
 import transactionPost from './transactions/post';
 import userCurrentGet from './users/current';
+import userPost from './users/post';
+import userPut from './users/put';
 import tokensPost from './tokens/post';
 import ticketGet from './tickets/get';
 import ticketList from './tickets/list';
+import smsCodesPost from './sms_codes/post';
 
 export {
   wxRequest,
@@ -20,11 +23,14 @@ export {
   orderGet,
   orderList,
   orderPost,
-  orderPatch,
+  orderPut,
   paymentMethodList,
   transactionPost,
   userCurrentGet,
+  userPost,
+  userPut,
   tokensPost,
   ticketGet,
   ticketList,
+  smsCodesPost,
 };

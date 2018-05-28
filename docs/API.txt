@@ -3,12 +3,27 @@
 
 1. POST /users
   Request: {
-    wechatId,
+    type: 'smsCode' || 'wechatPhoneNumber'
+    // 当 type === 'smsCode' 下面两个字段必选
     phone,
     smsCode,
+    // 当 type === 'wechatPhoneNumber' 下面两个字段必选
+    encryptedData,
+    iv,
+
+    // 以下字段全部可选
+    wechatName,
+    wechatAvatar,
+    city,
+    name,
+    position,
+    company,
   }
 
-  201 user
+  201 {
+    id,
+    phone,
+  }
 
   400 { // 一个错误信息格式示例, 格式可以再商量
     type: 'Validation Error', // 提交的信息有误
@@ -36,6 +51,22 @@
 
   404 // 新用户 或者 老用户未登录
 
+1.2 PUT /users/:id
+  Header: {
+    Authorization: `Bearer ${accessToken}`
+  }
+
+  Request: {
+    wechatName,
+    wechatAvatar,
+    city,
+    name,
+    position,
+    company,
+  }
+
+
+
 2. POST /tokens
   Request: {
     type: 'wechat',
@@ -49,7 +80,7 @@
     expires_at,
   }
 
-3. POST /smsCodes
+3. POST /sms_codes
   Request: {
     phone,
   }
