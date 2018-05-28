@@ -78,6 +78,9 @@ export default {
   async mounted() {
     this.tickets = await getTickets();
     this.orders = await getOrders();
+    wx.navigateTo({
+      url: '/pages/users/new/main',
+    });
   },
 };
 </script>
