@@ -57,9 +57,10 @@
           required
           confirm-type="next"
         />
-        <label class="form-field is-participant-checkbox">
+        <label class="form-field is-participant-checkbox" @click="toggleSelfParticipate">
           本人参会，上述信息将作为您现场签到的唯一凭证
-          <input type="checkbox" v-model="buyer.isParticipant">
+          <image v-if="selfParticipate" class="icon" src="/static/icons/check-rect.png" />
+          <image v-else class="icon" src="/static/icons/check-rect-unchecked.png" />
         </label>
       </div>
     </provider-form>
@@ -116,8 +117,8 @@ export default {
         company: '',
         postion: '',
         city: '',
-        isParticipant: false,
       },
+      selfParticipate: false,
       paymentMethods: [],
       selectedPaymentMethod: {},
       amount: 0,
@@ -200,6 +201,9 @@ export default {
     },
     onBuyerChange(values) {
       this.buyer = { ...this.buyer, ...values };
+    },
+    toggleSelfParticipate() {
+      this.selfParticipate = !this.selfParticipate;
     },
     async onSubmit() {
       try {
