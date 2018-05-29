@@ -69,7 +69,7 @@
 
 2. POST /tokens
   Request: {
-    type: 'wechat',
+    type: 'wechat' || 'phone',
     wechatCode,
     phone,
     smsCode: , // 微信登录时不需要短信验证码

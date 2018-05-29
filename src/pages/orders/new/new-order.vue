@@ -122,6 +122,7 @@ import getPaymentMethods from '@/methods/getPaymentMethods';
 import postOrder from '@/methods/postOrder';
 import payTransactionForOrder from '@/methods/payTransactionForOrder';
 import registerUser from '@/methods/registerUser';
+import login, { loginToWechat } from '@/methods/login';
 
 import goToUserLoginOrRegister from '@/pages/users/new/goToUserLoginOrRegister';
 import isEmail from '@/utils/isEmail';
@@ -200,16 +201,24 @@ export default {
     },
     async onPhoneNumberGet({ mp: { detail } }) {
       if (detail.errMsg === 'getPhoneNumber:ok') {
+        const wechatCode = await loginToWechat();
         const user = await registerUser({
           type: 'wechatPhoneNumber',
           encryptedData: detail.encryptedData,
           iv: detail.iv,
+          wechatCode,
         });
         this.$store.commit('setCurrentUser', {
           id: -1,
           ...user,
         });
+
+        await login({
+          type: 'wechat',
+          wechatCode,
+        });
         this.isAuthorized = true;
+
         this.onSubmit();
       } else {
         goToUserLoginOrRegister();
