@@ -1,14 +1,10 @@
 <script>
 import { wxRequest } from '@/apis';
+import { getAuthHeader } from '@/methods/auth';
 import getCurrentUser from '@/methods/getCurrentUser';
 import store from './store';
 
-wxRequest.setOptions({
-  getAuthHeader: () => ({
-    // TODO: remove below default value for test
-    Authorization: `Bearer ${wx.getStorageSync('access_token') || '111'}`,
-  }),
-});
+wxRequest.setOptions({ getAuthHeader });
 
 export default {
   store,

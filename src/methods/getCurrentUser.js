@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import { wxRequest, userCurrentGet, tokensPost } from '@/apis';
+import { wxRequest, userCurrentGet } from '@/apis';
 
-const setAccessToken = accessToken => wx.setStorageSync('access_token', accessToken);
+import login, { loginToWechat } from './login';
 
 const checkSession = () => new Promise((resolve, reject) => {
   console.info('checkSession start');
@@ -17,20 +17,6 @@ const checkSession = () => new Promise((resolve, reject) => {
   });
 });
 
-const loginToWechat = () => new Promise((resolve, reject) => {
-  console.info('login start');
-  wx.login({
-    success: ({ code }) => {
-      console.info('login success', code);
-      resolve(code);
-    },
-    fail() {
-      console.info('login fail');
-      reject();
-    },
-  });
-});
-
 const getCurrentUser = async () => {
   try {
     await checkSession();
@@ -39,13 +25,11 @@ const getCurrentUser = async () => {
     return user;
   } catch (e) {
     const wechatCode = await loginToWechat();
-    const {
-      access_token: accessToken,
-    } = await wxRequest(tokensPost({ wechatCode }));
-
+    await login({
+      type: 'wechat',
+      wechatCode,
+    });
     console.info('TODO: use real accessToken instead');
-
-    setAccessToken(accessToken);
   }
 
   try {
