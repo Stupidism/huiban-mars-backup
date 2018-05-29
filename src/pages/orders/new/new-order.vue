@@ -86,8 +86,23 @@
         <span class="sum-price-amount"><cash :amount="sumPrice" /> </span>
         <span class="sum-price-unit">元</span>
       </div>
-      <button v-if="isAuthorized" class="primary large narrow" @click="onSubmit">支付</button>
-      <button v-else class="primary large narrow" open-type="getPhoneNumber" @getphonenumber="onPhoneNumberGet">获取手机号</button>
+      <button
+        v-if="isAuthorized"
+        class="primary large narrow"
+        @click="onSubmit"
+        :disabled="!isFormValid"
+      >
+        支付
+      </button>
+      <button
+        v-else
+        class="primary large narrow"
+        open-type="getPhoneNumber"
+        @getphonenumber="onPhoneNumberGet"
+        :disabled="!isFormValid"
+      >
+        获取手机号
+      </button>
     </div>
   </scroll-view>
 </template>
@@ -109,6 +124,7 @@ import payTransactionForOrder from '@/methods/payTransactionForOrder';
 import registerUser from '@/methods/registerUser';
 
 import goToUserLoginOrRegister from '@/pages/users/new/goToUserLoginOrRegister';
+import isEmail from '@/utils/is-email';
 
 export default {
   data() {
@@ -138,6 +154,13 @@ export default {
     sumPrice() {
       if (!this.ticketGrade || !this.amount) return 0;
       return this.ticketGrade.price * this.amount;
+    },
+    isFormValid() {
+      return this.buyer.name &&
+        this.buyer.company &&
+        this.buyer.position &&
+        this.buyer.city &&
+        isEmail(this.buyer.email);
     },
     ...mapGetters(['currentUser']),
   },
