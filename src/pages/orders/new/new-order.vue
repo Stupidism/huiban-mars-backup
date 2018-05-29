@@ -168,11 +168,7 @@ export default {
       });
     },
     selectePaymentMethod(paymentMethod) {
-      if (this.selectedPaymentMethod === paymentMethod) {
-        this.selectedPaymentMethod = null;
-      } else {
-        this.selectedPaymentMethod = paymentMethod;
-      }
+      this.selectedPaymentMethod = paymentMethod;
     },
     async onPhoneNumberGet({ mp: { detail } }) {
       if (detail.errMsg === 'getPhoneNumber:ok') {

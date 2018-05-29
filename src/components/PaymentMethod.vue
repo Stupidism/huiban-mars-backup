@@ -5,7 +5,7 @@
       <div>{{paymentMethod.typeDesc}}</div>
       <div class="payment-method-desc">{{paymentMethod.desc}}</div>
     </div>
-    <checkbox :checked="selected" />
+    <image class="icon" src="/static/icons/check-circle.png" />
   </div>
 </template>
 
