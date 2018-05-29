@@ -1,3 +1,3 @@
-export default () => wx.switchTab({
+export default () => wx.navigateTo({
   url: '/pages/users/new/main',
 });
