@@ -182,7 +182,11 @@ export default {
           encryptedData: detail.encryptedData,
           iv: detail.iv,
         });
-        this.$store.commit('setCurrentUser', user);
+        this.$store.commit('setCurrentUser', {
+          id: -1,
+          ...user,
+        });
+        this.isAuthorized = true;
         this.onSubmit();
       } else {
         goToUserLoginOrRegister();
