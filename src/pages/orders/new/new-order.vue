@@ -128,18 +128,6 @@ export default {
     ticketGradeIcon() {
       return `/static/icons/ticket-grade/${this.ticketGrade.typeColor || 'blue'}.png`;
     },
-    order() {
-      return {
-        meetingId: this.meeting.id,
-        paymentMethodId: this.selectedPaymentMethod.id,
-        items: [{
-          ticketGradeId: this.ticketGrade.id,
-          ticketAmount: this.amount,
-          ticketPrice: this.ticketGrade.price,
-          meetingId: this.meeting.id,
-        }],
-      };
-    },
     sumPrice() {
       if (!this.ticketGrade || !this.amount) return 0;
       return this.ticketGrade.price * this.amount;
@@ -197,12 +185,24 @@ export default {
         goToUserLoginOrRegister();
       }
     },
+    buildOrder() {
+      return {
+        meetingId: this.meeting.id,
+        paymentMethodId: this.selectedPaymentMethod.id,
+        items: [{
+          ticketGradeId: this.ticketGrade.id,
+          ticketAmount: this.amount,
+          ticketPrice: this.ticketGrade.price,
+          meetingId: this.meeting.id,
+        }],
+      };
+    },
     onBuyerChange(values) {
       this.buyer = { ...this.buyer, ...values };
     },
     async onSubmit() {
       try {
-        const order = await postOrder(this.order);
+        const order = await postOrder(this.buildOrder());
         payTransactionForOrder(order);
       } catch (error) {
         if (error.statusCode === 400 && error.data.type === 'No Stock') {
