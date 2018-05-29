@@ -124,7 +124,7 @@ import payTransactionForOrder from '@/methods/payTransactionForOrder';
 import registerUser from '@/methods/registerUser';
 
 import goToUserLoginOrRegister from '@/pages/users/new/goToUserLoginOrRegister';
-import isEmail from '@/utils/is-email';
+import isEmail from '@/utils/isEmail';
 
 export default {
   data() {
