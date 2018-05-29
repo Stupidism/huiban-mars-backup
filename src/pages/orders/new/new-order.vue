@@ -81,8 +81,8 @@
         <span class="sum-price-amount"><cash :amount="sumPrice" /> </span>
         <span class="sum-price-unit">元</span>
       </div>
-      <button v-if="currentUser.id" class="primary large narrow" @click="onSubmit">支付</button>
-      <button v-else class="primary large narrow" open-type="getPhoneNumber" @getphonenumber="onPhoneNumberGet">获取信息</button>
+      <button v-if="isAuthorized" class="primary large narrow" @click="onSubmit">支付</button>
+      <button v-else class="primary large narrow" open-type="getPhoneNumber" @getphonenumber="onPhoneNumberGet">获取手机号</button>
     </div>
   </scroll-view>
 </template>
@@ -122,6 +122,7 @@ export default {
       selectedPaymentMethod: {},
       amount: 0,
       ticketGrade: {},
+      isAuthorized: false,
     };
   },
   computed: {
@@ -238,6 +239,13 @@ export default {
     this.ticketGrade = _.find(this.meeting.ticketGrades, ['id', Number(query.ticketGradeId)]);
     this.paymentMethods = await getPaymentMethods();
     this.selectedPaymentMethod = this.paymentMethods[0];
+  },
+  onShow() {
+    // When navigate back from login page
+    // this.currentUser is updated
+    // but the dom tree is not
+    // assign isAuthorized to update the payment button
+    this.isAuthorized = !!this.currentUser.id;
   },
 };
 </script>
