@@ -112,6 +112,7 @@
     }],
     meetingId,
     paymentMethodId,
+    selfParticipate,
   }
 
   201 {

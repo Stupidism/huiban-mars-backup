@@ -225,6 +225,7 @@ export default {
           ticketPrice: this.ticketGrade.price,
           meetingId: this.meeting.id,
         }],
+        selfParticipate: this.selfParticipate,
       };
     },
     onBuyerChange(values) {
