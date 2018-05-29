@@ -14,7 +14,7 @@
         confirm-type="next"
       >
         <template slot="left">
-          <image class="icon small" src="/static/icons/user.png" />
+          <image class="icon small" src="/static/icons/user.svg" />
         </template>
       </text-field>
       <text-field
@@ -24,7 +24,7 @@
         confirm-type="next"
       >
         <template slot="left">
-          <image class="icon small" src="/static/icons/user.png" />
+          <image class="icon small" src="/static/icons/sms.svg" />
         </template>
         <template slot="right">
           <sms-code-button :phone="credentials.phone" />
