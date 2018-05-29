@@ -161,6 +161,22 @@ export default {
         },
       });
     },
+    promptUnknownError(error) {
+      wx.showModal({
+        content: `发生未知错误: ${error.data.message}\n` +
+          `type: ${error.data.type}\n` +
+          `${JSON.stringify(error.data.errors)}`,
+        cancelText: '知道了',
+        cancelColor: '#000000',
+        confirmText: '重新选票',
+        confirmColor: '#2692F0',
+        success(res) {
+          if (res.confirm) {
+            wx.navigateBack();
+          }
+        },
+      });
+    },
     selectePaymentMethod(paymentMethod) {
       if (this.selectedPaymentMethod === paymentMethod) {
         this.selectedPaymentMethod = null;
@@ -188,11 +204,12 @@ export default {
       try {
         const order = await postOrder(this.order);
         payTransactionForOrder(order);
-      } catch (e) {
-        if (e.statusCode === 400 && e.data.type === 'No Stock') {
+      } catch (error) {
+        if (error.statusCode === 400 && error.data.type === 'No Stock') {
           this.promptNoStock();
         } else {
-          throw e;
+          this.promptUnknownError(error);
+          throw error;
         }
       }
     },
