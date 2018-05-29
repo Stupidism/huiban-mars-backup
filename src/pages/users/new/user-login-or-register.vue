@@ -27,6 +27,7 @@
           <image class="icon small" src="/static/icons/sms.svg" />
         </template>
         <template slot="right">
+          <error-message message="验证码错误" :show="showErrorMessage" />
           <sms-code-button :phone="credentials.phone" />
         </template>
       </text-field>
@@ -47,6 +48,7 @@ import { mapGetters } from 'vuex';
 import SmsCodeButton from '@/components/SmsCodeButton';
 import ProviderForm from '@/modules/ProviderForm';
 import TextField from '@/modules/TextField';
+import ErrorMessage from '@/modules/ErrorMessage';
 
 import registerUser from '@/methods/registerUser';
 import goToPersonalCenter from '@/pages/users/me/goToPersonalCenter';
@@ -74,6 +76,9 @@ export default {
     isFormValid() {
       return this.isPhoneValid && this.isSmsCodeValid;
     },
+    showErrorMessage() {
+      return this.invalidSmsCode && this.invalidSmsCode === this.credentials.smsCode;
+    },
     ...mapGetters(['currentUser']),
   },
   methods: {
@@ -94,7 +99,6 @@ export default {
         }
       } catch (e) {
         this.invalidSmsCode = credentials.smsCode;
-        this.credentials.smsCode = '';
       }
       this.loading = false;
     },
@@ -103,6 +107,7 @@ export default {
     ProviderForm,
     TextField,
     SmsCodeButton,
+    ErrorMessage,
   },
   mounted() {
     if (this.currentUser && this.currentUser.id) {
@@ -139,7 +144,7 @@ export default {
     }
 
     .sms-code-button {
-      z-index: 100;
+      margin-left: 10px;
     }
   }
 
