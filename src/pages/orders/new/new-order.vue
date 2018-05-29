@@ -37,7 +37,13 @@
           name="company"
           label="公司"
           placeholder="请输入您的公司名称"
-          auto-focus
+          required
+          confirm-type="next"
+        />
+        <text-field
+          name="email"
+          label="邮箱"
+          placeholder="请输入您的邮箱地址"
           required
           confirm-type="next"
         />
@@ -45,7 +51,6 @@
           name="position"
           label="职位"
           placeholder="请输入您的职位名称"
-          auto-focus
           required
           confirm-type="next"
         />
@@ -53,7 +58,6 @@
           name="city"
           label="城市"
           placeholder="请输入您所在的城市"
-          auto-focus
           required
           confirm-type="next"
         />
@@ -115,7 +119,8 @@ export default {
       buyer: {
         name: '',
         company: '',
-        postion: '',
+        position: '',
+        email: '',
         city: '',
       },
       selfParticipate: false,

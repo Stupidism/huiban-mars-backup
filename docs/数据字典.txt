@@ -13,6 +13,7 @@ User {
   wechatName: String,
   wechatAvatar: Url，
 
+  email: String,
   company: String,
   position: String,
   city: String,
