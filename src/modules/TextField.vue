@@ -9,6 +9,7 @@
       @input="onChange"
       :placeholder="placeholder"
       confirm-type="next"
+      :disabled="disabled"
     >
     <slot name="right"></slot>
   </label>
@@ -23,6 +24,7 @@ export default {
     label: {},
     defaultValue: String,
     required: Boolean,
+    disabled: Boolean,
   },
   data() {
     return {
@@ -83,6 +85,10 @@ export default {
   input[type=text] {
     margin: 15px;
     flex: 1;
+  }
+
+  input[disabled] {
+    color: #C4C8CC;
   }
 }
 </style>
