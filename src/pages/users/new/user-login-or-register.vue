@@ -86,7 +86,10 @@ export default {
       this.credentials = { ...this.credentials, ...newCreadentials };
     },
     async onLoginClick() {
-      const credentials = { ...this.credentials };
+      const credentials = {
+        type: 'smsCode',
+        ...this.credentials,
+      };
       this.loading = true;
       try {
         const user = await registerUser(credentials);
