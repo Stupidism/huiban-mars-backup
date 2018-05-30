@@ -269,6 +269,7 @@ export default {
       this.buyer = _.pick(this.currentUser, [
         'name',
         'company',
+        'email',
         'city',
         'position',
       ]);
