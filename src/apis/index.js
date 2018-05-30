@@ -13,6 +13,7 @@ import userPost from './users/post';
 import userPut from './users/put';
 import tokensPost from './tokens/post';
 import ticketGet from './tickets/get';
+import ticketPut from './tickets/put';
 import ticketList from './tickets/list';
 import smsCodesPost from './sms_codes/post';
 
@@ -31,6 +32,7 @@ export {
   userPut,
   tokensPost,
   ticketGet,
+  ticketPut,
   ticketList,
   smsCodesPost,
 };

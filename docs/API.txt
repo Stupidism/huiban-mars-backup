@@ -193,7 +193,7 @@
 
 8.2. PUT /tickets/:id // 唯一能做的是添加新的与会人
   Request {
-    participant,
+    participantId,
   }
 
   409: {
