@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { example as tickets } from './list';
 
-export const example = tickets[3];
+export const example = tickets[0];
 
 export default (id, query) => ({
   url: `/tickets/${id}`,
