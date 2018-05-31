@@ -30,6 +30,7 @@ Meeting {
   coverImg: Url,
   invitationCardImg: Url,
   host: String, // 主办方
+  mainSpeaker: String, // 主讲人
   hostLink: Url, //主办方链接
   enrollEndAt: TimeStamp, // 报名截止时间
   holdAt: TimeStamp, // 举办时间

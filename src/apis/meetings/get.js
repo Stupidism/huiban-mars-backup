@@ -5,6 +5,7 @@ export const example = {
   topic: '2018第六届全球云计算大会',
   englishTopic: 'Cloud Connect China 2018',
   holdAt: new Date(),
+  mainSpeaker: '李大钊',
   host: '上海亚德科技有限公司',
   place: '梅赛德斯奔驰中心',
   address: '上海市浦东新区世博大道1200号',
