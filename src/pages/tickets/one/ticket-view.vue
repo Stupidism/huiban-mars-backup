@@ -1,7 +1,7 @@
 <template>
   <scroll-view class="page ticket-view">
     <div v-if="ticket" class="ticket-info-container background-image-container">
-      <image class="background-image" :src="typeImageUrl" mode="widthFix" />
+      <image class="background-image" :src="typeBackgroundImageUrl" mode="widthFix" />
       <div class="info-white-background"></div>
       <div class="background-image-content ticket-info">
         <div class="text large">{{ticket.gradeType}}</div>
@@ -21,14 +21,27 @@
         <image class="logo-and-slogan" src="/static/ticket/logo-and-slogan-white.png" mode="aspectFit" />
       </div>
     </div>
+    <div class="footer">
+      <button class="large check-ticket-btn" @click="goToCheckTicket(ticket.id)">验票</button>
+      <button
+        v-if="ticket && !ticket.participantId"
+        class="primary large share-with-friend-btn"
+        open-type="share"
+      >
+        赠送朋友
+      </button>
+    </div>
   </scroll-view>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 
 import Cash from '@/modules/Cash';
 import getTicket from '@/methods/getTicket';
+
+import goToShareResult from '@/pages/tickets/share-result/goToShareResult';
+import goToCheckTicket from '@/pages/tickets/one/check/goToCheckTicket';
 
 export default {
   data() {
@@ -37,32 +50,45 @@ export default {
     };
   },
   computed: {
-    typeImageUrl() {
+    typeBackgroundImageUrl() {
       return this.ticket &&
         `/static/ticket/${this.ticket.gradeTypeColor || 'blue'}-large.png`;
     },
     ...mapGetters(['currentUser']),
   },
   methods: {
+    goToCheckTicket,
+    ...mapMutations('runtime', ['setRuntime']),
   },
   components: {
     Cash,
   },
   async mounted() {
     this.ticket = await getTicket(this.$root.$mp.query.id || 1);
+    this.setRuntime({ sharedTicket: this.ticket });
+  },
+  onShareAppMessage() {
+    return {
+      success: goToShareResult,
+      fail(error) {
+        // 转发失败
+        console.error('share failed', error);
+      },
+    };
   },
 };
 </script>
 
 <style scoped lang="less">
 .ticket-view {
-  height: calc(100vh - 100px);
+  height: 100vh;
   min-height: 0;
-  padding: 50px;
+  padding: 0;
 
   .ticket-info-container {
-    width: 100%;
+    width: calc(100% - 100px);
     height: 400px;
+    margin: 50px;
 
     .info-white-background {
       position: absolute;
@@ -113,6 +139,14 @@ export default {
       }
 
     }
+  }
+
+  .check-ticket-btn {
+    flex: 1;
+  }
+
+  .share-with-friend-btn {
+    width: calc(100% - 150px);
   }
 }
 </style>
