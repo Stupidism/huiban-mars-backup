@@ -27,6 +27,7 @@ export const example = [{
   gradeType: '早鸟票',
   gradeTypeColor: 'blue',
   invitationCardImg,
+  adminssionQrCode: invitationCardImg,
 }, {
   id: 2,
   buyerId: 1,
