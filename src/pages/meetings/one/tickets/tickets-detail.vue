@@ -6,21 +6,21 @@
     <div class="container my-tickets">
       <div class="section-single-line">我的门票</div>
       <div class="section-no-padding tickets-list">
-        <ticket-row
-          v-for="ticket in myTickets"
+        <my-own-ticket-row
+          v-for="ticket in myOwnTickets"
           :key="ticket.id"
           :ticket="ticket"
+          :selfParticipatingMeeting="!!selfParticipatingTickets.length"
         />
       </div>
     </div>
     <div class="container sharable-tickets">
       <div class="section-single-line">可赠送的门票</div>
       <div class="section-no-padding tickets-list">
-        <ticket-row
+        <sharable-ticket-row
           v-for="ticket in sharableAndSharedTickets"
           :key="ticket.id"
           :ticket="ticket"
-          show-share-info
         />
       </div>
     </div>
@@ -31,7 +31,8 @@
 import { mapState } from 'vuex';
 
 import MeetingBanner from '@/components/MeetingBanner';
-import TicketRow from '@/components/TicketRow';
+import SharableTicketRow from '@/components/SharableTicketRow';
+import MyOwnTicketRow from '@/components/MyOwnTicketRow';
 
 import { addTypeColorForTicketGrades } from '@/methods/getMeeting';
 import getTickets from '@/methods/getTickets';
@@ -43,27 +44,27 @@ export default {
     };
   },
   computed: {
-    myTickets() {
-      return this.tickets.sort((ticketA, ticketB) => {
-        // 本人参加的门票排前面
-        // 未有人参加的门票排中间
-        // 别人参加的门票排后面
-
-        // 如果A是本人参加就不用调换位置
-        if (ticketA.participantId === this.currentUser.id) return -1;
-        // 如果B是本人参加就把B调到A前面去
-        if (ticketB.participantId === this.currentUser.id) return 1;
-        // 如果A还没人参加就不用调换位置
-        if (ticketA.status === 'no_participant') return -1;
-        // 如果B还没人参加就把B调到A前面去
-        if (ticketB.status === 'no_participant') return 1;
-        // 其他情况下不用调换位置
-        return -1;
-      });
+    myOwnTickets() {
+      return [
+        ...this.selfParticipatingTickets,
+        ...this.noneParticipatingTickets,
+        ...this.othersParticipatingTickets,
+      ];
+    },
+    noneParticipatingTickets() {
+      return this.tickets.filter(ticket => !ticket.participantId);
+    },
+    selfParticipatingTickets() {
+      return this.tickets
+        .filter(ticket => ticket.participantId && ticket.participantId === this.currentUser.id);
+    },
+    othersParticipatingTickets() {
+      return this.tickets
+        .filter(ticket => ticket.participantId && ticket.participantId !== this.currentUser.id);
     },
     sharableAndSharedTickets() {
       // 这里虽然叫做"可赠送的门票", 但其实还包含已经被人领取了的门票
-      return this.myTickets
+      return this.myOwnTickets
         .filter(ticket => ticket.buyerId === this.currentUser.id)
         .filter(ticket => ticket.participantId !== this.currentUser.id);
     },
@@ -79,7 +80,8 @@ export default {
   },
   components: {
     MeetingBanner,
-    TicketRow,
+    SharableTicketRow,
+    MyOwnTicketRow,
   },
   async mounted() {
     this.tickets = await getTickets({
