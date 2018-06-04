@@ -22,7 +22,13 @@
       </div>
     </div>
     <div class="footer">
-      <button class="large check-ticket-btn" @click="goToCheckTicket(ticket.id)">验票</button>
+      <button
+        class="large check-ticket-btn"
+        @click="goToCheckTicket(ticket.id)"
+        :disabled="isParticipantSomeoneElse"
+      >
+        验票
+      </button>
       <button
         v-if="ticket && !ticket.participantId"
         class="primary large share-with-friend-btn"
@@ -42,6 +48,8 @@ import getTicket from '@/methods/getTicket';
 
 import goToShareResult from '@/pages/tickets/share-result/goToShareResult';
 import goToCheckTicket from '@/pages/tickets/one/check/goToCheckTicket';
+import goToAcquireTicket from '@/pages/tickets/one/acquire/goToAcquireTicket';
+import goToPersonalCenter from '@/pages/users/me/goToPersonalCenter';
 
 export default {
   data() {
@@ -50,6 +58,12 @@ export default {
     };
   },
   computed: {
+    isParticipantSomeoneElse() {
+      return this.ticket &&
+        this.currentUser &&
+        this.ticket.participantId &&
+        this.ticket.participantId !== this.currentUser.id;
+    },
     typeBackgroundImageUrl() {
       return this.ticket &&
         `/static/ticket/${this.ticket.gradeTypeColor || 'blue'}-large.png`;
@@ -64,7 +78,34 @@ export default {
     Cash,
   },
   async mounted() {
-    this.ticket = await getTicket(this.$root.$mp.query.id || 1);
+    const ticketId = this.$root.$mp.query.id || 1;
+    const currentUserId = this.currentUser.id;
+    // 如果没登录, 跳到领取页面
+    if (!currentUserId) {
+      goToAcquireTicket(ticketId);
+      return;
+    }
+
+    try {
+      const ticket = await getTicket(ticketId);
+
+      // 如果非购买者本人且没有参会人, 跳到领取页面
+      if (ticket.buyerId !== this.currentUser.id) {
+        if (!ticket.participantId) {
+          goToAcquireTicket(ticketId);
+          return;
+        }
+      }
+
+      this.ticket = ticket;
+    } catch (e) {
+      goToPersonalCenter();
+      wx.openModal({
+        title: '对不起,您无权访问此门票',
+      });
+      return;
+    }
+
     this.setRuntime({ sharedTicket: this.ticket });
   },
   onShareAppMessage() {
