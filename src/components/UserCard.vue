@@ -23,14 +23,24 @@
           </div>
         </div>
       </div>
-      <image class="user-avatar" :src="user.wechatAvatar" />
+      <image
+        v-if="user.wechatAvatar"
+        class="user-avatar"
+        :src="user.wechatAvatar"
+      />
+      <image
+        v-else
+        class="user-avatar"
+        @click="onAvatarClick"
+        src="/static/default-avatar.png"
+      />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['user'],
+  props: ['user', 'onAvatarClick'],
 };
 </script>
 
