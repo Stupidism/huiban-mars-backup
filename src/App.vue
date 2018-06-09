@@ -6,6 +6,17 @@ import store from './store';
 
 wxRequest.setOptions({ getAuthHeader });
 
+const promptAuthenticateError = error => wx.showModal({
+  title: '无法认证用户信息',
+  content: `${error.statusCode}: ${error.message}`,
+  showCancel: false,
+  success(res) {
+    if (res.confirm) {
+      console.info('user clicked confirm');
+    }
+  },
+});
+
 export default {
   store,
   methods: {
@@ -17,6 +28,7 @@ export default {
         this.$store.commit('setCurrentUser', user);
       } catch (e) {
         console.error('getCurrentUser fail', e);
+        promptAuthenticateError(e);
       }
     },
     getUserInfo() {
@@ -35,7 +47,6 @@ export default {
   created() {
     console.info('app created');
     this.getCurrentUser();
-    this.getUserInfo();
   },
 };
 </script>
