@@ -1,7 +1,15 @@
 # 理论上每一个请求都有遇到401, 500 等错误的可能, 就没有一一列出了,只列出了有特殊含义的
 # 除了前六个API 其余的都需要权限验证
 
+@Authorized:
+  Header: {
+    Authorization: `Bearer ${accessToken}`
+  }
+
 1. POST /users
+  // 认证是可选的, 如果有 token, 应该自动绑定 openId 和 accessToken
+  @Authorized
+
   Request: {
     type: 'smsCode' || 'wechatPhoneNumber'
     // 当 type === 'smsCode' 下面两个字段必选
@@ -43,18 +51,14 @@
   }
 
 1.1. GET /users/current
-  Header: {
-    Authorization: `Bearer ${accessToken}`
-  }
+  @Authorized
 
   200 // 老用户已登陆
 
   404 // 新用户 或者 老用户未登录
 
 1.2 PUT /users/:id
-  Header: {
-    Authorization: `Bearer ${accessToken}`
-  }
+  @Authorized
 
   Request: {
     wechatName,
@@ -64,8 +68,6 @@
     position,
     company,
   }
-
-
 
 2. POST /tokens
   Request: {
@@ -99,9 +101,8 @@
 4.1. GET /meetings
 
 
-# 以下API全部需要在header中有Authorization: `Bearer ${accessToken}`
-
 5. POST /orders
+  @Authorized
 
   Request: order {
     items: [{
@@ -143,12 +144,15 @@
   }
 
 5.1. GET /orders
+  @Authorized
   200 orders
 
 5.2. GET /orders/:id
+  @Authorized
   200 order
 
 5.3. PUT /orders/:id  // 唯一能做的操作就是把状态从‘待支付’改成‘已取消’
+  @Authorized
   Request {
     status: '已取消',
   }
@@ -159,9 +163,11 @@
   }
 
 6. GET /payment_methods
+  @Authorized
   200 paymentMethods
 
 7. POST /transactions  // 具体第三方支付API如何设计有待商量
+  @Authorized
 
   Request: {
     orderId,
@@ -175,12 +181,14 @@
   }
 
 7.1. POST /third_party_transactions
+  @Authorized
   Request: {
     orderId,
     transactionId,
   }
 
 8. GET /tickets
+  @Authorized
   200 [{
     buyerId,
     buyerName,
@@ -190,8 +198,10 @@
   }]
 
 8.1. GET /tickets/:id
+  @Authorized
 
 8.2. PUT /tickets/:id // 唯一能做的是添加新的与会人
+  @Authorized
   Request {
     participantId,
   }
