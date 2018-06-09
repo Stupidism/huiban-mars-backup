@@ -122,7 +122,7 @@ import getPaymentMethods from '@/methods/getPaymentMethods';
 import postOrder from '@/methods/postOrder';
 import payTransactionForOrder from '@/methods/payTransactionForOrder';
 import registerUser from '@/methods/registerUser';
-import login, { loginToWechat } from '@/methods/login';
+import { login, loginToWechat } from '@/methods/auth';
 
 import goToUserLoginOrRegister from '@/pages/users/new/goToUserLoginOrRegister';
 import isEmail from '@/utils/isEmail';
