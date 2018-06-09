@@ -1,4 +1,4 @@
-export default () => new Promise((resolve, reject) => {
+export default () => new Promise((resolve) => {
   console.info('getWechatUserInfo start');
   wx.getUserInfo({
     success: (res) => {
@@ -7,7 +7,7 @@ export default () => new Promise((resolve, reject) => {
     },
     fail(error) {
       console.info('getWechatUserInfo fail', error);
-      reject(error);
+      resolve(null);
     },
   });
 });
