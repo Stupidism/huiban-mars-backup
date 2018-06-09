@@ -31,18 +31,6 @@ export default {
         promptAuthenticateError(e);
       }
     },
-    getUserInfo() {
-      console.info('getUserInfo start');
-      wx.getUserInfo({
-        success: (res) => {
-          console.info('getUserInfo success', res.userInfo);
-          this.$store.commit('setWechatUserInfo', res.userInfo);
-        },
-        fail(error) {
-          console.info('getUserInfo fail', error);
-        },
-      });
-    },
   },
   created() {
     console.info('app created');
