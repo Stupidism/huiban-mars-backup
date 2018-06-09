@@ -12,6 +12,8 @@ User {
 
   wechatName: String,
   wechatAvatar: Url，
+  wechatCity: String,
+  wechatProvince: Url，
 
   email: String,
   company: String,
@@ -110,7 +112,6 @@ Transaction {
   amount: Number,
   order: Order,
   paymentMethod: PaymentMethod,
-  thirdPartyPayeeId: String,
   thirdPartyTransactionId: String,
   thirdPartyTransactionInfo: String, // 如微信就是JSON.stringify(WechatTransaction)
   status: Enum('to_be_paid' | ‘failed’ | ‘succeeded’)，
