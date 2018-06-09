@@ -53,9 +53,11 @@
 1.1. GET /users/current
   @Authorized
 
-  200 // 老用户已登陆
+  200 // accessToken 有效 返回已有用户信息
 
-  404 // 新用户 或者 老用户未登录
+  204 // accessToken 有效 用户尚未注册
+
+  404 // accessToken 无效 用户未登录或尚未注册
 
 1.2 PUT /users/:id
   @Authorized
