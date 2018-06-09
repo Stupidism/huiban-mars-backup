@@ -1,21 +1,8 @@
 import { wxRequest, userCurrentGet } from '@/apis';
 
-import { login, loginToWechat, startAuthenticate, finishAuthenticate } from './auth';
-
-const checkSession = () => new Promise((resolve, reject) => {
-  console.info('checkSession start');
-  wx.checkSession({
-    success: () => {
-      console.info('checkSession success');
-      resolve();
-    },
-    fail: () => {
-      console.info('checkSession fail');
-      reject();
-    },
-  });
-});
-
+import { login, startAuthenticate, finishAuthenticate } from './auth';
+import checkSession from './wechat/checkSession';
+import wechatLogin from './wechat/login';
 
 const getCurrentUser = async () => {
   try {
@@ -30,11 +17,16 @@ const getCurrentUser = async () => {
 
     return res.statusCode === 204 ? {} : res;
   } catch (e) {
-    console.error('getCurrentUser tolerate first failure', e);
+    if (e.errMsg === 'checkSession:fail Error: session time out, need relogin'
+      || e.statusCode === 404) {
+      console.error('getCurrentUser tolerate first failure', e);
+    } else {
+      throw e;
+    }
   }
   console.info('getCurrentUser try to refresh token and fetch again');
 
-  const wechatCode = await loginToWechat();
+  const wechatCode = await wechatLogin();
   await login({
     type: 'wechat',
     wechatCode,

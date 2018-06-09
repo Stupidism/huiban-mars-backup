@@ -61,17 +61,3 @@ export const login = async ({ type, wechatCode }) => {
   }
   authState.authorizing = false;
 };
-
-export const loginToWechat = () => new Promise((resolve, reject) => {
-  console.info('login to wechat start');
-  wx.login({
-    success: ({ code }) => {
-      console.info('login to wechat success', code);
-      resolve(code);
-    },
-    fail() {
-      console.info('login to wechat fail');
-      reject();
-    },
-  });
-});
