@@ -16,7 +16,22 @@ export const finishAuthenticate = () => {
   authState.authenticating = false;
 };
 
-const isAuthing = () => authState.authenticating || authState.authorizing;
+export const isAuthing = () => authState.authenticating || authState.authorizing;
+
+export const waitForAuth = () => new Promise((resolve) => {
+  if (isAuthing()) {
+    let times = 0;
+    const interval = setInterval(() => {
+      times += 1;
+      if (!isAuthing() || times > 20) {
+        clearInterval(interval);
+        resolve();
+      }
+    }, 100);
+  } else {
+    resolve();
+  }
+});
 
 const buildAuthHeader = () => {
   const token = getAccessToken();
@@ -26,21 +41,12 @@ const buildAuthHeader = () => {
   };
 };
 
-export const getAuthHeader = async () => new Promise((resolve) => {
+export const getAuthHeader = async () => {
   if (isAuthing()) {
-    let times = 0;
-    const interval = setInterval(() => {
-      console.log('interval');
-      times += 1;
-      if (!isAuthing() || times > 20) {
-        clearInterval(interval);
-        resolve(buildAuthHeader());
-      }
-    }, 100);
-  } else {
-    resolve(buildAuthHeader());
+    await waitForAuth();
   }
-});
+  return buildAuthHeader();
+};
 
 export const login = async ({ type, wechatCode }) => {
   console.info('login start');

@@ -29,6 +29,7 @@ import UserCard from '@/components/UserCard';
 import TicketsCard from '@/components/TicketsCard';
 import OrderCard from '@/components/OrderCard';
 
+import { isAuthing, waitForAuth } from '@/methods/auth';
 import getTickets from '@/methods/getTickets';
 import getOrders from '@/methods/getOrders';
 import goToMyTickets from '@/pages/tickets/goToMyTickets';
@@ -76,13 +77,16 @@ export default {
     OrderCard,
   },
   async mounted() {
-    this.tickets = await getTickets();
-    this.orders = await getOrders();
+    if (isAuthing()) {
+      await waitForAuth();
+    }
     if (!this.currentUser.id) {
       wx.navigateTo({
         url: '/pages/users/new/main',
       });
     }
+    this.tickets = await getTickets();
+    this.orders = await getOrders();
   },
 };
 </script>
