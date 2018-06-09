@@ -88,6 +88,7 @@ import LocationRow from '@/modules/LocationRow';
 import Cash from '@/modules/Cash';
 
 import goToNewOrder from '@/pages/orders/new/goToNewOrder';
+import { onModalOpen, onModalClose } from '@/utils/navbar';
 
 export default {
   data() {
@@ -115,18 +116,12 @@ export default {
       });
     },
     openPurchaseNotes() {
-      wx.setNavigationBarColor({
-        frontColor: '#ffffff',
-        backgroundColor: '#666666',
-      });
       this.isPurchaseNotesOpen = true;
+      onModalOpen();
     },
     closePurchaseNotes() {
-      wx.setNavigationBarColor({
-        frontColor: '#000000',
-        backgroundColor: '#ffffff',
-      });
       this.isPurchaseNotesOpen = false;
+      onModalClose();
     },
     setTicketGrade(ticketGrade) {
       this.orderItem.ticketGrade = ticketGrade;
