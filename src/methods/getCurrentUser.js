@@ -24,10 +24,11 @@ const getCurrentUser = async () => {
     const getCurrentUserPromise = wxRequest(userCurrentGet());
     startAuthenticate();
 
-    const currentUser = await getCurrentUserPromise || {};
+    const res = await getCurrentUserPromise;
 
     finishAuthenticate();
-    return currentUser;
+
+    return res.statusCode === 204 ? {} : res;
   } catch (e) {
     console.error('getCurrentUser tolerate first failure', e);
   }
