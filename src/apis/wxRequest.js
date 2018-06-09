@@ -6,22 +6,26 @@ const baseUrl = 'https://imeetingu.com/earth/';
 
 const defaultOptions = {};
 
-const wxRequest = ({
+const wxRequest = async ({
   url,
   query,
+  disableAuth,
   ...options
 }) => {
-  const { header, getAuthHeader } = { ...defaultOptions, ...options };
-  const headerWithAuthInfo = getAuthHeader ? {
-    ...header,
-    ...getAuthHeader(),
-  } : header;
+  const { getAuthHeader, ...mergedOptions } = { ...defaultOptions, ...options };
+
+  if (getAuthHeader && !disableAuth) {
+    const authHeader = await getAuthHeader();
+    mergedOptions.header = {
+      ...options.header,
+      ...authHeader,
+    };
+  }
 
   return new Promise((resolve, reject) => {
     wx.request({
-      ...options,
+      ...mergedOptions,
       url: urlJoin(baseUrl, url, _.isEmpty(query) ? '' : `?${qs.stringify(query)}`),
-      header: headerWithAuthInfo,
       success(res) {
         if (res.statusCode >= 300) {
           reject(res);

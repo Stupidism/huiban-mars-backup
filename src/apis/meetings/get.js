@@ -53,4 +53,5 @@ export const example = {
 
 export default id => ({
   url: `/meetings/${id}`,
+  disableAuth: true,
 });
