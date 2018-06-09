@@ -288,7 +288,7 @@ export default {
     // this.currentUser is updated
     // but the dom tree is not
     // assign isAuthorized to update the payment button
-    this.isAuthorized = !!this.currentUser.id;
+    this.isAuthorized = !!this.currentUser.phone;
   },
 };
 </script>
