@@ -1,6 +1,6 @@
 <template>
   <scroll-view class="page personal-center">
-    <user-card :user="currentUser" />
+    <user-card :user="currentUser" :onAvatarClick="openGetUserInfoModal" />
     <div class="container">
       <div class="list-title section-single-line" @click="goToMyTickets">
         <div>我的门票</div>
@@ -19,6 +19,26 @@
         <order-card :order="recentOrder" />
       </div>
     </div>
+    <div v-if="getUserInfoModalOpen" class="modal get-user-info-modal">
+      <div class="container get-user-info-container">
+        <div class="section-single-line text large centered primary">
+          请求授权
+        </div>
+        <div class="section grow text large centered">
+          允许会伴获得用户信息
+        </div>
+        <div class="get-user-info-actions section-no-padding">
+          <button class="reject-btn large" @click="rejectGetUserInfo">拒绝</button>
+          <button
+            class="get-user-info-btn large"
+            open-type="getUserInfo"
+            @getuserinfo="handleGetUserInfo"
+          >
+            允许
+          </button>
+        </div>
+      </div>
+    </div>
   </scroll-view>
 </template>
 
@@ -31,15 +51,20 @@ import OrderCard from '@/components/OrderCard';
 
 import { isAuthing, waitForAuth } from '@/methods/auth';
 import getTickets from '@/methods/getTickets';
+import updateUser from '@/methods/updateUser';
 import getOrders from '@/methods/getOrders';
+import getWechatUserInfo from '@/methods/wechat/getUserInfo';
+
 import goToMyTickets from '@/pages/tickets/goToMyTickets';
 import goToMyOrders from '@/pages/orders/goToMyOrders';
 import goToOrderDetail from '@/pages/orders/one/goToOrderDetail';
 import goToTicketsDetail from '@/pages/meetings/one/tickets/goToTicketsDetail';
+import { onModalOpen, onModalClose } from '@/utils/navbar';
 
 export default {
   data() {
     return {
+      getUserInfoModalOpen: false,
       tickets: [],
       orders: [],
     };
@@ -70,6 +95,59 @@ export default {
     goToMyOrders,
     goToOrderDetail,
     goToTicketsDetail,
+    async tryToGetUserInfo() {
+      if (wx.getStorageSync('getUserInfoAllowed')) {
+        const res = await getWechatUserInfo();
+        if (res && res.userInfo) {
+          this.onGetUserInfo(res.userInfo);
+          return;
+        }
+      }
+
+      if (!wx.getStorageSync('getUserInfoRejected')) {
+        this.openGetUserInfoModal();
+      }
+    },
+    openGetUserInfoModal() {
+      this.getUserInfoModalOpen = true;
+      onModalOpen();
+    },
+    closeGetUserInfoModal() {
+      this.getUserInfoModalOpen = false;
+      onModalClose();
+    },
+    rejectGetUserInfo() {
+      wx.setStorageSync('getUserInfoAllowed', false);
+      wx.setStorageSync('getUserInfoRejected', true);
+      this.closeGetUserInfoModal();
+    },
+    allowGetUserInfo() {
+      wx.setStorageSync('getUserInfoAllowed', true);
+      wx.setStorageSync('getUserInfoRejected', false);
+      this.closeGetUserInfoModal();
+    },
+    handleGetUserInfo({ mp: { detail } }) {
+      if (detail.errMsg === 'getUserInfo:ok') {
+        this.allowGetUserInfo();
+        this.onGetUserInfo(detail.userInfo);
+      } else {
+        this.rejectGetUserInfo();
+      }
+    },
+    onGetUserInfo({ avatarUrl, nickName, city, province, ...userInfo }) {
+      const user = {
+        ...userInfo,
+        name: nickName,
+        wechatAvatar: avatarUrl,
+        wechatName: nickName,
+        wechatCity: city,
+        wechatProvince: province,
+        ...this.currentUser,
+      };
+
+      updateUser(user);
+      this.$store.commit('setCurrentUser', user);
+    },
   },
   components: {
     UserCard,
@@ -84,7 +162,15 @@ export default {
       wx.navigateTo({
         url: '/pages/users/new/main',
       });
+      return;
     }
+
+
+    if (!this.currentUser.wechatName) {
+      this.tryToGetUserInfo();
+    }
+
+
     this.tickets = await getTickets();
     this.orders = await getOrders();
   },
@@ -100,6 +186,42 @@ export default {
 
     & > .sub-title {
       color: #2692F0;
+    }
+  }
+
+  .get-user-info-modal {
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .get-user-info-container {
+      position: relative;
+      width: 80%;
+      height: 40%;
+      border-radius: 3px;
+      display: flex;
+      flex-direction: column;
+
+      .get-user-info-actions {
+        display: flex;
+
+        .reject-btn {
+          color: #17181A;
+        }
+
+        .reject-btn,
+        .get-user-info-btn {
+          width: 50%;
+          font-size: 16px;
+        }
+
+        button:not(:first-child) {
+          border-left: solid 0.5px #EAEAEA;
+        }
+      }
+
     }
   }
 }
