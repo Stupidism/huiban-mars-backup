@@ -204,6 +204,7 @@ export default {
       if (detail.errMsg === 'getPhoneNumber:ok') {
         const wechatCode = await wechatLogin();
         const user = await registerUser({
+          ...this.buyer,
           type: 'wechatPhoneNumber',
           encryptedData: detail.encryptedData,
           iv: detail.iv,
