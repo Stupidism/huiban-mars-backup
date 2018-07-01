@@ -5,7 +5,7 @@
         <ticket-item :ticket="sharedTicket" />
         <div class="result-desc text large success">已赠送</div>
       </div>
-      <div class="section actions">
+      <div class="action-buttons section flex justified">
         <button class="primary" @click="onFinish">完成</button>
         <button class="primary" @click="onContinue">继续送票</button>
       </div>
@@ -45,8 +45,9 @@ export default {
     }
   }
 
-  .actions {
-    display: flex;
+  .action-buttons {
+    padding-left: 30px;
+    padding-right: 30px;
   }
 }
 </style>
