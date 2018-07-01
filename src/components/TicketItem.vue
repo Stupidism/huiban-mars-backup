@@ -18,7 +18,7 @@ export default {
   props: ['ticket'],
   computed: {
     backgroundImage() {
-      return `/static/ticket/${this.ticket.gradeTypeColor}.png`;
+      return `/static/ticket/${this.ticket.gradeTypeColor || 'blue'}.png`;
     },
   },
   components: { Cash },
