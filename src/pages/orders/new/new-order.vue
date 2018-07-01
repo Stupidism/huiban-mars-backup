@@ -89,20 +89,22 @@
       </div>
       <button
         v-if="isAuthorized"
-        class="primary large narrow"
+        class="pay-btn primary large narrow"
         @click="onSubmit"
-        :disabled="!isFormValid"
+        :disabled="paying || !isFormValid"
+        :loading="paying"
       >
-        支付
+        {{order ? '支付' : '下单并支付'}}
       </button>
       <button
         v-else
-        class="primary large narrow"
+        class="get-phone-number-btn primary large narrow"
         open-type="getPhoneNumber"
         @getphonenumber="onPhoneNumberGet"
-        :disabled="!isFormValid"
+        :disabled="gettingPhoneNumber || !isFormValid"
+        :loading="gettingPhoneNumber"
       >
-        获取手机号
+        获取手机号并下单
       </button>
     </div>
   </scroll-view>
@@ -148,6 +150,9 @@ export default {
       amount: 0,
       ticketGrade: {},
       isAuthorized: false,
+      paying: false,
+      gettingPhoneNumber: false,
+      order: null,
     };
   },
   computed: {
@@ -203,6 +208,7 @@ export default {
     },
     async onPhoneNumberGet({ mp: { detail } }) {
       if (detail.errMsg === 'getPhoneNumber:ok') {
+        this.gettingPhoneNumber = true;
         const wechatCode = await wechatLogin();
         const user = await registerUser({
           ...this.buyer,
@@ -218,6 +224,7 @@ export default {
           wechatCode,
         });
         this.isAuthorized = true;
+        this.gettingPhoneNumber = false;
 
         this.onSubmit();
       } else {
@@ -244,9 +251,12 @@ export default {
       this.selfParticipate = !this.selfParticipate;
     },
     async onSubmit() {
+      this.paying = true;
       try {
-        const order = await postOrder(this.buildOrder());
-        payTransactionForOrder(order);
+        if (!this.order) {
+          this.order = await postOrder(this.buildOrder());
+        }
+        await payTransactionForOrder(this.order);
       } catch (error) {
         if (error.statusCode === 400 && error.data.type === 'No Stock') {
           this.promptNoStock();
@@ -255,6 +265,7 @@ export default {
           throw error;
         }
       }
+      this.paying = false;
     },
   },
   components: {
@@ -294,6 +305,16 @@ export default {
 </script>
 
 <style scoped lang="less">
+.new-order {
+  .pay-btn {
+    width: 120px;
+  }
+
+  .get-phone-number-btn {
+    width: 150px;
+  }
+}
+
 .order-item-summary {
   display: flex;
   justify-content: space-between;
