@@ -36,7 +36,7 @@
         </div>
       </scroll-view>
       <div class="section flex aligned vertically">
-        <button :data-ticket-grade-type="sharedTicket.gradeType" class="share-btn primary" open-type="share">
+        <button :data-ticket-grade-type="sharedTicket && sharedTicket.gradeType" class="share-btn primary" open-type="share">
           送给Ta
         </button>
       </div>
@@ -101,7 +101,9 @@ export default {
     const orderId = this.$root.$mp.query.orderId || 1;
     this.order = await getOrder(orderId);
     this.sharableTickets = await getSharableTickets(orderId);
-    this.setRuntime({ sharedTicket: this.sharableTickets[0] });
+    if (this.sharableTickets.length) {
+      this.setRuntime({ sharedTicket: this.sharableTickets[0] });
+    }
   },
   onShareAppMessage(res) {
     return {
