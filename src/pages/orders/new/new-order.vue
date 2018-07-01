@@ -43,6 +43,7 @@
         <text-field
           name="email"
           label="邮箱"
+          type="email"
           placeholder="请输入您的邮箱地址"
           required
           confirm-type="next"
