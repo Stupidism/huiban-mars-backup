@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import _ from 'lodash';
 
 import runtime from './modules/runtime';
 
@@ -10,7 +11,7 @@ const store = new Vuex.Store({
   },
   mutations: {
     setCurrentUser(state, currentUser) {
-      state.currentUser = currentUser;
+      state.currentUser = _.pickBy(currentUser, _.identity);
     },
   },
   getters: {
