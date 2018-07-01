@@ -97,5 +97,5 @@ export const example = [{
 
 export default (query = {}) => ({
   url: '/tickets',
-  query: _.pick(query, ['meetingId', 'orderId', 'populate']),
+  query: _.pick(query, ['meetingId', 'orderId', 'populate', 'status']),
 });
