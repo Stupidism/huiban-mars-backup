@@ -141,7 +141,7 @@ export default {
         email: '',
         city: '',
       },
-      selfParticipate: false,
+      selfParticipate: true,
       paymentMethods: [],
       selectedPaymentMethod: {},
       amount: 0,
