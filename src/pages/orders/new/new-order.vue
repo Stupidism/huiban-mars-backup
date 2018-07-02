@@ -291,6 +291,7 @@ export default {
     // but the dom tree is not
     // assign isAuthorized to update the payment button
     this.isAuthorized = !!this.currentUser.phone;
+    this.order = null;
   },
 };
 </script>
