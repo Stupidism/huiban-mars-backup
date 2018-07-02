@@ -131,6 +131,21 @@ import wechatLogin from '@/methods/wechat/login';
 import goToUserLoginOrRegister from '@/pages/users/new/goToUserLoginOrRegister';
 import isEmail from '@/utils/isEmail';
 
+const promptOrderError = options => wx.showModal({
+  title: '下单失败, 原因:',
+  content: '订单错误!',
+  cancelText: '知道了',
+  confirmText: '重新选票',
+  cancelColor: '#000000',
+  confirmColor: '#2692F0',
+  success(res) {
+    if (res.confirm) {
+      wx.navigateBack();
+    }
+  },
+  ...options,
+});
+
 export default {
   data() {
     return {
@@ -173,36 +188,6 @@ export default {
     ...mapGetters(['currentUser']),
   },
   methods: {
-    promptNoStock() {
-      wx.showModal({
-        content: '门票被抢完啦，下次赶早哟',
-        cancelText: '知道了',
-        cancelColor: '#000000',
-        confirmText: '重新选票',
-        confirmColor: '#2692F0',
-        success(res) {
-          if (res.confirm) {
-            wx.navigateBack();
-          }
-        },
-      });
-    },
-    promptUnknownError(error) {
-      wx.showModal({
-        content: `发生未知错误: ${error.data.message}\n` +
-          `type: ${error.data.type}\n` +
-          `${JSON.stringify(error.data.errors)}`,
-        cancelText: '知道了',
-        cancelColor: '#000000',
-        confirmText: '重新选票',
-        confirmColor: '#2692F0',
-        success(res) {
-          if (res.confirm) {
-            wx.navigateBack();
-          }
-        },
-      });
-    },
     selectePaymentMethod(paymentMethod) {
       this.selectedPaymentMethod = paymentMethod;
     },
@@ -259,9 +244,15 @@ export default {
         await payTransactionForOrder(this.order);
       } catch (error) {
         if (error.statusCode === 400 && error.data.type === 'No Stock') {
-          this.promptNoStock();
+          promptOrderError({
+            content: '门票被抢完啦，下次赶早哟',
+          });
         } else {
-          this.promptUnknownError(error);
+          promptOrderError({
+            content: `发生未知错误: ${error.data.message}\n` +
+              `type: ${error.data.type}\n` +
+              `${JSON.stringify(error.data.errors)}`,
+          });
           throw error;
         }
       }
