@@ -1,15 +1,13 @@
 <template>
   <scroll-view class="page page-with-footer payment-result">
-    <div v-if="isCompleted" class="container">
-      <div class="section flex aligned vertically">
+    <div v-if="order" class="container">
+      <div v-if="isCompleted" class="section flex aligned vertically">
         <image class="icon huge" src="/static/icons/check-circle.png" />
         <div class="result-desc text large success">支付成功</div>
         <div class="text secondary">门票信息已通过短信发送至{{protectedCurrentUserPhone}}</div>
         <div class="text secondary">请注意查收</div>
       </div>
-    </div>
-    <div v-else class="container">
-      <div class="section flex aligned vertically">
+      <div v-else class="section flex aligned vertically">
         <image class="icon huge" src="/static/icons/close-circle.png" />
         <div class="result-desc text large warning">支付失败</div>
         <div class="text secondary">请检查订单状态</div>
@@ -36,7 +34,7 @@
         </div>
       </scroll-view>
       <div class="section flex aligned vertically">
-        <button :data-ticket-grade-type="sharedTicket && sharedTicket.gradeType" class="share-btn primary" open-type="share">
+        <button class="share-btn primary" open-type="share">
           送给Ta
         </button>
       </div>
@@ -69,13 +67,13 @@ const getSharableTickets = orderId =>
 export default {
   data() {
     return {
-      order: {},
+      order: null,
       sharableTickets: [],
     };
   },
   computed: {
     isCompleted() {
-      return this.order.status === 'completed';
+      return this.order && this.order.status === 'completed';
     },
     ...mapState({
       user: 'wechatUserInfo',
@@ -105,11 +103,12 @@ export default {
       this.setRuntime({ sharedTicket: this.sharableTickets[0] });
     }
   },
-  onShareAppMessage(res) {
+  onShareAppMessage() {
+    const { id, gradeType, gradeTypeColor } = this.sharedTicket;
     return {
-      title: `送您一张${res.target.dataset.ticketGradeType}`,
-      path: '/page/tickets/acquire/main?id=1',
-      imageUrl: `/static/ticket/${this.sharedTicket.gradeTypeColor}.png`,
+      title: `送您一张${gradeType || '门票'}`,
+      path: `/pages/tickets/one/acquire/main?id=${id}`,
+      imageUrl: `/static/ticket/${gradeTypeColor || 'blue'}.png`,
       success: goToShareResult,
       fail(error) {
         // 转发失败
