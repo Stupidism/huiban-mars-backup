@@ -5,19 +5,19 @@
       <div class="user-info">
         <div class="user-info-title">
           <div class="user-name">{{user.name}}</div>
-          <div class="dot-divider">·</div>
+          <div v-if="user.company" class="dot-divider">·</div>
           <div class="user-company">{{user.company}}</div>
         </div>
         <div class="user-info-content">
-          <div class="user-info-content-item">
+          <div v-if="user.position" class="user-info-content-item">
             <image class="icon tiny info-icon" src="/static/icons/position.svg" />
             <span>{{user.position}}</span>
           </div>
-          <div class="user-info-content-item">
+          <div v-if="user.phone" class="user-info-content-item">
             <image class="icon tiny info-icon" src="/static/icons/phone.svg" />
             <span>{{user.phone}}</span>
           </div>
-          <div class="user-info-content-item">
+          <div v-if="user.city" class="user-info-content-item">
             <image class="icon tiny info-icon" src="/static/icons/marker-white.svg" />
             <span>{{user.city}}</span>
           </div>
