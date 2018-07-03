@@ -4,7 +4,7 @@ import { example as ticketExample } from '@/apis/tickets/get';
 export default async (id) => {
   try {
     const ticket = await wxRequest(ticketGet(id));
-    return ticket.buyer ? ticket : ticketExample;
+    return ticket;
   } catch (e) {
     if (e.errMsg === 'request:fail url not in domain list') {
       return ticketExample;

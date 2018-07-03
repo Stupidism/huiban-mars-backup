@@ -112,8 +112,7 @@ const promptAcquireSucceed = ({ ticket, user }) => {
   wx.showModal({
     content: `已成功领取价值${toCash(ticket.price)}元的贵宾票\n` +
     `门票信息已经发送至${user.phone}`,
-    cancelText: '朕知道了',
-    cancelColor: '#000000',
+    showCancel: false,
     confirmText: '查看门票',
     confirmColor: '#2692F0',
     success(res) {
@@ -127,8 +126,7 @@ const promptAcquireSucceed = ({ ticket, user }) => {
 const promptAcquireFail = ({ ticket }) => {
   wx.showModal({
     content: '手慢了，门票已被其他小伙伴领走了',
-    cancelText: '知道了',
-    cancelColor: '#000000',
+    showCancel: false,
     confirmText: '自己买',
     confirmColor: '#2692F0',
     success(res) {
@@ -228,7 +226,8 @@ export default {
     TextField,
   },
   async onShow() {
-    this.ticket = await getTicket(this.$root.$mp.query.id || 1);
+    this.ticket = await getTicket(this.$root.$mp.query.id || 500);
+
     this.participant = {
       ...this.participant,
       ..._.pick(this.currentUser, [
