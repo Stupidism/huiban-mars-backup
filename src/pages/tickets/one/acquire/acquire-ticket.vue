@@ -103,6 +103,7 @@ import Cash from '@/modules/Cash';
 import goToTicketView from '@/pages/tickets/one/goToTicketView';
 import goToMeetingTicketGrades from '@/pages/meetings/one/ticket-grades/goToMeetingTicketGrades';
 import registerUser from '@/methods/registerUser';
+import updateUser from '@/methods/updateUser';
 import getTicket from '@/methods/getTicket';
 import acquireTicket from '@/methods/acquireTicket';
 import isEmail from '@/utils/isEmail';
@@ -148,16 +149,19 @@ export default {
   computed: {
     participant() {
       return {
-        phone: '',
-        smsCode: '',
-        name: '',
-        company: '',
-        position: '',
-        email: '',
-        city: '',
         ...this.currentUser,
         ...this.participantInForm,
       };
+    },
+    userInfo() {
+      return _.pick(this.currentUser, [
+        'phone',
+        'name',
+        'company',
+        'email',
+        'city',
+        'position',
+      ]);
     },
     meeting() {
       return this.ticket && this.ticket.meeting;
@@ -193,6 +197,7 @@ export default {
     },
     async onSubmit() {
       let user = this.currentUser;
+
       if (!user.id) {
         const credentials = {
           type: 'smsCode',
@@ -200,6 +205,11 @@ export default {
         };
         user = await registerUser(credentials);
         this.$store.commit('setCurrentUser', user);
+      } else if (!_.isEqual(this.participantInForm, this.userInfo)) {
+        updateUser({
+          id: this.currentUser.id,
+          ...this.participantInForm,
+        });
       }
 
       try {
@@ -228,17 +238,7 @@ export default {
   async onShow() {
     this.ticket = await getTicket(this.$root.$mp.query.id || 500);
 
-    this.participant = {
-      ...this.participant,
-      ..._.pick(this.currentUser, [
-        'phone',
-        'name',
-        'company',
-        'email',
-        'city',
-        'position',
-      ]),
-    };
+    this.participantInForm = { ...this.userInfo };
   },
 };
 </script>
