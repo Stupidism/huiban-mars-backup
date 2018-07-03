@@ -125,6 +125,7 @@ import getPaymentMethods from '@/methods/getPaymentMethods';
 import postOrder from '@/methods/postOrder';
 import payTransactionForOrder from '@/methods/payTransactionForOrder';
 import registerUser from '@/methods/registerUser';
+import updateUser from '@/methods/updateUser';
 import { login } from '@/methods/auth';
 import wechatLogin from '@/methods/wechat/login';
 
@@ -185,6 +186,15 @@ export default {
         this.buyer.city &&
         isEmail(this.buyer.email);
     },
+    userInfo() {
+      return _.pick(this.currentUser, [
+        'name',
+        'company',
+        'email',
+        'city',
+        'position',
+      ]);
+    },
     ...mapGetters(['currentUser']),
   },
   methods: {
@@ -236,6 +246,13 @@ export default {
       this.selfParticipate = !this.selfParticipate;
     },
     async onSubmit() {
+      if (this.currentUser.id && !_.isEqual(this.buyer, this.userInfo)) {
+        updateUser({
+          id: this.currentUser.id,
+          ...this.buyer,
+        });
+      }
+
       this.paying = true;
       try {
         if (!this.order) {
@@ -267,15 +284,7 @@ export default {
     Cash,
   },
   beforeMount() {
-    if (!_.isEmpty(this.currentUser)) {
-      this.buyer = _.pick(this.currentUser, [
-        'name',
-        'company',
-        'email',
-        'city',
-        'position',
-      ]);
-    }
+    this.buyer = this.userInfo;
   },
   async onShow() {
     const query = this.$root.$mp.query;
