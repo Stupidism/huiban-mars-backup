@@ -1,7 +1,7 @@
 <template>
   <scroll-view class="page check-ticket">
     <div v-if="ticket" class="ticket-info-container container">
-      <div class="meeting-topic text default centered">
+      <div v-if="ticket.meeting" class="meeting-topic text default centered">
         <div>{{ticket.meeting.topic}}</div>
         <div>主讲人: {{ticket.meeting.mainSpeaker}}</div>
       </div>
