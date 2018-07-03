@@ -98,13 +98,13 @@
       </button>
       <button
         v-else
-        class="get-phone-number-btn primary large narrow"
+        class="pay-btn primary large narrow"
         open-type="getPhoneNumber"
         @getphonenumber="onPhoneNumberGet"
         :disabled="gettingPhoneNumber || !isFormValid"
         :loading="gettingPhoneNumber"
       >
-        获取手机号并下单
+        下单并支付
       </button>
     </div>
   </scroll-view>
@@ -299,10 +299,6 @@ export default {
 .new-order {
   .pay-btn {
     width: 120px;
-  }
-
-  .get-phone-number-btn {
-    width: 150px;
   }
 }
 
