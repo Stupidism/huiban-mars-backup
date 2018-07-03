@@ -4,21 +4,26 @@
       <meeting-banner :meeting="meeting" />
     </div>
     <div class="container my-tickets">
-      <div class="section-single-line">我的门票</div>
+      <div class="section-single-line">购买的门票</div>
       <div class="section-no-padding tickets-list">
         <my-own-ticket-row
-          v-for="ticket in myOwnTickets"
+          v-for="ticket in boughtTickets"
           :key="ticket.id"
           :ticket="ticket"
-          :selfParticipatingMeeting="!!selfParticipatingTickets.length"
+          :selfParticipatingMeeting="!!selfParticipatingTicket"
         />
       </div>
     </div>
     <div class="container sharable-tickets">
-      <div class="section-single-line">可赠送的门票</div>
+      <div class="section-single-line">获赠的门票</div>
       <div class="section-no-padding tickets-list">
+        <my-own-ticket-row
+          v-if="selfParticipatingTicket.type === 'gift_ticket'"
+          :ticket="selfParticipatingTicket"
+          selfParticipatingMeeting
+        />
         <sharable-ticket-row
-          v-for="ticket in sharableAndSharedTickets"
+          v-for="ticket in giftTickets"
           :key="ticket.id"
           :ticket="ticket"
         />
@@ -29,6 +34,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import _ from 'lodash';
 
 import MeetingBanner from '@/components/MeetingBanner';
 import SharableTicketRow from '@/components/SharableTicketRow';
@@ -44,29 +50,14 @@ export default {
     };
   },
   computed: {
-    myOwnTickets() {
-      return [
-        ...this.selfParticipatingTickets,
-        ...this.noneParticipatingTickets,
-        ...this.othersParticipatingTickets,
-      ];
+    boughtTickets() {
+      return _.filter(this.tickets, ['type', 'bought_ticket']);
     },
-    noneParticipatingTickets() {
-      return this.tickets.filter(ticket => !ticket.participantId);
+    giftTickets() {
+      return _.filter(this.tickets, ({ type, participantId }) => type === 'gift_ticket' && participantId !== this.currentUser.id);
     },
-    selfParticipatingTickets() {
-      return this.tickets
-        .filter(ticket => ticket.participantId && ticket.participantId === this.currentUser.id);
-    },
-    othersParticipatingTickets() {
-      return this.tickets
-        .filter(ticket => ticket.participantId && ticket.participantId !== this.currentUser.id);
-    },
-    sharableAndSharedTickets() {
-      // 这里虽然叫做"可赠送的门票", 但其实还包含已经被人领取了的门票
-      return this.myOwnTickets
-        .filter(ticket => ticket.buyerId === this.currentUser.id)
-        .filter(ticket => ticket.participantId !== this.currentUser.id);
+    selfParticipatingTicket() {
+      return _.find(this.tickets, ['participantId', this.currentUser.id]);
     },
     meeting() {
       if (!this.tickets.length) return null;
