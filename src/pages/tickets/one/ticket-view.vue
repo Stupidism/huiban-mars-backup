@@ -6,9 +6,9 @@
       <div class="background-image-content ticket-info">
         <div class="text large">{{ticket.gradeType}}</div>
         <div>(价值 <cash :amount="ticket.price" /> 元)</div>
-        <image class="buyer-avatar" :src="ticket.buyer.wechatAvatar" />
-        <div class="buyer-name text default small">{{ticket.buyer.name}} 花钱请你一起参加</div>
-        <div class="meeting-topic text primary centered">
+        <image v-if="ticket.buyer" class="buyer-avatar" :src="ticket.buyer.wechatAvatar" />
+        <div v-if="ticket.buyer" class="buyer-name text default small">{{ticket.buyer.name}} 花钱请你一起参加</div>
+        <div v-if="ticket.meeting" class="meeting-topic text primary centered">
           <div>{{ticket.meeting.topic}}</div>
           <div>主讲人: {{ticket.meeting.mainSpeaker}}</div>
         </div>
