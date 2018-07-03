@@ -227,7 +227,7 @@ export default {
     ProviderForm,
     TextField,
   },
-  async mounted() {
+  async onShow() {
     this.ticket = await getTicket(this.$root.$mp.query.id || 1);
     this.participant = {
       ...this.participant,

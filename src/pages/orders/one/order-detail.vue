@@ -132,7 +132,7 @@ export default {
     Cash,
     CountDownTime,
   },
-  async mounted() {
+  async onShow() {
     this.order = await getOrder(this.$root.$mp.query.id || 1);
   },
 };

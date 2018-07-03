@@ -277,15 +277,14 @@ export default {
       ]);
     }
   },
-  async mounted() {
+  async onShow() {
     const query = this.$root.$mp.query;
     this.meeting = await getMeeting(query.meetingId || 1);
     this.amount = Number(query.amount);
     this.ticketGrade = _.find(this.meeting.ticketGrades, ['id', Number(query.ticketGradeId)]);
     this.paymentMethods = await getPaymentMethods();
     this.selectedPaymentMethod = this.paymentMethods[0];
-  },
-  onShow() {
+
     // When navigate back from login page
     // this.currentUser is updated
     // but the dom tree is not

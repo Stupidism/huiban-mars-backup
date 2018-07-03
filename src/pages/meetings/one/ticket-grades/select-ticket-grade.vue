@@ -140,7 +140,7 @@ export default {
     LocationRow,
     Cash,
   },
-  async mounted() {
+  async onShow() {
     this.meeting = await getMeeting(this.$root.$mp.query.meetingId || 1);
   },
 };

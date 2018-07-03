@@ -26,7 +26,7 @@ export default {
   methods: {
     goToMeetingTicketGrades,
   },
-  async mounted() {
+  async onShow() {
     this.meetings = await getMeetings();
   },
 };

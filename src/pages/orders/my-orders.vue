@@ -32,7 +32,7 @@ export default {
   components: {
     OrderCard,
   },
-  async mounted() {
+  async onShow() {
     this.orders = await getOrders();
   },
 };

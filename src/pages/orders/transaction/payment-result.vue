@@ -95,7 +95,7 @@ export default {
     Cash,
     TicketItem,
   },
-  async mounted() {
+  async onShow() {
     const orderId = this.$root.$mp.query.orderId || 1;
     this.order = await getOrder(orderId);
     this.sharableTickets = await getSharableTickets(orderId);

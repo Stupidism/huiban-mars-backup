@@ -154,22 +154,20 @@ export default {
     TicketsCard,
     OrderCard,
   },
-  async mounted() {
+  async onShow() {
     if (isAuthing()) {
       await waitForAuth();
     }
+
     if (!this.currentUser.id) {
       wx.navigateTo({
         url: '/pages/users/new/main',
       });
       return;
     }
-
-
     if (!this.currentUser.wechatName) {
       this.tryToGetUserInfo();
     }
-
 
     this.tickets = await getTickets();
     this.orders = await getOrders();

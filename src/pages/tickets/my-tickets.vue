@@ -32,7 +32,7 @@ export default {
   components: {
     TicketsCard,
   },
-  async mounted() {
+  async onShow() {
     this.ticketsGroupByMeeting = await getTicketsGroupByMeeting();
   },
 };

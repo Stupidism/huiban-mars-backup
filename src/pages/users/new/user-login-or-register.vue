@@ -112,7 +112,7 @@ export default {
     SmsCodeButton,
     ErrorMessage,
   },
-  mounted() {
+  onShow() {
     if (this.currentUser && this.currentUser.id) {
       goToPersonalCenter();
     }

@@ -45,6 +45,7 @@ import { mapGetters, mapMutations } from 'vuex';
 
 import Cash from '@/modules/Cash';
 import getTicket from '@/methods/getTicket';
+import { isAuthing, waitForAuth } from '@/methods/auth';
 
 import goToShareResult from '@/pages/tickets/share-result/goToShareResult';
 import goToCheckTicket from '@/pages/tickets/one/check/goToCheckTicket';
@@ -77,7 +78,11 @@ export default {
   components: {
     Cash,
   },
-  async mounted() {
+  async onShow() {
+    if (isAuthing()) {
+      await waitForAuth();
+    }
+
     const ticketId = this.$root.$mp.query.id || 1;
     const currentUserId = this.currentUser.id;
     // 如果没登录, 跳到领取页面

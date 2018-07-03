@@ -43,7 +43,7 @@ export default {
   components: {
     Cash,
   },
-  async mounted() {
+  async onShow() {
     this.ticket = await getTicket(this.$root.$mp.query.id || 1);
     this.setRuntime({ sharedTicket: this.ticket });
   },

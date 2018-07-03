@@ -83,7 +83,7 @@ export default {
     SharableTicketRow,
     MyOwnTicketRow,
   },
-  async mounted() {
+  async onShow() {
     this.tickets = await getTickets({
       meetingId: this.$root.$mp.query.meetingId,
       orderId: this.$root.$mp.query.orderId,
