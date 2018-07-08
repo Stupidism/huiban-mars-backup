@@ -21,7 +21,12 @@ import CountDown from '@/modules/CountDown';
 import sendSmsCode from '@/methods/sendSmsCode';
 
 export default {
-  props: ['phone'],
+  props: {
+    phone: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       coolDown: 0,
