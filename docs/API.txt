@@ -235,6 +235,10 @@
     message: '门票已被他人领取',
   }
 
+9. GET /locations/:id
+
+10. GET /meetings/:id/page
+
 用到的HTTP status code:
 200 OK
 201 Created

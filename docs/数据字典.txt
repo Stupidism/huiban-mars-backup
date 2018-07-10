@@ -30,7 +30,7 @@ Meeting {
   host: String, // 主办方
   mainSpeaker: String, // 主讲人
   hostLink: Url, //主办方链接
-  publicityPage: PublicityPage, // 宣传页配置
+  page: Page, // 宣传页配置
   location: Location, // 地点
   enrollEndAt: TimeStamp, // 报名截止时间
   holdAt: TimeStamp, // 举办时间
@@ -147,17 +147,22 @@ Location {
   longitude: Number, // 地址经度
 }
 
-PublicityPage {
+Page {
   type: Enum('meeting'),
   config: {
     theme,
   },
-  modules: Array<PosterModule>,
+  modules: Array<PageModule>,
 }
 
-PublicityPageModule {
+PageModule {
+  // 最简单的实现中, 除了 button 和 location 其他都用图片
   type: Enum('cover' | 'button' | 'introduction' | 'guests' | 'agenda' | 'location' | 'Q&A' | 'partners' | 'aboutUs' | 'contactUs'),
   config: {
+    // 最开始所有模组都用一个 backgroundImage 搞定
+    backgroundImage: Url,
+
+    // 以下字段皆为可选, 视实现情况一一替换
     image: Url,
     qrCode: Url,
     link: Url,
@@ -226,6 +231,7 @@ Example:
 
   {
     type: location,
+    backgroundImage,
     image,
     locationId,
   }
