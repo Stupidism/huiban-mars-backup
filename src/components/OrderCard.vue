@@ -43,41 +43,10 @@ export default {
   },
   methods: {
     payTransactionForOrder,
-    onCancelClick() {
-      wx.showModal({
-        title: '取消订单',
-        content: '确定取消吗?',
-        cancelText: '不取消',
-        confirmText: '确认取消',
-        cancelColor: '#000000',
-        confirmColor: '#2692F0',
-        success: (res) => {
-          if (res.confirm) {
-            this.onCancelOrder();
-          }
-        },
-      });
-    },
-    async onCancelOrder() {
-      try {
-        const newOrder = await cancelOrder(this.order.id);
-        if (this.onCancel) {
-          this.onCancel(newOrder);
-        }
-      } catch (e) {
-        wx.showModal({
-          title: '取消订单失败',
-          content: '请尝试再次取消或联系客服!',
-          cancelText: '知道了',
-          confirmText: '再次取消',
-          cancelColor: '#000000',
-          confirmColor: '#2692F0',
-          success: (res) => {
-            if (res.confirm) {
-              this.onCancelOrder();
-            }
-          },
-        });
+    async onCancelClick() {
+      const newOrder = await cancelOrder(this.order.id);
+      if (newOrder && this.onCancel) {
+        this.onCancel(newOrder);
       }
     },
   },

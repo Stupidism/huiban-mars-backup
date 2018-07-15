@@ -73,7 +73,7 @@
             <count-down-time v-if="order.meeting" :endTime="order.meeting.enrollEndAt" />
           </span>
         </div>
-        <button @click="cancelOrder(order.id)" class="large narrow">取消订单</button>
+        <button @click="onCancelClick" class="large narrow">取消订单</button>
       </span>
       <button class="primary large narrow" :disabled="disabled" @click="goToPay">去支付</button>
     </div>
@@ -124,7 +124,15 @@ export default {
       wx.navigateBack({ delta: 2 });
       payTransactionForOrder(this.order);
     },
-    cancelOrder,
+    async onCancelClick() {
+      const newOrder = await cancelOrder(this.order.id);
+      if (newOrder) {
+        this.order = {
+          ...this.order,
+          ...newOrder,
+        };
+      }
+    },
   },
   components: {
     MeetingCard,
