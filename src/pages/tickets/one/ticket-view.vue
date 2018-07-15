@@ -51,12 +51,14 @@ import { isAuthing, waitForAuth } from '@/methods/auth';
 import goToShareResult from '@/pages/tickets/share-result/goToShareResult';
 import goToCheckTicket from '@/pages/tickets/one/check/goToCheckTicket';
 import goToAcquireTicket from '@/pages/tickets/one/acquire/goToAcquireTicket';
+import { buildUrl as buildTicketViewUrl } from '@/pages/tickets/one/goToTicketView';
 import goToMeetingTicketGrades from '@/pages/meetings/one/ticket-grades/goToMeetingTicketGrades';
 
 export default {
   data() {
     return {
       ticket: null,
+      query: {},
     };
   },
   computed: {
@@ -84,7 +86,7 @@ export default {
       await waitForAuth();
     }
 
-    const ticketId = this.$root.$mp.query.id || 1012;
+    const ticketId = this.$root.$mp.query.id || 1122;
     const currentUserId = this.currentUser.id;
     // 如果没登录, 跳到领取页面
     if (!currentUserId) {
@@ -105,7 +107,8 @@ export default {
 
       this.ticket = ticket;
     } catch (e) {
-      goToMeetingTicketGrades(_.get(e, 'data.data.meetingId') || 3);
+      const meetingId = this.$root.$mp.query.meetingId || _.get(e, 'data.data.meetingId') || 3;
+      goToMeetingTicketGrades(meetingId);
       if (e.statusCode === 410) {
         wx.showModal({
           title: '您已经拥有此会议的一张门票',
@@ -122,7 +125,12 @@ export default {
     this.setRuntime({ sharedTicket: this.ticket });
   },
   onShareAppMessage() {
+    const { name } = this.currentUser;
+    const { id, gradeType, meetingId } = this.ticket;
+
     return {
+      title: `${name}送您一张${gradeType || '门票'}`,
+      path: buildTicketViewUrl(id, { meetingId }),
       success: goToShareResult,
       fail(error) {
         // 转发失败

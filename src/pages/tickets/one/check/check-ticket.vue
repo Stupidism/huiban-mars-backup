@@ -22,8 +22,6 @@ import { mapGetters, mapMutations } from 'vuex';
 import Cash from '@/modules/Cash';
 import getTicket from '@/methods/getTicket';
 
-import goToShareResult from '@/pages/tickets/share-result/goToShareResult';
-
 export default {
   data() {
     return {
@@ -46,15 +44,6 @@ export default {
   async onShow() {
     this.ticket = await getTicket(this.$root.$mp.query.id || 1);
     this.setRuntime({ sharedTicket: this.ticket });
-  },
-  onShareAppMessage() {
-    return {
-      success: goToShareResult,
-      fail(error) {
-        // 转发失败
-        console.error('share failed', error);
-      },
-    };
   },
 };
 </script>

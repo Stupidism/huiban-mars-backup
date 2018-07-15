@@ -57,6 +57,7 @@ import Cash from '@/modules/Cash';
 
 import getTickets from '@/methods/getTickets';
 import goToShareResult from '@/pages/tickets/share-result/goToShareResult';
+import { buildUrl as buildTicketViewUrl } from '@/pages/tickets/one/goToTicketView';
 import goToOrderDetail from '@/pages/orders/one/goToOrderDetail';
 import goToTicketsDetail from '@/pages/meetings/one/tickets/goToTicketsDetail';
 
@@ -75,9 +76,7 @@ export default {
     isCompleted() {
       return this.order && this.order.status === 'completed';
     },
-    ...mapState({
-      user: 'wechatUserInfo',
-    }),
+    ...mapState(['currentUser']),
     ...mapState('runtime', ['sharedTicket']),
     ...mapGetters(['protectedCurrentUserPhone']),
   },
@@ -104,10 +103,11 @@ export default {
     }
   },
   onShareAppMessage() {
-    const { id, gradeType, gradeTypeColor } = this.sharedTicket;
+    const { name } = this.currentUser;
+    const { id, gradeType, gradeTypeColor, meetingId } = this.sharedTicket;
     return {
-      title: `送您一张${gradeType || '门票'}`,
-      path: `/pages/tickets/one/acquire/main?id=${id}`,
+      title: `${name}送您一张${gradeType || '门票'}`,
+      path: buildTicketViewUrl(id, { meetingId }),
       imageUrl: `/static/ticket/${gradeTypeColor || 'blue'}.png`,
       success: goToShareResult,
       fail(error) {
