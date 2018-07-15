@@ -59,6 +59,8 @@ import goToMyTickets from '@/pages/tickets/goToMyTickets';
 import goToMyOrders from '@/pages/orders/goToMyOrders';
 import goToOrderDetail from '@/pages/orders/one/goToOrderDetail';
 import goToTicketsDetail from '@/pages/meetings/one/tickets/goToTicketsDetail';
+import goToUserLoginOrRegister from '@/pages/users/new/goToUserLoginOrRegister';
+import goToRecentMeetings from '@/pages/meetings/goToRecentMeetings';
 import { onModalOpen, onModalClose } from '@/utils/navbar';
 
 export default {
@@ -169,8 +171,9 @@ export default {
     }
 
     if (!this.currentUser.id) {
-      wx.navigateTo({
-        url: '/pages/users/new/main',
+      goToRecentMeetings();
+      goToUserLoginOrRegister({
+        nextTab: '/pages/users/me/main',
       });
       return;
     }

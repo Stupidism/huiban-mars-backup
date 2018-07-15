@@ -63,6 +63,7 @@ export default {
         smsCode: '',
       },
       invalidSmsCode: null,
+      query: {},
     };
   },
   computed: {
@@ -94,11 +95,15 @@ export default {
       try {
         const user = await registerUser(credentials);
         this.$store.commit('setCurrentUser', user);
-        // eslint-disable-next-line no-undef
-        if (getCurrentPages().length > 1) {
-          wx.navigateBack({ delta: 1 });
-        } else {
-          goToPersonalCenter();
+        if (this.query.nextTab) {
+          wx.switchTab({
+            url: decodeURIComponent(this.query.nextTab),
+          });
+        }
+        if (this.query.nextPage) {
+          wx.redirectTo({
+            url: decodeURIComponent(this.query.nextPage),
+          });
         }
       } catch (e) {
         this.invalidSmsCode = credentials.smsCode;
@@ -113,6 +118,7 @@ export default {
     ErrorMessage,
   },
   onShow() {
+    this.query = this.$root.$mp.query;
     if (this.currentUser && this.currentUser.id) {
       goToPersonalCenter();
     }

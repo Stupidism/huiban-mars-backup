@@ -128,6 +128,8 @@ import wechatLogin from '@/methods/wechat/login';
 import goToUserLoginOrRegister from '@/pages/users/new/goToUserLoginOrRegister';
 import isEmail from '@/utils/isEmail';
 
+import { buildUrl } from './goToNewOrder';
+
 const promptOrderError = options => wx.showModal({
   title: '下单失败, 原因:',
   content: '订单错误!',
@@ -219,7 +221,9 @@ export default {
 
         this.onSubmit();
       } else {
-        goToUserLoginOrRegister();
+        goToUserLoginOrRegister({
+          nextPage: buildUrl(this.$root.$mp.query),
+        });
       }
     },
     buildOrder() {
