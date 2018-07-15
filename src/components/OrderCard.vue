@@ -15,7 +15,7 @@
         </div>
       </div>
       <div v-if="order.status === 'to_be_paid'" class="order-actions">
-        <button class="small bordered" @click.stop="cancelOrder(order.id)">
+        <button class="small bordered" @click.stop="onCancelClick">
           取消订单
         </button>
         <button class="primary small" @click.stop="payTransactionForOrder(order)">
@@ -35,7 +35,7 @@ import payTransactionForOrder from '@/methods/payTransactionForOrder';
 import cancelOrder from '@/methods/cancelOrder';
 
 export default {
-  props: ['order'],
+  props: ['order', 'onCancel'],
   computed: {
     statusImage() {
       return `/static/order-status/${this.order.status}.png`;
@@ -43,7 +43,43 @@ export default {
   },
   methods: {
     payTransactionForOrder,
-    cancelOrder,
+    onCancelClick() {
+      wx.showModal({
+        title: '取消订单',
+        content: '确定取消吗?',
+        cancelText: '不取消',
+        confirmText: '确认取消',
+        cancelColor: '#000000',
+        confirmColor: '#2692F0',
+        success: (res) => {
+          if (res.confirm) {
+            this.onCancelOrder();
+          }
+        },
+      });
+    },
+    async onCancelOrder() {
+      try {
+        const newOrder = await cancelOrder(this.order.id);
+        if (this.onCancel) {
+          this.onCancel(newOrder);
+        }
+      } catch (e) {
+        wx.showModal({
+          title: '取消订单失败',
+          content: '请尝试再次取消或联系客服!',
+          cancelText: '知道了',
+          confirmText: '再次取消',
+          cancelColor: '#000000',
+          confirmColor: '#2692F0',
+          success: (res) => {
+            if (res.confirm) {
+              this.onCancelOrder();
+            }
+          },
+        });
+      }
+    },
   },
   components: {
     MeetingCard,

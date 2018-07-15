@@ -16,7 +16,7 @@
         <div class="sub-title">查看全部</div>
       </div>
       <div v-if="recentOrder" class="section-no-padding" @click="goToOrderDetail(recentOrder.id)" >
-        <order-card :order="recentOrder" />
+        <order-card :order="recentOrder" :onCancel="onCancelRecentOrder" />
       </div>
     </div>
     <div v-if="getUserInfoModalOpen" class="modal get-user-info-modal">
@@ -147,6 +147,15 @@ export default {
 
       updateUser(user);
       this.$store.commit('setCurrentUser', user);
+    },
+    onCancelRecentOrder(newOrder) {
+      this.orders = [
+        {
+          ...this.recentOrder,
+          ...newOrder,
+        },
+        ...this.orders.slice(1),
+      ];
     },
   },
   components: {

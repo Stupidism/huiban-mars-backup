@@ -6,7 +6,7 @@
       :key="order.id"
       @click="goToOrder(order.id)"
     >
-      <order-card :order="order" />
+      <order-card :order="order" :onCancel="onCancelRecentOrder" />
     </div>
   </scroll-view>
 </template>
@@ -28,6 +28,18 @@ export default {
   },
   methods: {
     goToOrder,
+    onCancelRecentOrder(newOrder) {
+      this.orders = this.orders.map((order) => {
+        if (order.id !== newOrder.id) {
+          return order;
+        }
+
+        return {
+          ...order,
+          ...newOrder,
+        };
+      });
+    },
   },
   components: {
     OrderCard,
