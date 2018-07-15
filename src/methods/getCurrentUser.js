@@ -17,12 +17,7 @@ const getCurrentUser = async () => {
 
     return res.statusCode === 204 ? {} : res;
   } catch (e) {
-    if (e.errMsg === 'checkSession:fail Error: session time out, need relogin'
-      || e.statusCode === 404) {
-      console.error('getCurrentUser tolerate first failure', e);
-    } else {
-      throw e;
-    }
+    console.error('getCurrentUser tolerate first failure', e);
   }
   console.info('getCurrentUser try to refresh token and fetch again');
 
