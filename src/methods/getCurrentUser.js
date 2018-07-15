@@ -13,9 +13,11 @@ const getCurrentUser = async () => {
 
     const res = await getCurrentUserPromise;
 
-    finishAuthenticate();
+    if (res.statusCode === 204) {
+      throw new Error('new user');
+    }
 
-    return res.statusCode === 204 ? {} : res;
+    finishAuthenticate();
   } catch (e) {
     console.error('getCurrentUser tolerate first failure', e);
   }
