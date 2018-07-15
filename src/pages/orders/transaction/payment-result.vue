@@ -61,10 +61,6 @@ import { buildUrl as buildTicketViewUrl } from '@/pages/tickets/one/goToTicketVi
 import goToOrderDetail from '@/pages/orders/one/goToOrderDetail';
 import goToTicketsDetail from '@/pages/meetings/one/tickets/goToTicketsDetail';
 
-const getSharableTickets = orderId =>
-  getTickets({ orderId, status: 'no_participant' })
-    .then(tickets => tickets.filter(ticket => ticket.status === 'no_participant'));
-
 export default {
   data() {
     return {
@@ -88,6 +84,27 @@ export default {
         goToOrderDetail(this.order.id);
       }
     },
+    async getSharableTickets(orderId) {
+      const tickets = await getTickets({ orderId, status: 'no_participant' });
+
+      if (tickets.length) {
+        this.sharableTickets = tickets.filter(ticket => ticket.status === 'no_participant');
+        if (this.sharableTickets.length) {
+          this.setRuntime({ sharedTicket: this.sharableTickets[0] });
+        }
+
+        if (this.interval) {
+          clearInterval(this.interval);
+          this.interval = null;
+        }
+
+        return;
+      }
+
+      if (!this.interval) {
+        this.interval = setInterval(() => this.getSharableTickets(orderId), 500);
+      }
+    },
     ...mapMutations('runtime', ['setRuntime']),
   },
   components: {
@@ -96,11 +113,8 @@ export default {
   },
   async onShow() {
     const orderId = this.$root.$mp.query.orderId || 1;
+    this.getSharableTickets(orderId);
     this.order = await getOrder(orderId);
-    this.sharableTickets = await getSharableTickets(orderId);
-    if (this.sharableTickets.length) {
-      this.setRuntime({ sharedTicket: this.sharableTickets[0] });
-    }
   },
   onShareAppMessage() {
     const { name } = this.currentUser;
