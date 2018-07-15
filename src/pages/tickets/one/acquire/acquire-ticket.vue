@@ -216,7 +216,12 @@ export default {
     TextField,
   },
   async onShow() {
-    this.ticket = await getTicket(this.$root.$mp.query.id || 500);
+    const ticketId = this.$root.$mp.query.id || 1076;
+    try {
+      this.ticket = await getTicket(ticketId);
+    } catch (e) {
+      goToTicketView(ticketId);
+    }
 
     this.participantInForm = { ...this.userInfo };
   },
