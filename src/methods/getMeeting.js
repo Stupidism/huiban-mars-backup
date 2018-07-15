@@ -1,5 +1,4 @@
 import { wxRequest, meetingGet } from '@/apis';
-import { example as meetingExample } from '@/apis/meetings/get';
 
 const colors = ['blue', 'green', 'orange', 'purple', 'black'];
 
@@ -16,13 +15,6 @@ export default async function getMeeting(id) {
     meeting.ticketGrades = addTypeColorForTicketGrades(meeting.ticketGrades);
     return meeting;
   } catch (e) {
-    if (e.errMsg === 'request:fail url not in domain list') {
-      return {
-        ...meetingExample,
-        id,
-      };
-    }
-
     console.error(e.statusCode, e.data);
     throw e;
   }
