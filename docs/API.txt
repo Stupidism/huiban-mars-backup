@@ -212,11 +212,13 @@
   403: {
     type: 'One for One',
     message: '您已经拥有一张此会议的门票',
+    data: { meetingId },
   }
 
   410: {
     type: 'Already Taken',
     message: '门票已被他人领取',
+    data: { meetingId },
   }
 
 8.2. PUT /tickets/:id // 唯一能做的是添加新的与会人
@@ -228,11 +230,13 @@
   409: {
     type: 'One for One',
     message: '对于任意一个会议, 一个用户只能拥有的一个参会名额',
+    data: { meetingId }
   }
 
   410: {
     type: 'Already Taken',
     message: '门票已被他人领取',
+    data: { meetingId },
   }
 
 9. GET /locations/:id
