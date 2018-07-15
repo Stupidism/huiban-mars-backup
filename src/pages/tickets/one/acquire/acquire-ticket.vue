@@ -97,42 +97,22 @@ import TextField from '@/modules/TextField';
 import Cash from '@/modules/Cash';
 
 import goToTicketView from '@/pages/tickets/one/goToTicketView';
-import goToMeetingTicketGrades from '@/pages/meetings/one/ticket-grades/goToMeetingTicketGrades';
 import registerUser from '@/methods/registerUser';
 import updateUser from '@/methods/updateUser';
 import getTicket from '@/methods/getTicket';
 import acquireTicket from '@/methods/acquireTicket';
 import isEmail from '@/utils/isEmail';
 import toCash from '@/utils/filters/cash';
+import openModal from '@/utils/modal';
 
-const promptAcquireSucceed = ({ ticket, user }) => {
-  wx.showModal({
-    content: `已成功领取价值${toCash(ticket.price)}元的贵宾票\n` +
-    `门票信息已经发送至${user.phone}`,
-    showCancel: false,
-    confirmText: '查看门票',
-    confirmColor: '#2692F0',
-    success(res) {
-      if (res.confirm) {
-        goToTicketView(ticket.id);
-      }
-    },
-  });
-};
+import promptAcquireFail from './promptAcquireFail';
 
-const promptAcquireFail = ({ ticket }) => {
-  wx.showModal({
-    content: '手慢了，门票已被其他小伙伴领走了',
-    showCancel: false,
-    confirmText: '自己买',
-    confirmColor: '#2692F0',
-    success(res) {
-      if (res.confirm) {
-        goToMeetingTicketGrades(ticket.meetingId);
-      }
-    },
-  });
-};
+const promptAcquireSucceed = ({ ticket, user }) => openModal({
+  confirmText: '查看门票',
+  content: `已成功领取价值${toCash(ticket.price)}元的贵宾票\n` +
+  `门票信息已经发送至${user.phone}`,
+  onConfirm: () => goToTicketView(ticket.id),
+});
 
 export default {
   data() {
@@ -218,9 +198,13 @@ export default {
           user,
         });
       } catch (e) {
-        promptAcquireFail({
-          ticket: this.ticket,
-        });
+        if (e.statusCode === 409) {
+          promptAcquireFail(this.ticket.meetingId, {
+            content: '您已经拥有一张此会议的门票',
+          });
+        } else {
+          promptAcquireFail(this.ticket.meetingId);
+        }
       }
     },
   },

@@ -127,21 +127,16 @@ import wechatLogin from '@/methods/wechat/login';
 
 import goToUserLoginOrRegister from '@/pages/users/new/goToUserLoginOrRegister';
 import isEmail from '@/utils/isEmail';
+import openModal from '@/utils/modal';
 
 import { buildUrl } from './goToNewOrder';
 
-const promptOrderError = options => wx.showModal({
+const promptOrderError = options => openModal({
   title: '下单失败, 原因:',
   content: '订单错误!',
   cancelText: '知道了',
   confirmText: '重新选票',
-  cancelColor: '#000000',
-  confirmColor: '#2692F0',
-  success(res) {
-    if (res.confirm) {
-      wx.navigateBack();
-    }
-  },
+  onConfirm: wx.navigateBack,
   ...options,
 });
 
