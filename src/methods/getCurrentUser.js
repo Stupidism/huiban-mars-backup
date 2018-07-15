@@ -18,6 +18,7 @@ const getCurrentUser = async () => {
     }
 
     finishAuthenticate();
+    return res;
   } catch (e) {
     console.error('getCurrentUser tolerate first failure', e);
   }
