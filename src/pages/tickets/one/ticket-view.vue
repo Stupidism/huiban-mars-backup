@@ -52,7 +52,8 @@ import goToShareResult from '@/pages/tickets/share-result/goToShareResult';
 import goToCheckTicket from '@/pages/tickets/one/check/goToCheckTicket';
 import goToAcquireTicket from '@/pages/tickets/one/acquire/goToAcquireTicket';
 import { buildUrl as buildTicketViewUrl } from '@/pages/tickets/one/goToTicketView';
-import goToMeetingTicketGrades from '@/pages/meetings/one/ticket-grades/goToMeetingTicketGrades';
+
+import promptAcquireFail from './acquire/promptAcquireFail';
 
 export default {
   data() {
@@ -86,7 +87,7 @@ export default {
       await waitForAuth();
     }
 
-    const ticketId = this.$root.$mp.query.id || 1122;
+    const ticketId = this.$root.$mp.query.id || 1079;
     const currentUserId = this.currentUser.id;
     // 如果没登录, 跳到领取页面
     if (!currentUserId) {
@@ -108,17 +109,13 @@ export default {
       this.ticket = ticket;
     } catch (e) {
       const meetingId = this.$root.$mp.query.meetingId || _.get(e, 'data.data.meetingId') || 3;
-      goToMeetingTicketGrades(meetingId);
-      if (e.statusCode === 410) {
-        wx.showModal({
-          title: '您已经拥有此会议的一张门票',
+      if (e.statusCode === 403) {
+        promptAcquireFail(meetingId, {
+          content: '您已经拥有一张此会议的门票',
         });
       } else {
-        wx.showModal({
-          title: '手慢了，门票已被其他小伙伴领走了',
-        });
+        promptAcquireFail(meetingId);
       }
-
       return;
     }
 
