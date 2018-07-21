@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import _ from 'lodash';
 import { mapGetters, mapMutations } from 'vuex';
 
 import Cash from '@/modules/Cash';
@@ -88,10 +87,12 @@ export default {
     }
 
     const ticketId = this.$root.$mp.query.id || 1079;
+    const meetingId = this.$root.$mp.query.meetingId || 3;
+
     const currentUserId = this.currentUser.id;
     // 如果没登录, 跳到领取页面
     if (!currentUserId) {
-      goToAcquireTicket(ticketId);
+      goToAcquireTicket(ticketId, meetingId);
       return;
     }
 
@@ -108,7 +109,6 @@ export default {
 
       this.ticket = ticket;
     } catch (e) {
-      const meetingId = this.$root.$mp.query.meetingId || _.get(e, 'data.data.meetingId') || 3;
       if (e.statusCode === 403) {
         promptAcquireFail(meetingId, {
           content: '您已经拥有一张此会议的门票',

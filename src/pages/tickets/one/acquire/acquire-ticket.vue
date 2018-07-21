@@ -217,10 +217,20 @@ export default {
   },
   async onShow() {
     const ticketId = this.$root.$mp.query.id || 1076;
+    const meetingId = this.$root.$mp.query.meetingId || 1076;
+
     try {
       this.ticket = await getTicket(ticketId);
     } catch (e) {
-      goToTicketView(ticketId);
+      if (e.statusCode === 403 || e.statusCode === 410) {
+        goToTicketView(ticketId, { meetingId });
+      } else {
+        promptAcquireFail(meetingId, {
+          title: '门票获取失败',
+          content: '未知网络错误, 可能是购票人被删除',
+        });
+        console.error('get ticket fail', e);
+      }
     }
 
     this.participantInForm = { ...this.userInfo };
