@@ -15,7 +15,7 @@ export default {
   },
   computed: {
     meetingPageUrl() {
-      return `http://localhost:9370/page/3#/page/${this.id}`;
+      return `https://imeetingu.com/phobos/#/page/${this.id}`;
     },
   },
   methods: {
