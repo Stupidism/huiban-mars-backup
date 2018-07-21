@@ -7,7 +7,7 @@
         :key="meeting.id"
         :src="meeting.bannerImg"
         mode="center"
-        @click="goToMeetingTicketGrades(meeting.id)"
+        @click="goToMeetingDetail(meeting.id)"
       />
     </div>
   </scroll-view>
@@ -15,7 +15,7 @@
 
 <script>
 import getMeetings from '@/methods/getMeetings';
-import goToMeetingTicketGrades from './one/ticket-grades/goToMeetingTicketGrades';
+import goToMeetingDetail from './one/goToMeetingDetail';
 
 export default {
   data() {
@@ -24,7 +24,7 @@ export default {
     };
   },
   methods: {
-    goToMeetingTicketGrades,
+    goToMeetingDetail,
   },
   async onShow() {
     this.meetings = await getMeetings();

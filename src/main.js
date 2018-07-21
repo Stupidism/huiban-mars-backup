@@ -15,6 +15,7 @@ export default {
   config: {
     pages: [
       '^pages/meetings/main',
+      'pages/meetings/one/main',
       'pages/meetings/one/ticket-grades/main',
       'pages/meetings/one/tickets/main',
       'pages/users/me/main',
