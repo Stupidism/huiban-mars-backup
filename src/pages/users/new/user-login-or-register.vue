@@ -40,6 +40,13 @@
         登录
       </button>
     </provider-form>
+    <navigator
+      class="cancel-login"
+      url="/pages/meetings/main"
+      open-type="switchTab"
+    >
+      暂不登录, 继续浏览
+    </navigator>
   </scroll-view>
 </template>
 
@@ -161,6 +168,11 @@ export default {
     margin-top: 80px;
     width: 100%;
     font-size: 14px;
+  }
+
+  .cancel-login {
+    height: 2rem;
+    text-align: center;
   }
 }
 </style>
