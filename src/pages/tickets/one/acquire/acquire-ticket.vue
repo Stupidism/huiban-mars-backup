@@ -116,7 +116,9 @@ const promptAcquireSucceed = ({ ticket, user }) => openModal({
   confirmText: '查看门票',
   content: `已成功领取价值${toCash(ticket.price)}元的贵宾票\n` +
   `门票信息已经发送至${user.phone}`,
-  onConfirm: () => goToTicketView(ticket.id),
+  onConfirm: () => goToTicketView({
+    id: ticket.id,
+  }),
 });
 
 export default {

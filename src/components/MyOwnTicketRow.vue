@@ -57,7 +57,9 @@ export default {
   },
   methods: {
     goToView() {
-      goToTicketView(this.ticket.id);
+      goToTicketView({
+        id: this.ticket.id,
+      });
     },
     goToCheck() {
       goToCheckTicket(this.ticket.id);

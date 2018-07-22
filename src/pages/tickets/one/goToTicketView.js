@@ -1,11 +1,8 @@
 import buildUrl from 'build-url';
 
-export default (id, options) => wx.navigateTo({
+export default queryParams => wx.navigateTo({
   url: buildUrl({
     path: '/pages/tickets/one/main',
-    queryParams: {
-      id,
-      ...options,
-    },
+    queryParams,
   }),
 });
