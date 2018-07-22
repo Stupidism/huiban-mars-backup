@@ -43,7 +43,7 @@ export default {
   methods: {
     onSendSmsCodeClick() {
       this.coolDown = 60;
-      sendSmsCode({ phone: this.phone });
+      sendSmsCode(this.phone);
     },
     onSmsCdCountDown(leftNum) {
       if (leftNum < 0) {
