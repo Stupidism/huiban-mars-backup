@@ -70,7 +70,7 @@
         <div>
           剩余:
           <span class="text danger extreme-large">
-            <count-down-time v-if="order.meeting" :endTime="order.meeting.enrollEndAt" />
+            <count-down-time :endTime="duePaidAt" />
           </span>
         </div>
         <button @click="onCancelClick" class="large narrow">取消订单</button>
@@ -84,6 +84,8 @@
 </template>
 
 <script>
+import addMinutes from 'date-fns/add_minutes';
+
 import MeetingCard from '@/components/MeetingCard';
 import DateTime from '@/modules/DateTime';
 import CountDownTime from '@/modules/CountDownTime';
@@ -117,6 +119,10 @@ export default {
       if (!this.order) return false;
       return this.order.status === 'to_be_paid';
     },
+    duePaidAt() {
+      if (!this.order) return null;
+      return addMinutes(this.order.createdAt, 15);
+    },
   },
   methods: {
     goToTicketsDetail,
@@ -141,7 +147,7 @@ export default {
     CountDownTime,
   },
   async onShow() {
-    this.order = await getOrder(this.$root.$mp.query.id || 1);
+    this.order = await getOrder(this.$root.$mp.query.id || 552);
   },
 };
 </script>
