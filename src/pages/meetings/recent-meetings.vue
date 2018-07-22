@@ -6,7 +6,7 @@
         v-for="meeting in meetings"
         :key="meeting.id"
         :src="meeting.bannerImg"
-        mode="center"
+        mode="aspectFill"
         @click="goToMeetingDetail(meeting.id)"
       />
     </div>
