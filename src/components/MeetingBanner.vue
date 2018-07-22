@@ -37,6 +37,7 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 0 50px;
   }
 
   .english-topic {
