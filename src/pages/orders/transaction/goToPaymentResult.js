@@ -1,7 +1,10 @@
-import qs from 'query-string';
+import buildUrl from 'build-url';
 
 export default orderId => wx.navigateTo({
-  url: `/pages/orders/transaction/main?${qs.stringify({
-    orderId: orderId || 1,
-  })}`,
+  url: buildUrl({
+    path: '/pages/orders/transaction/main',
+    queryParams: {
+      orderId,
+    },
+  }),
 });

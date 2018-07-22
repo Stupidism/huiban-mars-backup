@@ -1,10 +1,11 @@
-import qs from 'query-string';
-
-export const buildUrl = (id, options) => `/pages/tickets/one/main?${qs.stringify({
-  id,
-  ...options,
-})}`;
+import buildUrl from 'build-url';
 
 export default (id, options) => wx.navigateTo({
-  url: buildUrl(id, options),
+  url: buildUrl({
+    path: '/pages/tickets/one/main',
+    queryParams: {
+      id,
+      ...options,
+    },
+  }),
 });

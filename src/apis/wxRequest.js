@@ -1,6 +1,4 @@
-import urlJoin from 'url-join';
-import _ from 'lodash';
-import qs from 'query-string';
+import buildUrl from 'build-url';
 
 const baseUrl = 'https://imeetingu.com/earth/';
 
@@ -25,7 +23,10 @@ const wxRequest = async ({
   return new Promise((resolve, reject) => {
     wx.request({
       ...mergedOptions,
-      url: urlJoin(baseUrl, url, _.isEmpty(query) ? '' : `?${qs.stringify(query)}`),
+      url: buildUrl(baseUrl, {
+        path: url,
+        queryParams: query,
+      }),
       success(res) {
         if (res.statusCode >= 300) {
           reject(res);

@@ -1,11 +1,8 @@
-import qs from 'query-string';
+import buildUrl from 'build-url';
 
-export const buildUrl = ({ meetingId, amount, ticketGradeId }) => `/pages/orders/new/main?${qs.stringify({
-  meetingId,
-  amount,
-  ticketGradeId,
-})}`;
-
-export default options => wx.navigateTo({
-  url: buildUrl(options),
+export default queryParams => wx.navigateTo({
+  url: buildUrl({
+    path: '/pages/orders/new/main',
+    queryParams,
+  }),
 });

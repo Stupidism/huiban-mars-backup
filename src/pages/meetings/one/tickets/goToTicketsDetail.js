@@ -1,8 +1,8 @@
-import qs from 'query-string';
+import buildUrl from 'build-url';
 import _ from 'lodash';
 
 export default (meetingIdOrQuery) => {
-  const query = _.isObject(meetingIdOrQuery)
+  const queryParams = _.isObject(meetingIdOrQuery)
     ? _.pick(meetingIdOrQuery, [
       'meetingId',
       'orderId',
@@ -12,7 +12,10 @@ export default (meetingIdOrQuery) => {
     };
 
   wx.navigateTo({
-    url: `/pages/meetings/one/tickets/main?${qs.stringify(query)}`,
+    url: buildUrl({
+      path: '/pages/meetings/one/tickets/main',
+      queryParams,
+    }),
   });
 };
 
