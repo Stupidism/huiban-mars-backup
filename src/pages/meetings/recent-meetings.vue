@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import redirector from '@/mixins/redirector';
+
 import getMeetings from '@/methods/getMeetings';
 import goToMeetingDetail from './one/goToMeetingDetail';
 
@@ -26,18 +28,10 @@ export default {
   methods: {
     goToMeetingDetail,
   },
+  mixins: [
+    redirector,
+  ],
   async onShow() {
-    const query = this.$root.$mp.query;
-
-    this.query = JSON.stringify(query);
-
-    if (query.nextType === 'immediate') {
-      wx.navigateTo({
-        url: decodeURIComponent(query.nextPage),
-      });
-      return;
-    }
-
     this.meetings = await getMeetings();
   },
 };

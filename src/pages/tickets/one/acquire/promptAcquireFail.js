@@ -7,7 +7,12 @@ export default (meetingId, options) => openModal({
   content: '手慢了，门票已被其他小伙伴领走了',
   confirmText: '自己买',
   cancelText: '回首页',
-  onConfirm: () => goToMeetingTicketGrades(meetingId),
+  onConfirm: () => {
+    wx.navigateBack({
+      delta: 1,
+    });
+    goToMeetingTicketGrades(meetingId);
+  },
   onCancel: () => goToRecentMeetings(),
   ...options,
 });

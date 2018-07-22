@@ -53,6 +53,7 @@ import goToAcquireTicket from '@/pages/tickets/one/acquire/goToAcquireTicket';
 import buildTicketShareOptions from '@/methods/buildTicketShareOptions';
 
 import promptAcquireFail from './acquire/promptAcquireFail';
+import isTicketViewable from './isTicketViewable';
 
 export default {
   data() {
@@ -86,28 +87,19 @@ export default {
       await waitForAuth();
     }
 
+    const query = this.$root.$mp.query;
+
     const ticketId = this.$root.$mp.query.id || 1079;
     const meetingId = this.$root.$mp.query.meetingId || 3;
 
-    const currentUserId = this.currentUser.id;
-    // 如果没登录, 跳到领取页面
-    if (!currentUserId) {
-      goToAcquireTicket(ticketId, meetingId);
+    // 如果这个门票对当前用户不可见, 则跳转到门票领取页面
+    if (query.buyerId && !isTicketViewable(query, this.currentUser)) {
+      goToAcquireTicket(query);
       return;
     }
 
     try {
-      const ticket = await getTicket(ticketId);
-
-      // 如果非购买者本人且没有参会人, 跳到领取页面
-      if (ticket.buyerId !== this.currentUser.id) {
-        if (!ticket.participantId) {
-          goToAcquireTicket(ticketId);
-          return;
-        }
-      }
-
-      this.ticket = ticket;
+      this.ticket = await getTicket(ticketId);
     } catch (e) {
       if (e.statusCode === 403) {
         promptAcquireFail(meetingId, {

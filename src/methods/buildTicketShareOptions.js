@@ -7,10 +7,12 @@ export default ({ user, ticket, ...options }) => {
     title: `${user.name}送您一张${gradeType || '门票'}`,
     path: buildUrl({
       reLaunch: true,
+      nextType: 'view_or_acquire_ticket',
       path: '/pages/tickets/one/main',
       queryParams: {
         id,
         meetingId,
+        buyerId: user.id,
       },
     }),
     imageUrl: `/static/ticket/${gradeTypeColor || 'blue'}.png`,
