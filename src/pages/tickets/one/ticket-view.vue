@@ -50,7 +50,7 @@ import { isAuthing, waitForAuth } from '@/methods/auth';
 import goToShareResult from '@/pages/tickets/share-result/goToShareResult';
 import goToCheckTicket from '@/pages/tickets/one/check/goToCheckTicket';
 import goToAcquireTicket from '@/pages/tickets/one/acquire/goToAcquireTicket';
-import { buildUrl as buildTicketViewUrl } from '@/pages/tickets/one/goToTicketView';
+import buildTicketShareOptions from '@/methods/buildTicketShareOptions';
 
 import promptAcquireFail from './acquire/promptAcquireFail';
 
@@ -122,18 +122,11 @@ export default {
     this.setRuntime({ sharedTicket: this.ticket });
   },
   onShareAppMessage() {
-    const { name } = this.currentUser;
-    const { id, gradeType, meetingId } = this.ticket;
-
-    return {
-      title: `${name}送您一张${gradeType || '门票'}`,
-      path: buildTicketViewUrl(id, { meetingId }),
+    return buildTicketShareOptions({
+      user: this.currentUser,
+      ticket: this.ticket,
       success: goToShareResult,
-      fail(error) {
-        // 转发失败
-        console.error('share failed', error);
-      },
-    };
+    });
   },
 };
 </script>

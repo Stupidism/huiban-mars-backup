@@ -57,9 +57,9 @@ import Cash from '@/modules/Cash';
 
 import getTickets from '@/methods/getTickets';
 import goToShareResult from '@/pages/tickets/share-result/goToShareResult';
-import { buildUrl as buildTicketViewUrl } from '@/pages/tickets/one/goToTicketView';
 import goToOrderDetail from '@/pages/orders/one/goToOrderDetail';
 import goToTicketsDetail from '@/pages/meetings/one/tickets/goToTicketsDetail';
+import buildTicketShareOptions from '@/methods/buildTicketShareOptions';
 
 export default {
   data() {
@@ -112,23 +112,16 @@ export default {
     TicketItem,
   },
   async onShow() {
-    const orderId = this.$root.$mp.query.orderId || 1;
+    const orderId = this.$root.$mp.query.orderId || 559;
     this.getSharableTickets(orderId);
     this.order = await getOrder(orderId);
   },
   onShareAppMessage() {
-    const { name } = this.currentUser;
-    const { id, gradeType, gradeTypeColor, meetingId } = this.sharedTicket;
-    return {
-      title: `${name}送您一张${gradeType || '门票'}`,
-      path: buildTicketViewUrl(id, { meetingId }),
-      imageUrl: `/static/ticket/${gradeTypeColor || 'blue'}.png`,
+    return buildTicketShareOptions({
+      user: this.currentUser,
+      ticket: this.sharedTicket,
       success: goToShareResult,
-      fail(error) {
-        // 转发失败
-        console.error('share failed', error);
-      },
-    };
+    });
   },
 };
 </script>
