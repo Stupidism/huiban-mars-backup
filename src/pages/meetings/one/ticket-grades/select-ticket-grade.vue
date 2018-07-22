@@ -11,7 +11,6 @@
     <div class="ticket-grades-radio container">
       <div class="title section-single-line">
         <span>选择票档</span>
-        <span class="sub-title">（贵宾票不参与买一赠一活动）</span>
       </div>
 
       <div class="section">
