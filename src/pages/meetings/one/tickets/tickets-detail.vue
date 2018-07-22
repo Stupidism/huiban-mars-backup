@@ -18,7 +18,7 @@
       <div class="section-single-line">获赠的门票</div>
       <div class="section-no-padding tickets-list">
         <my-own-ticket-row
-          v-if="selfParticipatingTicket.type === 'gift_ticket'"
+          v-if="selfParticipatingTicket && selfParticipatingTicket.type === 'gift_ticket'"
           :ticket="selfParticipatingTicket"
           selfParticipatingMeeting
         />
