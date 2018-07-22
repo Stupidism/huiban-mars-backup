@@ -3,8 +3,11 @@
     <user-card :user="currentUser" :onAvatarClick="openGetUserInfoModal" />
     <div class="container">
       <div class="list-title section-single-line" @click="goToMyTickets">
-        <div>我的门票</div>
-        <div class="sub-title">共{{sharableTickets.length}}张门票可赠送</div>
+        <div>我的门票({{tickets.length}})</div>
+        <div class="sub-title flex aligned">
+          共{{sharableTickets.length}}张门票可赠送
+          <image class="icon small" src="/static/icons/right-arrow.png" />
+        </div>
       </div>
       <div v-if="recentTicket" class="section-no-padding" @click="goToTicketsDetail(recentTicket.meetingId)">
         <tickets-card :tickets="ticketsOfRecentMeeting" :meeting="recentMeeting" />
@@ -12,8 +15,11 @@
     </div>
     <div class="container">
       <div class="list-title section-single-line" @click="goToMyOrders">
-        <div>我的订单</div>
-        <div class="sub-title">查看全部</div>
+        <div>我的订单({{orders.length}})</div>
+        <div class="sub-title flex aligned">
+          查看全部
+          <image class="icon small" src="/static/icons/right-arrow.png" />
+        </div>
       </div>
       <div v-if="recentOrder" class="section-no-padding" @click="goToOrderDetail(recentOrder.id)" >
         <order-card :order="recentOrder" :onCancel="onCancelRecentOrder" />
