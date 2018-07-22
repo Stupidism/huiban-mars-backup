@@ -97,6 +97,7 @@ import TextField from '@/modules/TextField';
 import Cash from '@/modules/Cash';
 
 import goToTicketView from '@/pages/tickets/one/goToTicketView';
+import { isAuthing, waitForAuth } from '@/methods/auth';
 import registerUser from '@/methods/registerUser';
 import updateUser from '@/methods/updateUser';
 import getTicket from '@/methods/getTicket';
@@ -216,14 +217,22 @@ export default {
     TextField,
   },
   async onShow() {
+    if (isAuthing()) {
+      await waitForAuth();
+    }
+
     const ticketId = this.$root.$mp.query.id || 1076;
     const meetingId = this.$root.$mp.query.meetingId || 1076;
 
     try {
       this.ticket = await getTicket(ticketId);
     } catch (e) {
-      if (e.statusCode === 403 || e.statusCode === 410) {
-        goToTicketView(ticketId, { meetingId });
+      if (e.statusCode === 403) {
+        promptAcquireFail(meetingId, {
+          content: '您已经拥有一张此会议的门票',
+        });
+      } else if (e.statusCode === 410) {
+        promptAcquireFail(meetingId);
       } else {
         promptAcquireFail(meetingId, {
           title: '门票获取失败',
