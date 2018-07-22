@@ -17,13 +17,16 @@
 import { mapState } from 'vuex';
 import TicketItem from '@/components/TicketItem';
 import goToPersonalCenter from '@/pages/users/me/goToPersonalCenter';
+import goToTicketsDetail from '@/pages/meetings/one/tickets/goToTicketsDetail';
 
 export default {
   computed: mapState('runtime', ['sharedTicket']),
   methods: {
     onFinish: goToPersonalCenter,
     onContinue() {
-      wx.navigateBack();
+      goToTicketsDetail({
+        orderId: this.sharedTicket.orderId,
+      });
     },
   },
   components: {
