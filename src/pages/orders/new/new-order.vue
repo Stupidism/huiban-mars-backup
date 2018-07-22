@@ -113,6 +113,7 @@
 <script>
 import _ from 'lodash';
 import { mapGetters } from 'vuex';
+import buildUrl from 'build-url';
 
 import MeetingCard from '@/components/MeetingCard';
 import PaymentMethod from '@/components/PaymentMethod';
@@ -133,8 +134,6 @@ import goToUserLoginOrRegister from '@/pages/users/new/goToUserLoginOrRegister';
 import isEmail from '@/utils/isEmail';
 import openModal from '@/utils/modal';
 import goToOrderDetail from '@/pages/orders/one/goToOrderDetail';
-
-import { buildUrl } from './goToNewOrder';
 
 const promptOrderError = options => openModal({
   title: '下单失败, 原因:',
@@ -222,7 +221,10 @@ export default {
         this.onSubmit();
       } else {
         goToUserLoginOrRegister({
-          nextPage: buildUrl(this.$root.$mp.query),
+          nextPage: buildUrl({
+            path: '/pages/orders/new/main',
+            queryParams: this.$root.$mp.query,
+          }),
         });
       }
     },
