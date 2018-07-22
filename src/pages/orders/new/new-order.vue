@@ -132,6 +132,7 @@ import wechatLogin from '@/methods/wechat/login';
 import goToUserLoginOrRegister from '@/pages/users/new/goToUserLoginOrRegister';
 import isEmail from '@/utils/isEmail';
 import openModal from '@/utils/modal';
+import goToOrderDetail from '@/pages/orders/one/goToOrderDetail';
 
 import { buildUrl } from './goToNewOrder';
 
@@ -257,7 +258,9 @@ export default {
         if (!this.order) {
           this.order = await postOrder(this.buildOrder());
         }
-        await payTransactionForOrder(this.order);
+        await payTransactionForOrder(this.order, {
+          onCancelOrder: () => goToOrderDetail(this.order.id),
+        });
       } catch (error) {
         if (error.statusCode === 400 && error.data.type === 'No Stock') {
           promptOrderError({
@@ -269,7 +272,7 @@ export default {
               `type: ${error.data.type}\n` +
               `${JSON.stringify(error.data.errors)}`,
           });
-          throw error;
+          console.error('pay order fail', error);
         }
       }
       this.paying = false;

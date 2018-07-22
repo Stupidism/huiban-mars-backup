@@ -31,7 +31,9 @@ export const payTransaction = wechatTransaction =>
     complete: resolve,
   }));
 
-export default async function payTransactionForOrder(order) {
+export default async function payTransactionForOrder(order, {
+  onCancelOrder,
+} = {}) {
   let transaction = order.transaction;
   if (!transaction || (new Date(transaction.expiresAt) < new Date())) {
     try {
@@ -66,6 +68,8 @@ export default async function payTransactionForOrder(order) {
 
       if (res.confirm) {
         await payTransactionForOrder(order);
+      } else if (onCancelOrder) {
+        onCancelOrder();
       }
     } else {
       const res = await promptPaymentError({
