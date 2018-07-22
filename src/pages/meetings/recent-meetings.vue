@@ -27,6 +27,17 @@ export default {
     goToMeetingDetail,
   },
   async onShow() {
+    const query = this.$root.$mp.query;
+
+    this.query = JSON.stringify(query);
+
+    if (query.nextType === 'immediate') {
+      wx.navigateTo({
+        url: decodeURIComponent(query.nextPage),
+      });
+      return;
+    }
+
     this.meetings = await getMeetings();
   },
 };
