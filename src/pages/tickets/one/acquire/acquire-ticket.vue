@@ -47,31 +47,35 @@
           label="姓名"
           placeholder="请输入您的真实姓名"
           required
+          confirm-type="next"
         />
         <text-field
           name="company"
           label="公司"
           placeholder="请输入您的公司名称"
           required
+          confirm-type="next"
         />
         <text-field
           name="email"
           label="邮箱"
           placeholder="请输入您的邮箱地址"
           required
+          confirm-type="next"
         />
         <text-field
           name="position"
           label="职位"
           placeholder="请输入您的职位名称"
           required
+          confirm-type="next"
         />
         <text-field
           name="city"
           label="城市"
           placeholder="请输入您所在的城市"
           required
-          confirm-type="done"
+          confirm-type="next"
         />
       </div>
     </provider-form>

@@ -31,12 +31,14 @@
           placeholder="请输入您的真实姓名"
           auto-focus
           required
+          confirm-type="next"
         />
         <text-field
           name="company"
           label="公司"
           placeholder="请输入您的公司名称"
           required
+          confirm-type="next"
         />
         <text-field
           name="email"
@@ -44,19 +46,21 @@
           type="email"
           placeholder="请输入您的邮箱地址"
           required
+          confirm-type="next"
         />
         <text-field
           name="position"
           label="职位"
           placeholder="请输入您的职位名称"
           required
+          confirm-type="next"
         />
         <text-field
           name="city"
           label="城市"
           placeholder="请输入您所在的城市"
           required
-          confirm-type="done"
+          confirm-type="next"
         />
         <label class="form-field is-participant-checkbox" @click="toggleSelfParticipate">
           本人参会，上述信息将作为您现场签到的唯一凭证

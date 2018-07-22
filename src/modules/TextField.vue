@@ -6,13 +6,11 @@
     <input
       type="text"
       :value="value"
-      :focus="focused"
       @input="onChange"
-      @click="onFocus"
+      @focus="onFocus"
       @blur="onBlur"
       :placeholder="placeholder"
-      @confirm="onConfirm"
-      :confirm-type="confirmType"
+      confirm-type="next"
       :disabled="disabled"
     >
     <span v-if="!meta.focused && errorMessage" class="error-message">{{errorMessage}}</span>
@@ -35,16 +33,15 @@ export default {
     defaultValue: String,
     required: Boolean,
     disabled: Boolean,
-    confirmType: {
-      type: String,
-      default: 'next',
-    },
   },
   data() {
     return {
       ownValue: this.defaultValue,
-      ownMeta: {},
-      lockBlurUntil: 0,
+      meta: {
+        touched: false,
+        focused: false,
+        errorMessage: null,
+      },
     };
   },
   mixins: [
@@ -56,12 +53,6 @@ export default {
     },
     value() {
       return this.ownValue === undefined ? this.fieldValue : this.ownValue;
-    },
-    meta() {
-      return this.metas[this.name] || {};
-    },
-    focused() {
-      return this.controlFocusStatus ? this.meta.focused : this.ownMeta.focused;
     },
     errorMessage() {
       const meta = this.meta;
@@ -81,16 +72,11 @@ export default {
     return {
       formName: 'formName',
       fields: 'fields',
-      metas: 'metas',
-      registerField: 'registerField',
       updateFields: 'updateFields',
-      updateMetas: 'updateMetas',
       showRequiredColumn: 'showRequiredColumn',
       noLeftPadding: 'noLeftPadding',
       onFieldFocus: 'onFieldFocus',
       onFieldBlur: 'onFieldBlur',
-      onNextField: 'onNextField',
-      controlFocusStatus: 'controlFocusStatus',
     };
   },
   methods: {
@@ -100,26 +86,12 @@ export default {
       setTimeout(() => this.updateFields({ [this.name]: value }));
     },
     onFocus() {
-      this.ownMeta.focused = true;
-      if (this.meta.focused) return;
-      this.onFieldFocus(this.name);
-      this.lockBlurUntil = Date.now() + 100;
+      this.meta.focused = true;
+      this.meta.touched = true;
     },
     onBlur() {
-      this.ownMeta.focused = false;
-      if (!this.meta.focused || Date.now() < this.lockBlurUntil) return;
-      this.onFieldBlur(this.name);
+      this.meta.focused = false;
     },
-    onConfirm() {
-      this.ownMeta.focused = false;
-      this.onNextField(this.confirmType);
-      if (this.confirmType === 'done') {
-        setTimeout(wx.hideKeyboard, 700);
-      }
-    },
-  },
-  mounted() {
-    this.registerField(this.name);
   },
 };
 </script>
