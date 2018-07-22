@@ -288,7 +288,10 @@ export default {
     Cash,
   },
   beforeMount() {
-    this.buyer = this.userInfo;
+    this.buyer = {
+      ...this.buyer,
+      ...this.userInfo,
+    };
   },
   async onShow() {
     const query = this.$root.$mp.query;

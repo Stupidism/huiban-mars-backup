@@ -141,7 +141,7 @@ export default {
     Cash,
   },
   async onShow() {
-    this.meeting = await getMeeting(this.$root.$mp.query.meetingId || 1);
+    this.meeting = await getMeeting(this.$root.$mp.query.meetingId || 3);
   },
 };
 </script>
