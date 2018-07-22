@@ -1,3 +1,8 @@
-export default (id, meetingId) => wx.navigateTo({
-  url: `/pages/tickets/one/acquire/main?id=${id}&meetingId=${meetingId}`,
+import buildUrl from 'build-url';
+
+export default queryParams => wx.navigateTo({
+  url: buildUrl({
+    path: '/pages/tickets/one/acquire/main',
+    queryParams,
+  }),
 });
