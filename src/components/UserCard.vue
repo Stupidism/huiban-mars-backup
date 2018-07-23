@@ -1,7 +1,7 @@
 <template>
   <div class="user-card container background-image-container">
     <image class="background-image" :src="user.wechatAvatar" mode="aspectFill" />
-    <div class="user-card-content background-image-content">
+    <div v-if="user.wechatAvatar" class="user-card-content background-image-content">
       <div class="user-info">
         <div class="user-info-title">
           <div class="user-name">{{user.name}}</div>
@@ -24,12 +24,15 @@
         </div>
       </div>
       <image
-        v-if="user.wechatAvatar"
         class="user-avatar"
         :src="user.wechatAvatar"
       />
+    </div>
+    <div v-else class="user-card-content background-image-content no-wechat-info">
+      <div class="user-info-only-phone">
+        {{user.phone}}
+      </div>
       <image
-        v-else
         class="user-avatar"
         @click="onAvatarClick"
         src="/static/default-avatar.png"
@@ -64,6 +67,11 @@ export default {
     display: flex;
     align-items: stretch;
     justify-content: space-between;
+
+    &.no-wechat-info {
+      background: white;
+      color: #17181A;
+    }
 
     .user-info {
       flex: 1;
@@ -106,6 +114,12 @@ export default {
           }
         }
       }
+    }
+
+    .user-info-only-phone {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
     }
 
     .user-avatar {
