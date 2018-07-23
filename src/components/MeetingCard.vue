@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     coverImg() {
-      return this.meeting.coverImg || '/static/default-meeting-cover.png';
+      return this.meeting.coverImg;
     },
   },
   components: { Date },

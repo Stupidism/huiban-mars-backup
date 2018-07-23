@@ -20,8 +20,7 @@ export default {
   props: ['meeting'],
   computed: {
     bannerImageUrl() {
-      const bannerImg = this.meeting && this.meeting.bannerImg;
-      return bannerImg || '/static/default-meeting-banner.png';
+      return this.meeting && this.meeting.bannerImg;
     },
   },
   components: { Date },
