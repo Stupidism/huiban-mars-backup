@@ -19,7 +19,7 @@
         商品总价 <span class="info-table-value price">¥<cash :amount="sumPrice" /></span>
       </div>
       <div class="section info-table-line">
-        折扣优惠（买一赠一） <span class="info-table-value price">- ¥ 00.00</span>
+        折扣优惠（买一赠一） <span class="info-table-value price">- ¥ <cash :amount="waiverPayment" /></span>
       </div>
       <div class="section info-table-line">
         应付款 <span class="info-table-value price">¥<cash :amount="order.duePayment" /></span>
@@ -109,7 +109,11 @@ export default {
     },
     sumPrice() {
       if (!this.orderItem) return 0;
-      return this.orderItem.ticketPrice * this.orderItem.ticketAmount;
+      return this.orderItem.ticketPrice * this.orderItem.ticketAmount * 2;
+    },
+    waiverPayment() {
+      if (!this.orderItem) return 0;
+      return this.sumPrice - this.order.actualPayment;
     },
     isCompleted() {
       if (!this.order) return false;
