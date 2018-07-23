@@ -1,7 +1,7 @@
 import buildUrl from './buildUrl';
 
 export default ({ user, ticket, ...options }) => {
-  const { id, meetingId, gradeType, gradeTypeColor } = ticket;
+  const { id, meetingId, gradeType } = ticket;
 
   return {
     title: `${user.name}送您一张${gradeType || '门票'}`,
@@ -15,7 +15,7 @@ export default ({ user, ticket, ...options }) => {
         buyerId: user.id,
       },
     }),
-    imageUrl: `/static/ticket/${gradeTypeColor || 'blue'}.png`,
+    imageUrl: ticket.shareCardCoverImg || '/static/default-share-card-cover.png',
     fail(error) {
       // 转发失败
       console.error('share failed', ticket, error);
