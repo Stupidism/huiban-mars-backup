@@ -65,7 +65,7 @@
       </div>
     </div>
 
-    <div v-if="isToBePaid" class="footer">
+    <div v-if="isToBePaid" class="footer" :class="{'footer-iphonex': isIphonex}">
       <span class="flex justified grow section aligned">
         <div>
           剩余:
@@ -77,13 +77,14 @@
       </span>
       <button class="primary large narrow" :disabled="disabled" @click="goToPay">去支付</button>
     </div>
-    <div v-if="isCompleted" class="footer">
+    <div v-if="isCompleted" class="footer" :class="{'footer-iphonex': isIphonex}">
       <button class="large" @click="goToTicketsDetail({ orderId: order.id })">查看门票</button>
     </div>
   </scroll-view>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import addMinutes from 'date-fns/add_minutes';
 
 import MeetingCard from '@/components/MeetingCard';
@@ -127,6 +128,7 @@ export default {
       if (!this.order) return null;
       return addMinutes(this.order.createdAt, 15);
     },
+    ...mapState('runtime', ['isIphonex']),
   },
   methods: {
     goToTicketsDetail,

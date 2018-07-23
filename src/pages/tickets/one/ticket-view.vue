@@ -21,7 +21,7 @@
         <image class="logo-and-slogan" src="/static/ticket/logo-and-slogan-white.png" mode="aspectFit" />
       </div>
     </div>
-    <div class="footer">
+    <div class="footer" :class="{'footer-iphonex': isIphonex}">
       <button
         class="large check-ticket-btn"
         @click="goToCheckTicket(ticket.id)"
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 
 import Cash from '@/modules/Cash';
 import getTicket from '@/methods/getTicket';
@@ -74,6 +74,7 @@ export default {
         `/static/ticket/${this.ticket.gradeTypeColor || 'blue'}-large.png`;
     },
     ...mapGetters(['currentUser']),
+    ...mapState('runtime', ['isIphonex']),
   },
   methods: {
     goToCheckTicket,

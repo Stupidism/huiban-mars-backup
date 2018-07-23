@@ -42,7 +42,7 @@
     <div class="image-container">
       <image src="/static/coupons/buy-one-get-one-free.png" mode="widthFix" />
     </div>
-    <div class="footer">
+    <div class="footer" :class="{'footer-iphonex': isIphonex}">
       <button class="large" @click="onSubmit">查看{{isCompleted ? '门票' : '订单'}}</button>
     </div>
   </scroll-view>
@@ -73,7 +73,7 @@ export default {
       return this.order && this.order.status === 'completed';
     },
     ...mapState(['currentUser']),
-    ...mapState('runtime', ['sharedTicket']),
+    ...mapState('runtime', ['sharedTicket', 'isIphonex']),
     ...mapGetters(['protectedCurrentUserPhone']),
   },
   methods: {

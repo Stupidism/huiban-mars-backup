@@ -1,4 +1,6 @@
 <script>
+import { mapMutations } from 'vuex';
+
 import { wxRequest } from '@/apis';
 import { getAuthHeader } from '@/methods/auth';
 import getCurrentUser from '@/methods/getCurrentUser';
@@ -31,6 +33,16 @@ export default {
         promptAuthenticateError(e);
       }
     },
+    ...mapMutations('runtime', ['setRuntime']),
+  },
+  onLaunch() {
+    wx.getSystemInfo({
+      success: (res) => {
+        if (res.model.indexOf('iPhone X') !== -1) {
+          this.setRuntime({ isIphonex: true });
+        }
+      },
+    });
   },
   created() {
     console.info('app created');

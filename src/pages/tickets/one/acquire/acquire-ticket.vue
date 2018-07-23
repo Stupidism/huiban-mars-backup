@@ -79,7 +79,7 @@
         />
       </div>
     </provider-form>
-    <div class="footer">
+    <div class="footer" :class="{'footer-iphonex': isIphonex}">
       <button
         class="large"
         @click="onSubmit"
@@ -92,7 +92,7 @@
 </template>
 <script>
 import _ from 'lodash';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
 import MeetingCard from '@/components/MeetingCard';
 import SmsCodeButton from '@/components/SmsCodeButton';
@@ -172,6 +172,7 @@ export default {
     showErrorMessage() {
       return this.invalidSmsCode && this.invalidSmsCode === this.participant.smsCode;
     },
+    ...mapState('runtime', ['isIphonex']),
     ...mapGetters(['currentUser']),
   },
   methods: {

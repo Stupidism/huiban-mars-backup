@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <div class="footer">
+    <div class="footer" :class="{'footer-iphonex': isIphonex}">
       <div class="section flex justified grow">
         <div class="flex aligned">
           合计：
@@ -69,7 +69,7 @@
       <div @click.stop class="purchase-notes-locator">
         <purchase-notes />
       </div>
-      <div class="footer">
+      <div class="footer" :class="{'footer-iphonex': isIphonex}">
         <button class="large" @click="closePurchaseNotes">关闭</button>
       </div>
     </div>
@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import getMeeting from '@/methods/getMeeting';
 
 import MeetingBanner from '@/components/MeetingBanner';
@@ -105,6 +106,7 @@ export default {
       if (!this.orderItem.ticketGrade || !this.orderItem.amount) return 0;
       return this.orderItem.ticketGrade.price * this.orderItem.amount;
     },
+    ...mapState('runtime', ['isIphonex']),
   },
   methods: {
     startOrder() {

@@ -81,7 +81,7 @@
         @select="selectePaymentMethod(paymentMethod)"
       />
     </div>
-    <div class="footer">
+    <div class="footer" :class="{'footer-iphonex': isIphonex}">
       <div class="section flex aligned">
         合计：
         <span class="sum-price-amount"><cash :amount="sumPrice" /> </span>
@@ -112,7 +112,7 @@
 
 <script>
 import _ from 'lodash';
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import buildUrl from 'build-url';
 
 import MeetingCard from '@/components/MeetingCard';
@@ -193,6 +193,7 @@ export default {
       ]);
     },
     ...mapGetters(['currentUser']),
+    ...mapState('runtime', ['isIphonex']),
   },
   methods: {
     selectePaymentMethod(paymentMethod) {
