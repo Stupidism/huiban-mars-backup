@@ -66,7 +66,7 @@
     </div>
 
     <div v-if="isPurchaseNotesOpen" class="modal" @click="closePurchaseNotes">
-      <div @click.stop class="purchase-notes-locator">
+      <div @click.stop class="purchase-notes-locator" :class="{'purchase-notes-locator-iphonex': isIphonex}">
         <purchase-notes />
       </div>
       <div class="footer" :class="{'footer-iphonex': isIphonex}">
@@ -223,6 +223,10 @@ export default {
   .purchase-notes-locator {
     position: absolute;
     bottom: 50px;
+  }
+
+  .purchase-notes-locator-iphonex {
+    bottom: 84px;
   }
 }
 </style>
