@@ -31,8 +31,13 @@ export default {
 .meeting-banner {
   height: 250px;
 
+  .background-image {
+    filter: blur(2px);
+  }
+
   .info {
     display: flex;
+    background: rgba(0, 0, 0, 0.4);
     flex-direction: column;
     align-items: center;
     justify-content: center;
