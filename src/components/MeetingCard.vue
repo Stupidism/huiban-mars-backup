@@ -45,7 +45,8 @@ export default {
   display: flex;
 
   .meeting-cover {
-    width: 82px;
+    width: 22%;
+    min-width: 82px;
     height: 110px;
 
     position: relative;
