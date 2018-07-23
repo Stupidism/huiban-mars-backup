@@ -1,3 +1,8 @@
+.with-footer(@footerGap) {
+  padding-bottom: @footerGap;
+  min-height: calc(100vh - @footerGap);
+}
+
 .page {
   padding: 0 0 30px 0;
   width: auto;
@@ -8,9 +13,10 @@
     min-height: calc(100vh - 30px);
   }
   &.page-with-footer {
-    @footerGap: 60px;
-    padding-bottom: @footerGap;
-    min-height: calc(100vh - @footerGap);
+    .with-footer(60px);
+  }
+  &.page-with-second-footer {
+    .with-footer(120px);
   }
 
   &:before {
@@ -67,5 +73,32 @@
     .section();
 
     padding: 0;
+  }
+}
+
+.page-iphonex {
+  &.page-with-footer {
+    .with-footer(94px);
+  }
+
+  &.page-with-second-footer {
+    .with-footer(154px);
+  }
+
+  .footer {
+    bottom: 34px;
+
+    &::after {
+      content: ' ';
+      position: fixed;
+      bottom: 0;
+      height: 34px;
+      width: 100%;
+      background: #fff;
+    }
+  }
+
+  .footer-second {
+    bottom: 84px;
   }
 }

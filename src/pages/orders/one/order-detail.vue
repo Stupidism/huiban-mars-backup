@@ -1,5 +1,9 @@
 <template>
-  <scroll-view v-if="order" class="page page-with-footer order-detail">
+  <scroll-view
+    v-if="order"
+    class="page page-with-footer order-detail"
+    :class="{'page-iphonex': isIphonex}"
+  >
     <div class="container">
       <div v-if="order.meeting" class="section-no-padding">
         <meeting-card :meeting="order.meeting" />
@@ -65,7 +69,7 @@
       </div>
     </div>
 
-    <div v-if="isToBePaid" class="footer" :class="{'footer-iphonex': isIphonex}">
+    <div v-if="isToBePaid" class="footer">
       <span class="flex justified grow section aligned">
         <div>
           剩余:
@@ -77,7 +81,7 @@
       </span>
       <button class="primary large narrow" :disabled="disabled" @click="goToPay">去支付</button>
     </div>
-    <div v-if="isCompleted" class="footer" :class="{'footer-iphonex': isIphonex}">
+    <div v-if="isCompleted" class="footer>
       <button class="large" @click="goToTicketsDetail({ orderId: order.id })">查看门票</button>
     </div>
   </scroll-view>

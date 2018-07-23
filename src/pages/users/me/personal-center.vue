@@ -1,5 +1,5 @@
 <template>
-  <scroll-view class="page personal-center">
+  <scroll-view class="page personal-center page-with-tabbar">
     <user-card :user="currentUser" :onAvatarClick="openGetUserInfoModal" />
     <div class="container">
       <div class="list-title section-single-line" @click="goToMyTickets">

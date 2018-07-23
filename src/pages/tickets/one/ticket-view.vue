@@ -1,5 +1,5 @@
 <template>
-  <scroll-view class="page ticket-view">
+  <scroll-view class="page ticket-view page-with-footer" :class="{'page-iphonex': isIphonex}">
     <div v-if="ticket" class="ticket-info-container background-image-container">
       <image class="background-image" :src="typeBackgroundImageUrl" mode="widthFix" />
       <div class="info-white-background"></div>
@@ -21,7 +21,7 @@
         <image class="logo-and-slogan" src="/static/ticket/logo-and-slogan-white.png" mode="aspectFit" />
       </div>
     </div>
-    <div class="footer" :class="{'footer-iphonex': isIphonex}">
+    <div class="footer">
       <button
         class="large check-ticket-btn"
         @click="goToCheckTicket(ticket.id)"

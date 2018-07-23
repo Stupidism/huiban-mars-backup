@@ -1,5 +1,8 @@
 <template>
-  <scroll-view class="page page-with-footer payment-result">
+  <scroll-view
+    class="page page-with-footer payment-result"
+    :class="{'page-iphonex': isIphonex}"
+  >
     <div v-if="order" class="container">
       <div v-if="isCompleted" class="section flex aligned vertically">
         <image class="icon huge" src="/static/icons/check-circle.png" />
@@ -42,7 +45,7 @@
     <div class="image-container">
       <image src="/static/coupons/buy-one-get-one-free.png" mode="widthFix" />
     </div>
-    <div class="footer" :class="{'footer-iphonex': isIphonex}">
+    <div class="footer">
       <button class="large" @click="onSubmit">查看{{isCompleted ? '门票' : '订单'}}</button>
     </div>
   </scroll-view>

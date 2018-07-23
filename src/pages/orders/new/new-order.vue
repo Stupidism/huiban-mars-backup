@@ -1,5 +1,8 @@
 <template>
-  <scroll-view class="page page-with-footer new-order">
+  <scroll-view
+    class="page page-with-footer new-order"
+    :class="{'page-iphonex': isIphonex}"
+  >
     <div class="container">
       <div class="section-no-padding">
         <meeting-card :meeting="meeting" hide-status />
@@ -81,7 +84,7 @@
         @select="selectePaymentMethod(paymentMethod)"
       />
     </div>
-    <div class="footer" :class="{'footer-iphonex': isIphonex}">
+    <div class="footer">
       <div class="section flex aligned">
         合计：
         <span class="sum-price-amount"><cash :amount="sumPrice" /> </span>

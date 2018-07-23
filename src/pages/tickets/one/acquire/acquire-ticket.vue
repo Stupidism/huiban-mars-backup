@@ -1,5 +1,5 @@
 <template>
-  <scroll-view class="page acquire-ticket">
+  <scroll-view class="page acquire-ticket page-with-footer" :class="{'page-iphonex': isIphonex}">
     <div class="container">
       <meeting-card v-if="meeting"  :meeting="meeting" />
       <div v-if="ticket" class="section-single-line">
@@ -79,7 +79,7 @@
         />
       </div>
     </provider-form>
-    <div class="footer" :class="{'footer-iphonex': isIphonex}">
+    <div class="footer">
       <button
         class="large"
         @click="onSubmit"

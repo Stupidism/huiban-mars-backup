@@ -1,7 +1,7 @@
 <template>
   <scroll-view
-    class="select-ticket-grade page page-with-footer"
-    :class="{'with-high-footer': orderItem.ticketGrade.id != null}"
+    class="select-ticket-grade page page-with-second-footer"
+    :class="{'page-iphonex': isIphonex}"
   >
     <div class="container">
       <meeting-banner :meeting="meeting" />
@@ -30,7 +30,7 @@
 
     <div
       v-if="orderItem.ticketGrade.id != null"
-      class="amount-radio section"
+      class="amount-radio section footer-second"
     >
       <div class="amount-radio-title">
         数量：
@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <div class="footer" :class="{'footer-iphonex': isIphonex}">
+    <div class="footer">
       <div class="section flex justified grow">
         <div class="flex aligned">
           合计：
@@ -66,14 +66,13 @@
     </div>
 
     <div v-if="isPurchaseNotesOpen" class="modal" @click="closePurchaseNotes">
-      <div @click.stop class="purchase-notes-locator" :class="{'purchase-notes-locator-iphonex': isIphonex}">
+      <div @click.stop class="footer-second">
         <purchase-notes />
       </div>
       <div class="footer" :class="{'footer-iphonex': isIphonex}">
         <button class="large" @click="closePurchaseNotes">关闭</button>
       </div>
     </div>
-
   </scroll-view>
 </template>
 
@@ -149,12 +148,6 @@ export default {
 
 <style scoped lang="less">
 .select-ticket-grade {
-  &.with-high-footer {
-    @footerGap: 120px;
-    padding-bottom: @footerGap;
-    min-height: calc(100vh - @footerGap);
-  }
-
   .ticket-grades-radio {
     .title {
       display: flex;
@@ -163,14 +156,7 @@ export default {
   }
 
   .amount-radio {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 50px;
-    background: white;
-
     height: 30px;
-    box-shadow: 0 -2px 2px 0 rgba(0,0,0,0.10);
     z-index: 1;
 
     display: flex;
@@ -218,15 +204,6 @@ export default {
   .sum-price-unit {
     margin-left: 4px;
     color: #2692F0;
-  }
-
-  .purchase-notes-locator {
-    position: absolute;
-    bottom: 50px;
-  }
-
-  .purchase-notes-locator-iphonex {
-    bottom: 84px;
   }
 }
 </style>
