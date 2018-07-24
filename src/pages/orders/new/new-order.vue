@@ -31,15 +31,8 @@
         <text-field
           name="name"
           label="姓名"
-          placeholder="请输入您的真实姓名"
+          placeholder="现场签到必备信息"
           auto-focus
-          required
-          confirm-type="next"
-        />
-        <text-field
-          name="company"
-          label="公司"
-          placeholder="请输入您的公司名称"
           required
           confirm-type="next"
         />
@@ -47,23 +40,30 @@
           name="email"
           label="邮箱"
           type="email"
-          placeholder="请输入您的邮箱地址"
-          required
-          confirm-type="next"
-        />
-        <text-field
-          name="position"
-          label="职位"
-          placeholder="请输入您的职位名称"
+          placeholder="双重保障，确保您可以接收到活动信息"
           required
           confirm-type="next"
         />
         <text-field
           name="city"
           label="城市"
-          placeholder="请输入您所在的城市"
+          placeholder="补充信息，以便我们可以更好地服务您"
           required
           confirm-type="next"
+        />
+        <text-field
+          name="company"
+          label="公司"
+          placeholder="补充信息，以便我们可以更好地服务您"
+          required
+          confirm-type="next"
+        />
+        <text-field
+          name="position"
+          label="职位"
+          placeholder="补充信息，以便我们可以更好地服务您"
+          required
+          confirm-type="done"
         />
         <label class="form-field is-participant-checkbox" @click="toggleSelfParticipate">
           本人参会，上述信息将作为您现场签到的唯一凭证

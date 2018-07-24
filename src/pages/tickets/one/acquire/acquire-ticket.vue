@@ -23,7 +23,8 @@
         <text-field
           name="phone"
           label="手机号"
-          placeholder="请输入您的手机号"
+          type="number"
+          placeholder="方便发送门票详情"
           auto-focus
           required
           confirm-type="next"
@@ -32,8 +33,9 @@
         <text-field
           v-if="!currentUser.id"
           name="smsCode"
+          type="number"
           label="验证码"
-          placeholder="请输入短信验证码"
+          placeholder="6位数字"
           required
           confirm-type="next"
         >
@@ -45,37 +47,33 @@
         <text-field
           name="name"
           label="姓名"
-          placeholder="请输入您的真实姓名"
-          required
-          confirm-type="next"
-        />
-        <text-field
-          name="company"
-          label="公司"
-          placeholder="请输入您的公司名称"
+          placeholder="现场签到必备信息"
           required
           confirm-type="next"
         />
         <text-field
           name="email"
           label="邮箱"
-          placeholder="请输入您的邮箱地址"
-          required
-          confirm-type="next"
-        />
-        <text-field
-          name="position"
-          label="职位"
-          placeholder="请输入您的职位名称"
-          required
+          placeholder="双重保障，确保您可以接收到活动信息"
           confirm-type="next"
         />
         <text-field
           name="city"
           label="城市"
-          placeholder="请输入您所在的城市"
-          required
+          placeholder="补充信息，以便我们可以更好地服务您"
           confirm-type="next"
+        />
+        <text-field
+          name="company"
+          label="公司"
+          placeholder="补充信息，以便我们可以更好地服务您"
+          confirm-type="next"
+        />
+        <text-field
+          name="position"
+          label="职位"
+          placeholder="补充信息，以便我们可以更好地服务您"
+          confirm-type="done"
         />
       </div>
     </provider-form>
@@ -164,10 +162,7 @@ export default {
 
       return this.isPhoneValid &&
         this.participant.name &&
-        this.participant.company &&
-        this.participant.position &&
-        this.participant.city &&
-        isEmail(this.participant.email);
+        (!this.participant.email || isEmail(this.participant.email));
     },
     showErrorMessage() {
       return this.invalidSmsCode && this.invalidSmsCode === this.participant.smsCode;
@@ -234,7 +229,7 @@ export default {
       await waitForAuth();
     }
 
-    const ticketId = this.$root.$mp.query.id || 1301;
+    const ticketId = this.$root.$mp.query.id || 1311;
     const meetingId = this.$root.$mp.query.meetingId || 4;
 
     try {
@@ -267,6 +262,15 @@ export default {
 
   .sms-code-button {
     margin-right: 15px;
+  }
+
+  .participant-fields {
+    padding-top: 0;
+    padding-bottom: 0;
+
+    .text-field:last-child {
+      border-bottom: none;
+    }
   }
 }
 </style>
