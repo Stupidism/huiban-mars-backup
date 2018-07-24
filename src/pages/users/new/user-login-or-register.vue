@@ -9,6 +9,7 @@
       <text-field
         name="phone"
         placeholder="请输入手机号"
+        type="number"
         auto-focus
         required
         confirm-type="next"
@@ -20,8 +21,9 @@
       <text-field
         name="smsCode"
         placeholder="短信验证码"
+        type="number"
         required
-        confirm-type="next"
+        confirm-type="done"
       >
         <template slot="left">
           <image class="icon small" src="/static/icons/sms.svg" />
