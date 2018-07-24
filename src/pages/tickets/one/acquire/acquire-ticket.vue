@@ -223,13 +223,19 @@ export default {
     ProviderForm,
     TextField,
   },
+  beforeMount() {
+    this.participantInForm = {
+      ...this.participantInForm,
+      ...this.userInfo,
+    };
+  },
   async onShow() {
     if (isAuthing()) {
       await waitForAuth();
     }
 
-    const ticketId = this.$root.$mp.query.id || 1076;
-    const meetingId = this.$root.$mp.query.meetingId || 1076;
+    const ticketId = this.$root.$mp.query.id || 1301;
+    const meetingId = this.$root.$mp.query.meetingId || 4;
 
     try {
       this.ticket = await getTicket(ticketId);
@@ -248,8 +254,6 @@ export default {
         console.error('get ticket fail', e);
       }
     }
-
-    this.participantInForm = { ...this.userInfo };
   },
 };
 </script>
