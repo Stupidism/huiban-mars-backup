@@ -1,10 +1,16 @@
 <template>
   <label class="text-field" :class="{'no-left-padding': noLeftPadding}">
-    <span v-if="showRequiredColumn" class="required-marker">*</span>
+    <span
+      v-if="showRequiredColumn"
+      class="required-marker"
+      :class="{required: required}"
+    >
+      *
+    </span>
     <span v-if="label" class="field-name">{{label}}</span>
     <slot name="left"></slot>
     <input
-      type="text"
+      :type="type"
       :value="value"
       @input="onChange"
       @focus="onFocus"
@@ -108,7 +114,11 @@ export default {
   }
 
   .required-marker {
-    color: #FF2B00;
+    color: white;
+
+    &.required {
+      color: #FF2B00;
+    }
   }
 
   .error-message {
@@ -122,7 +132,7 @@ export default {
     }
   }
 
-  input[type=text] {
+  input {
     margin: 15px;
     flex: 1;
   }
