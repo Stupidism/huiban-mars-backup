@@ -63,10 +63,10 @@ export default {
 
   .order-status {
     position: absolute;
-    bottom: 15px;
+    bottom: 10px;
     right: 15px;
 
-    @size: 80px;
+    @size: 70px;
     width: @size;
     height: @size;
   }
