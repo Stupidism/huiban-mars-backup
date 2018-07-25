@@ -43,11 +43,12 @@
       </button>
     </provider-form>
     <navigator
-      class="cancel-login"
       url="/pages/meetings/main"
       open-type="switchTab"
     >
-      暂不登录, 继续浏览
+      <div class="cancel-login">
+        暂不登录 继续浏览
+      </div>
     </navigator>
   </scroll-view>
 </template>
@@ -173,8 +174,9 @@ export default {
   }
 
   .cancel-login {
-    height: 2rem;
+    color: rgb(0, 0, 204);
     text-align: center;
+    text-decoration: underline;
   }
 }
 </style>

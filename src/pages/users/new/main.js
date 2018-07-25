@@ -6,6 +6,6 @@ app.$mount();
 
 export default {
   config: {
-    navigationBarTitleText: '登录/注册',
+    navigationBarTitleText: '登录',
   },
 };
