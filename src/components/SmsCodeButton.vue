@@ -27,6 +27,7 @@ export default {
       type: String,
       default: '',
     },
+    onSmsCodeFail: Function,
   },
   data() {
     return {
@@ -42,9 +43,16 @@ export default {
     },
   },
   methods: {
-    onSendSmsCodeClick() {
+    async onSendSmsCodeClick() {
       this.coolDown = 60;
-      sendSmsCode(this.phone);
+      try {
+        await sendSmsCode(this.phone);
+      } catch (e) {
+        console.error('sendSmsCode', e);
+        if (this.onSmsCodeFail) {
+          this.onSmsCodeFail();
+        }
+      }
     },
     onSmsCdCountDown(leftNum) {
       if (leftNum < 0) {

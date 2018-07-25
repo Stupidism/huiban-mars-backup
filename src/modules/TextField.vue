@@ -39,6 +39,10 @@ export default {
     defaultValue: String,
     required: Boolean,
     disabled: Boolean,
+    validators: {
+      type: Array,
+      default: [],
+    },
   },
   data() {
     return {
@@ -71,6 +75,14 @@ export default {
       if (this.type === 'email' && !isEmail(this.value)) {
         return '格式有误';
       }
+
+      for (let i = 0; i < this.validators.length; i += 1) {
+        const result = this.validators[i](this.value);
+        if (result) {
+          return result;
+        }
+      }
+
       return '';
     },
   },

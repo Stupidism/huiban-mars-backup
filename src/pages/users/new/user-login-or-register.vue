@@ -13,6 +13,7 @@
         required
         placeholder="请输入手机号"
         confirm-type="next"
+        :validators="phoneValidators"
       >
         <template slot="left">
           <image class="icon small" src="/static/icons/user.svg" />
@@ -24,13 +25,13 @@
         required
         placeholder="请输入验证码"
         confirm-type="done"
+        :validators="smsCodeValidators"
       >
         <template slot="left">
           <image class="icon small" src="/static/icons/sms.svg" />
         </template>
         <template slot="right">
-          <error-message message="验证码错误" :show="showErrorMessage" />
-          <sms-code-button :phone="credentials.phone" />
+          <sms-code-button :phone="credentials.phone" :onSmsCodeFail="onSmsCodeFail" />
         </template>
       </text-field>
       <button
@@ -63,6 +64,17 @@ import ErrorMessage from '@/modules/ErrorMessage';
 import registerUser from '@/methods/registerUser';
 import goToPersonalCenter from '@/pages/users/me/goToPersonalCenter';
 import isPhone from '@/utils/isPhone';
+import isSmsCode from '@/utils/isSmsCode';
+
+const phoneRegexValidator = (phone) => {
+  if (isPhone(phone)) return '';
+  return '手机号格式有误';
+};
+
+const smsCodeRegexValidator = (smsCode) => {
+  if (isSmsCode(smsCode)) return '';
+  return '验证码格式有误';
+};
 
 export default {
   data() {
@@ -73,23 +85,28 @@ export default {
         phone: '',
         smsCode: '',
       },
-      invalidSmsCode: null,
+      invalidCredentials: {
+        phone: null,
+        smsCode: null,
+      },
       query: {},
     };
   },
   computed: {
-    isPhoneValid() {
-      return isPhone(this.credentials.phone);
-    },
-    isSmsCodeValid() {
-      const smsCode = this.credentials.smsCode;
-      return smsCode.length === 6 && smsCode !== this.invalidSmsCode;
-    },
     isFormValid() {
-      return this.isPhoneValid && this.isSmsCodeValid;
+      return isPhone(this.credentials.phone) && isSmsCode(this.credentials.smsCode);
     },
-    showErrorMessage() {
-      return this.invalidSmsCode && this.invalidSmsCode === this.credentials.smsCode;
+    phoneValidators() {
+      return [
+        phoneRegexValidator,
+        this.invalidPhoneValidator,
+      ];
+    },
+    smsCodeValidators() {
+      return [
+        smsCodeRegexValidator,
+        this.invalidSmsCodeValidator,
+      ];
     },
     ...mapGetters(['currentUser']),
   },
@@ -117,9 +134,28 @@ export default {
           });
         }
       } catch (e) {
-        this.invalidSmsCode = credentials.smsCode;
+        console.error('registerUser error', e);
+        const res = e.data;
+        if (res.type === 'Validation Error') {
+          if (res.message === '手机号格式错误') {
+            this.invalidCredentials.phone = this.credentials.phone;
+          } else if (res.message === '无效的验证码') {
+            this.invalidCredentials.smsCode = this.credentials.smsCode;
+          }
+        }
       }
       this.loading = false;
+    },
+    onSmsCodeFail() {
+      this.invalidCredentials.phone = this.credentials.phone;
+    },
+    invalidPhoneValidator(phone) {
+      if (phone !== this.invalidCredentials.phone) return '';
+      return '手机号格式错误';
+    },
+    invalidSmsCodeValidator(smsCode) {
+      if (smsCode !== this.invalidCredentials.smsCode) return '';
+      return '无效的验证码';
     },
   },
   components: {
@@ -175,7 +211,9 @@ export default {
   }
 
   .cancel-login {
-    color: rgb(0, 0, 204);
+    color: rgb(0, 0, 144);
+    font-size: 14px;
+    line-height: 16px;
     text-align: center;
     text-decoration: underline;
   }
