@@ -62,6 +62,7 @@ import ErrorMessage from '@/modules/ErrorMessage';
 
 import registerUser from '@/methods/registerUser';
 import goToPersonalCenter from '@/pages/users/me/goToPersonalCenter';
+import isPhone from '@/utils/isPhone';
 
 export default {
   data() {
@@ -78,7 +79,7 @@ export default {
   },
   computed: {
     isPhoneValid() {
-      return this.credentials.phone.length === 11;
+      return isPhone(this.credentials.phone);
     },
     isSmsCodeValid() {
       const smsCode = this.credentials.smsCode;

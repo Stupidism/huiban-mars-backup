@@ -19,6 +19,7 @@
 <script>
 import CountDown from '@/modules/CountDown';
 import sendSmsCode from '@/methods/sendSmsCode';
+import isPhone from '@/utils/isPhone';
 
 export default {
   props: {
@@ -34,7 +35,7 @@ export default {
   },
   computed: {
     isPhoneValid() {
-      return this.phone.length === 11;
+      return isPhone(this.phone);
     },
     isCoolingDown() {
       return this.coolDown > 0;

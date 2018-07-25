@@ -102,6 +102,7 @@ import updateUser from '@/methods/updateUser';
 import getTicket from '@/methods/getTicket';
 import acquireTicket from '@/methods/acquireTicket';
 import isEmail from '@/utils/isEmail';
+import isPhone from '@/utils/isPhone';
 import toCash from '@/utils/filters/cash';
 import openModal from '@/utils/modal';
 
@@ -147,9 +148,6 @@ export default {
     buyer() {
       return this.ticket && this.ticket.buyer;
     },
-    isPhoneValid() {
-      return this.participant.phone && this.participant.phone.length === 11;
-    },
     isSmsCodeValid() {
       const smsCode = this.participant.smsCode;
       return smsCode && smsCode.length === 6 && smsCode !== this.invalidSmsCode;
@@ -157,9 +155,12 @@ export default {
     isFormValid() {
       if (!this.currentUser.id && !this.isSmsCodeValid) return false;
 
-      return this.isPhoneValid &&
+      return isPhone(this.participant.phone) &&
         this.participant.name &&
-        (!this.participant.email || isEmail(this.participant.email));
+        this.participant.company &&
+        this.participant.position &&
+        this.participant.city &&
+        isEmail(this.participant.email);
     },
     showErrorMessage() {
       return this.invalidSmsCode && this.invalidSmsCode === this.participant.smsCode;
