@@ -1,5 +1,5 @@
 <template>
-  <div class="meeting-banner background-image-container">
+  <div class="meeting-banner background-image-container" @click.stop="goToMeetingDetail(meeting.id)">
     <image class="background-image" :src="bannerImageUrl" />
     <div class="info background-image-content">
       <div class="topic">{{meeting.topic}}</div>
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import goToMeetingDetail from '@/pages/meetings/one/goToMeetingDetail';
 import Date from '@/modules/Date';
 
 export default {
@@ -23,7 +24,12 @@ export default {
       return this.meeting && this.meeting.bannerImg;
     },
   },
-  components: { Date },
+  methods: {
+    goToMeetingDetail,
+  },
+  components: {
+    Date,
+  },
 };
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="meeting-card section">
-    <div class="meeting-cover background-image-container">
+    <div class="meeting-cover background-image-container" @click.stop="goToMeetingDetail(meeting.id)">
       <image class="background-image" :src="coverImg" alt="封面图片" mode="aspectFill" />
       <div v-if="!hideStatus" class="meeting-status">{{meeting.statusDesc}}</div>
     </div>
@@ -23,6 +23,7 @@
 
 <script>
 import Date from '@/modules/Date';
+import goToMeetingDetail from '@/pages/meetings/one/goToMeetingDetail';
 
 export default {
   props: {
@@ -36,7 +37,12 @@ export default {
       return this.meeting.coverImg;
     },
   },
-  components: { Date },
+  methods: {
+    goToMeetingDetail,
+  },
+  components: {
+    Date,
+  },
 };
 </script>
 
