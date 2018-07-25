@@ -8,10 +8,10 @@
       <image class="logo" src="/static/app-logo.png" />
       <text-field
         name="phone"
-        placeholder="请输入手机号"
         type="number"
         auto-focus
         required
+        placeholder="请输入手机号"
         confirm-type="next"
       >
         <template slot="left">
@@ -20,9 +20,9 @@
       </text-field>
       <text-field
         name="smsCode"
-        placeholder="短信验证码"
         type="number"
         required
+        placeholder="请输入验证码"
         confirm-type="done"
       >
         <template slot="left">

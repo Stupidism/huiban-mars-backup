@@ -24,7 +24,6 @@
           name="phone"
           label="手机号"
           type="number"
-          placeholder="方便发送门票详情"
           auto-focus
           required
           confirm-type="next"
@@ -35,7 +34,6 @@
           name="smsCode"
           type="number"
           label="验证码"
-          placeholder="6位数字"
           required
           confirm-type="next"
         >
@@ -47,33 +45,32 @@
         <text-field
           name="name"
           label="姓名"
-          placeholder="现场签到必备信息"
           required
-          confirm-type="next"
-        />
-        <text-field
-          name="email"
-          label="邮箱"
-          placeholder="双重保障，确保您可以接收到活动信息"
-          confirm-type="next"
-        />
-        <text-field
-          name="city"
-          label="城市"
-          placeholder="补充信息，以便我们可以更好地服务您"
           confirm-type="next"
         />
         <text-field
           name="company"
           label="公司"
-          placeholder="补充信息，以便我们可以更好地服务您"
+          required
           confirm-type="next"
         />
         <text-field
           name="position"
           label="职位"
-          placeholder="补充信息，以便我们可以更好地服务您"
+          required
           confirm-type="done"
+        />
+        <text-field
+          name="email"
+          label="邮箱"
+          required
+          confirm-type="next"
+        />
+        <text-field
+          name="city"
+          label="城市"
+          required
+          confirm-type="next"
         />
       </div>
     </provider-form>
