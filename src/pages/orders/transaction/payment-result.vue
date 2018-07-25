@@ -63,6 +63,7 @@ import goToShareResult from '@/pages/tickets/share-result/goToShareResult';
 import goToOrderDetail from '@/pages/orders/one/goToOrderDetail';
 import goToTicketsDetail from '@/pages/meetings/one/tickets/goToTicketsDetail';
 import buildTicketShareOptions from '@/methods/buildTicketShareOptions';
+import goBackToTabPage from '@/methods/wechat/goBackToTabPage';
 
 export default {
   data() {
@@ -81,6 +82,7 @@ export default {
   },
   methods: {
     onSubmit() {
+      goBackToTabPage();
       if (this.isCompleted) {
         goToTicketsDetail({ orderId: this.order.id });
       } else {
@@ -115,7 +117,7 @@ export default {
     TicketItem,
   },
   async onShow() {
-    const orderId = this.$root.$mp.query.orderId || 559;
+    const orderId = this.$root.$mp.query.orderId || 570;
     this.getSharableTickets(orderId);
     this.order = await getOrder(orderId);
   },
