@@ -65,16 +65,8 @@ import registerUser from '@/methods/registerUser';
 import goToPersonalCenter from '@/pages/users/me/goToPersonalCenter';
 import isPhone from '@/utils/isPhone';
 import isSmsCode from '@/utils/isSmsCode';
-
-const phoneRegexValidator = (phone) => {
-  if (isPhone(phone)) return '';
-  return '手机号格式有误';
-};
-
-const smsCodeRegexValidator = (smsCode) => {
-  if (isSmsCode(smsCode)) return '';
-  return '验证码格式有误';
-};
+import phoneRegexValidator from '@/utils/validators/phoneRegexValidator';
+import smsCodeRegexValidator from '@/utils/validators/smsCodeRegexValidator';
 
 export default {
   data() {
@@ -115,6 +107,8 @@ export default {
       this.credentials = { ...this.credentials, ...newCreadentials };
     },
     async onLoginClick() {
+      this.invalidCredentials.phone = null;
+      this.invalidCredentials.smsCode = null;
       const credentials = {
         type: 'smsCode',
         ...this.credentials,
@@ -134,7 +128,7 @@ export default {
           });
         }
       } catch (e) {
-        console.error('registerUser error', e);
+        console.error('[user-login] registerUser error', e);
         const res = e.data;
         if (res.type === 'Validation Error') {
           if (res.message === '手机号格式错误') {
@@ -211,7 +205,7 @@ export default {
   }
 
   .cancel-login {
-    color: rgb(0, 0, 144);
+    color: #39f;
     font-size: 14px;
     line-height: 16px;
     text-align: center;

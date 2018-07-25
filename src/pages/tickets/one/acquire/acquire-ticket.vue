@@ -28,6 +28,7 @@
           required
           confirm-type="next"
           :disabled="currentUser.id"
+          :validators="phoneValidators"
         />
         <text-field
           v-if="!currentUser.id"
@@ -36,10 +37,10 @@
           label="验证码"
           required
           confirm-type="next"
+          :validators="smsCodeValidators"
         >
           <template slot="right">
-            <error-message message="验证码错误" :show="showErrorMessage" />
-            <sms-code-button :phone="participant.phone" />
+            <sms-code-button :phone="participant.phone" :onSmsCodeFail="onSmsCodeFail" />
           </template>
         </text-field>
         <text-field
@@ -65,6 +66,7 @@
           label="邮箱"
           required
           confirm-type="next"
+          :validators="emailValidators"
         />
         <text-field
           name="city"
@@ -105,6 +107,10 @@ import isEmail from '@/utils/isEmail';
 import isPhone from '@/utils/isPhone';
 import toCash from '@/utils/filters/cash';
 import openModal from '@/utils/modal';
+import isSmsCode from '@/utils/isSmsCode';
+import phoneRegexValidator from '@/utils/validators/phoneRegexValidator';
+import smsCodeRegexValidator from '@/utils/validators/smsCodeRegexValidator';
+import emailRegexValidator from '@/utils/validators/emailRegexValidator';
 
 import promptAcquireFail from './promptAcquireFail';
 
@@ -122,7 +128,10 @@ export default {
     return {
       ticket: null,
       participantInForm: {},
-      invalidSmsCode: null,
+      invalidCredentials: {
+        phone: null,
+        smsCode: null,
+      },
     };
   },
   computed: {
@@ -150,7 +159,7 @@ export default {
     },
     isSmsCodeValid() {
       const smsCode = this.participant.smsCode;
-      return smsCode && smsCode.length === 6 && smsCode !== this.invalidSmsCode;
+      return smsCode && isSmsCode(smsCode);
     },
     isFormValid() {
       if (!this.currentUser.id && !this.isSmsCodeValid) return false;
@@ -162,8 +171,22 @@ export default {
         this.participant.city &&
         isEmail(this.participant.email);
     },
-    showErrorMessage() {
-      return this.invalidSmsCode && this.invalidSmsCode === this.participant.smsCode;
+    phoneValidators() {
+      return [
+        phoneRegexValidator,
+        this.invalidPhoneValidator,
+      ];
+    },
+    smsCodeValidators() {
+      return [
+        smsCodeRegexValidator,
+        this.invalidSmsCodeValidator,
+      ];
+    },
+    emailValidators() {
+      return [
+        emailRegexValidator,
+      ];
     },
     ...mapState('runtime', ['isIphonex']),
     ...mapGetters(['currentUser']),
@@ -173,6 +196,8 @@ export default {
       this.participantInForm = { ...this.participantInForm, ...values };
     },
     async onSubmit() {
+      this.invalidCredentials.phone = null;
+      this.invalidCredentials.smsCode = null;
       let user = this.currentUser;
 
       if (!user.id) {
@@ -180,7 +205,20 @@ export default {
           type: 'smsCode',
           ...this.participant,
         };
-        user = await registerUser(credentials);
+        try {
+          user = await registerUser(credentials);
+        } catch (e) {
+          console.error('[acquire-ticket] registerUser error', e);
+          const res = e.data;
+          if (res.type === 'Validation Error') {
+            if (res.message === '手机号格式错误') {
+              this.invalidCredentials.phone = this.participantInForm.phone;
+            } else if (res.message === '无效的验证码') {
+              this.invalidCredentials.smsCode = this.participantInForm.smsCode;
+            }
+          }
+          return;
+        }
         this.$store.commit('setCurrentUser', user);
       } else if (!_.isEqual(this.participantInForm, this.userInfo)) {
         updateUser({
@@ -207,6 +245,17 @@ export default {
           promptAcquireFail(this.ticket.meetingId);
         }
       }
+    },
+    onSmsCodeFail() {
+      this.invalidCredentials.phone = this.credentials.phone;
+    },
+    invalidPhoneValidator(phone) {
+      if (phone !== this.invalidCredentials.phone) return '';
+      return '手机号格式错误';
+    },
+    invalidSmsCodeValidator(smsCode) {
+      if (smsCode !== this.invalidCredentials.smsCode) return '';
+      return '无效的验证码';
     },
   },
   components: {

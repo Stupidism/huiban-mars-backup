@@ -53,6 +53,7 @@
           type="email"
           required
           confirm-type="next"
+          :validators="emailValidators"
         />
         <text-field
           name="city"
@@ -130,6 +131,7 @@ import wechatLogin from '@/methods/wechat/login';
 
 import goToUserLoginOrRegister from '@/pages/users/new/goToUserLoginOrRegister';
 import isEmail from '@/utils/isEmail';
+import emailRegexValidator from '@/utils/validators/emailRegexValidator';
 import openModal from '@/utils/modal';
 import goToOrderDetail from '@/pages/orders/one/goToOrderDetail';
 
@@ -189,6 +191,11 @@ export default {
         'city',
         'position',
       ]);
+    },
+    emailValidators() {
+      return [
+        emailRegexValidator,
+      ];
     },
     ...mapGetters(['currentUser']),
     ...mapState('runtime', ['isIphonex']),
