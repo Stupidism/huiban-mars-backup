@@ -8,9 +8,8 @@
         <div>(价值 <cash :amount="ticket.price" /> 元)</div>
         <image v-if="ticket.buyer" class="buyer-avatar" :src="ticket.buyer.wechatAvatar" />
         <div v-if="ticket.buyer" class="buyer-name text default small">{{ticket.buyer.name}} 花钱请你一起参加</div>
-        <div v-if="ticket.meeting" class="meeting-topic text primary centered">
-          <div>{{ticket.meeting.topic}}</div>
-          <div>主讲人: {{ticket.meeting.mainSpeaker}}</div>
+        <div v-if="ticket.meeting" class="meeting-topic text primary centered flex aligned">
+          {{ticket.meeting.topic}}
         </div>
         <image class="invitation-card" :src="ticket.invitationCardImg" mode="aspectFit" />
         <div class="invitation-card-helper-text text secondary centered">
@@ -90,7 +89,7 @@ export default {
 
     const query = this.$root.$mp.query;
 
-    const ticketId = this.$root.$mp.query.id || 1079;
+    const ticketId = this.$root.$mp.query.id || 1306;
     const meetingId = this.$root.$mp.query.meetingId || 3;
 
     // 如果这个门票对当前用户不可见, 则跳转到门票领取页面
@@ -156,31 +155,41 @@ export default {
         margin-top: 15px;
         width: 50px;
         height: 50px;
+        min-height: 50px;
         border-radius: 25px;
       }
 
-      .buyer-name,
-      .meeting-topic {
+      .buyer-name {
         margin-top: 10px;
+        padding: 0 30px;
+      }
+
+      .meeting-topic {
+        min-height: 44px;
+        margin-top: 10px;
+        padding: 0 30px;
       }
 
       .invitation-card {
-        margin-top: 10px;
         width: 70px;
         height: 70px;
+        min-height: 70px;
       }
 
       .invitation-card-helper-text {
         margin-top: 6px;
+        font-size: 12px;
       }
 
       .invitation-card-security-hint {
         margin-top: 4px;
+        font-size: 12px;
       }
 
       .logo-and-slogan {
         margin-top: 19px;
         height: 20px;
+        min-height: 20px;
       }
 
     }
