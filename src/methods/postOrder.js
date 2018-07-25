@@ -6,9 +6,6 @@ export default async function postOrder(orderBody) {
     newOrder.id = newOrder.id || 1;
     return newOrder;
   } catch (e) {
-    if (e.errMsg === 'request:fail url not in domain list') {
-      return {};
-    }
     console.error(e.statusCode, e.data);
     throw e;
   }
