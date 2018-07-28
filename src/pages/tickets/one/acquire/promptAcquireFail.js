@@ -4,8 +4,8 @@ import openModal from '@/utils/modal';
 export default (meetingId, options) => openModal({
   title: '领取失败',
   content: '手慢了，门票已被其他小伙伴领走了',
-  confirmText: '取消',
-  cancelText: '回首页',
+  confirmText: '自己买',
+  cancelText: '取消',
   onConfirm: () => {
     wx.navigateBack({
       delta: 1,
