@@ -26,7 +26,7 @@ export default {
     onContinue() {
       goToTicketsDetail({
         orderId: this.sharedTicket.orderId,
-      }, 'relaunch');
+      }, 'reLaunch');
     },
   },
   components: {

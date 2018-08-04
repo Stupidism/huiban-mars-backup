@@ -82,9 +82,9 @@ export default {
   methods: {
     onSubmit() {
       if (this.isCompleted) {
-        goToTicketsDetail({ orderId: this.order.id }, 'relaunch');
+        goToTicketsDetail({ orderId: this.order.id }, 'reLaunch');
       } else {
-        goToOrderDetail(this.order.id, 'relaunch');
+        goToOrderDetail(this.order.id, 'reLaunch');
       }
     },
     async getSharableTickets(orderId) {
@@ -115,7 +115,7 @@ export default {
     TicketItem,
   },
   async onShow() {
-    const orderId = this.$root.$mp.query.orderId || 570;
+    const orderId = this.$root.$mp.query.orderId || 600;
     this.getSharableTickets(orderId);
     this.order = await getOrder(orderId);
   },
