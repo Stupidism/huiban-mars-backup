@@ -137,7 +137,6 @@ export default {
   methods: {
     goToTicketsDetail,
     goToPay() {
-      wx.navigateBack({ delta: 2 });
       payTransactionForOrder(this.order);
     },
     async onCancelClick() {

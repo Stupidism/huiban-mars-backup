@@ -7,10 +7,7 @@ export default (meetingId, options) => openModal({
   confirmText: '自己买',
   cancelText: '取消',
   onConfirm: () => {
-    wx.navigateBack({
-      delta: 1,
-    });
-    goToMeetingTicketGrades(meetingId);
+    goToMeetingTicketGrades(meetingId, 'redirectTo');
   },
   ...options,
 });

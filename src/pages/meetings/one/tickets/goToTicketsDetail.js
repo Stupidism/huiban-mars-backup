@@ -1,7 +1,7 @@
 import buildUrl from 'build-url';
 import _ from 'lodash';
 
-export default (meetingIdOrQuery) => {
+export default (meetingIdOrQuery, method = 'navigateTo') => {
   const queryParams = _.isObject(meetingIdOrQuery)
     ? _.pick(meetingIdOrQuery, [
       'meetingId',
@@ -11,7 +11,7 @@ export default (meetingIdOrQuery) => {
       meetingId: meetingIdOrQuery,
     };
 
-  wx.navigateTo({
+  wx[method]({
     url: buildUrl({
       path: '/pages/meetings/one/tickets/main',
       queryParams,
