@@ -276,12 +276,15 @@ export default {
       await waitForAuth();
     }
 
-    const ticketId = this.$root.$mp.query.id || 1311;
+    const ticketId = this.$root.$mp.query.id || 1386;
     const meetingId = this.$root.$mp.query.meetingId || 4;
 
     try {
       this.ticket = await getTicket(ticketId);
     } catch (e) {
+      this.ticket = {
+        id: ticketId,
+      };
       if (e.statusCode === 403) {
         promptAcquireFail(meetingId, {
           content: '您已经拥有一张此会议的门票',
