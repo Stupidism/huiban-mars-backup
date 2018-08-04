@@ -3,7 +3,6 @@
     <div v-if="ticket" class="ticket-info-container container">
       <div v-if="ticket.meeting" class="meeting-topic text default centered">
         <div>{{ticket.meeting.topic}}</div>
-        <div>主讲人: {{ticket.meeting.mainSpeaker}}</div>
       </div>
       <image class="adminssion-qr-code" :src="ticket.adminssionQrCode" mode="aspectFit" />
       <div class="ticket-grade-info background-image-container">
