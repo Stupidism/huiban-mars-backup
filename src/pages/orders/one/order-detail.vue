@@ -81,7 +81,7 @@
       </span>
       <button class="primary large narrow" :disabled="disabled" @click="goToPay">去支付</button>
     </div>
-    <div v-if="isCompleted" class="footer>
+    <div v-if="isCompleted" class="footer">
       <button class="large" @click="goToTicketsDetail({ orderId: order.id })">查看门票</button>
     </div>
   </scroll-view>
