@@ -9,17 +9,17 @@
           <div class="user-company">{{user.company}}</div>
         </div>
         <div class="user-info-content">
-          <div v-if="user.position" class="user-info-content-item">
+          <div class="user-info-content-item">
             <image class="icon tiny info-icon" src="/static/icons/position.svg" />
-            <span>{{user.position}}</span>
+            <span>{{user.position || '暂未填写'}}</span>
           </div>
-          <div v-if="user.phone" class="user-info-content-item">
+          <div class="user-info-content-item">
             <image class="icon tiny info-icon" src="/static/icons/phone.svg" />
-            <span>{{user.phone}}</span>
+            <span>{{user.phone || '暂未填写'}}</span>
           </div>
-          <div v-if="user.city" class="user-info-content-item">
+          <div class="user-info-content-item">
             <image class="icon tiny info-icon" src="/static/icons/marker-white.svg" />
-            <span>{{user.city}}</span>
+            <span>{{user.city || '暂未填写'}}</span>
           </div>
         </div>
       </div>
