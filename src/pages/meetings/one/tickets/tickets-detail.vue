@@ -29,6 +29,12 @@
         />
       </div>
     </div>
+    <div v-if="loading">
+      正在加载数据...
+    </div>
+    <div v-else-if="!tickets.length">
+      暂无门票
+    </div>
   </scroll-view>
 </template>
 
@@ -46,6 +52,7 @@ import getTickets from '@/methods/getTickets';
 export default {
   data() {
     return {
+      loading: false,
       tickets: [],
     };
   },
@@ -75,11 +82,14 @@ export default {
     MyOwnTicketRow,
   },
   async onShow() {
+    this.loading = true;
+    this.tickets = [];
     this.tickets = await getTickets({
       meetingId: this.$root.$mp.query.meetingId,
       orderId: this.$root.$mp.query.orderId,
       populate: 'meeting.ticketGrades',
     });
+    this.loading = false;
   },
 };
 </script>
