@@ -66,7 +66,7 @@
     </div>
 
     <div v-if="isPurchaseNotesOpen" class="modal" @click="closePurchaseNotes">
-      <div @click.stop class="footer-second">
+      <div @click.stop class="footer-second purchase-notes-wrapper">
         <purchase-notes />
       </div>
       <div class="footer" :class="{'footer-iphonex': isIphonex}">
@@ -204,6 +204,10 @@ export default {
   .sum-price-unit {
     margin-left: 4px;
     color: #2692F0;
+  }
+
+  .purchase-notes-wrapper {
+    top: 0;
   }
 }
 </style>
