@@ -1,6 +1,6 @@
 import urlParse from 'url-parse';
 import qs from 'qs';
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 import { isAuthing, waitForAuth } from '@/methods/auth';
 import goToAcquireTicket from '@/pages/tickets/one/acquire/goToAcquireTicket';
@@ -9,8 +9,10 @@ import isTicketViewable from '@/pages/tickets/one/isTicketViewable';
 export default {
   computed: {
     ...mapState(['currentUser']),
+    ...mapState('runtime', ['nextType', 'nextPage']),
   },
   methods: {
+    ...mapMutations('runtime', ['setRuntime']),
     async handleViewOrAcquireTicket(nextPage) {
       if (isAuthing()) {
         await waitForAuth();
@@ -29,10 +31,7 @@ export default {
         url: nextPage,
       });
     },
-    async handleNextPage(query) {
-      const nextPage = decodeURIComponent(query.nextPage);
-      const nextType = query.nextType;
-
+    async handleNextPage(nextType, nextPage) {
       if (nextType === 'view_or_acquire_ticket') {
         this.handleViewOrAcquireTicket(nextPage);
       }
@@ -47,7 +46,10 @@ export default {
   onLoad() {
     const query = this.$root.$mp.query;
     if (query.nextPage) {
-      this.handleNextPage(query);
+      this.handleNextPage(query.nextType, decodeURIComponent(query.nextPage));
+    } else if (this.nextType) {
+      this.handleNextPage(this.nextType, this.nextPage);
+      this.setRuntime({ nextType: 'handled' });
     }
   },
 };

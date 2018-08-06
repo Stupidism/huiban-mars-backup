@@ -53,6 +53,7 @@
 
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
+import buildUrl from 'build-url';
 
 import getOrder from '@/methods/getOrder';
 import TicketItem from '@/components/TicketItem';
@@ -60,9 +61,8 @@ import Cash from '@/modules/Cash';
 
 import getTickets from '@/methods/getTickets';
 import goToShareResult from '@/pages/tickets/share-result/goToShareResult';
-import goToOrderDetail from '@/pages/orders/one/goToOrderDetail';
-import goToTicketsDetail from '@/pages/meetings/one/tickets/goToTicketsDetail';
 import buildTicketShareOptions from '@/methods/buildTicketShareOptions';
+import goToRecentMeetings from '@/pages/meetings/goToRecentMeetings';
 
 export default {
   data() {
@@ -80,12 +80,25 @@ export default {
     ...mapGetters(['protectedCurrentUserPhone']),
   },
   methods: {
+    ...mapMutations('runtime', ['setRuntime']),
     onSubmit() {
+      let nextPage;
       if (this.isCompleted) {
-        goToTicketsDetail({ orderId: this.order.id }, 'reLaunch');
+        nextPage = buildUrl({
+          path: '/pages/meetings/one/tickets/main',
+          queryParams: {
+            orderId: this.order.id,
+          },
+        });
       } else {
-        goToOrderDetail(this.order.id, 'reLaunch');
+        nextPage = `/pages/orders/one/main?id=${this.order.id}`;
       }
+
+      this.setRuntime({
+        nextType: 'immediate',
+        nextPage,
+      });
+      goToRecentMeetings();
     },
     async getSharableTickets(orderId) {
       const tickets = await getTickets({ orderId, status: 'no_participant' });
@@ -108,7 +121,6 @@ export default {
         this.interval = setInterval(() => this.getSharableTickets(orderId), 500);
       }
     },
-    ...mapMutations('runtime', ['setRuntime']),
   },
   components: {
     Cash,

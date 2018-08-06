@@ -14,19 +14,29 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
+import buildUrl from 'build-url';
+
 import TicketItem from '@/components/TicketItem';
 import goToPersonalCenter from '@/pages/users/me/goToPersonalCenter';
-import goToTicketsDetail from '@/pages/meetings/one/tickets/goToTicketsDetail';
+import goToRecentMeetings from '@/pages/meetings/goToRecentMeetings';
 
 export default {
   computed: mapState('runtime', ['sharedTicket']),
   methods: {
+    ...mapMutations('runtime', ['setRuntime']),
     onFinish: goToPersonalCenter,
     onContinue() {
-      goToTicketsDetail({
-        orderId: this.sharedTicket.orderId,
-      }, 'reLaunch');
+      this.setRuntime({
+        nextType: 'immediate',
+        nextPage: buildUrl({
+          path: '/pages/meetings/one/tickets/main',
+          queryParams: {
+            orderId: this.sharedTicket.orderId,
+          },
+        }),
+      });
+      goToRecentMeetings();
     },
   },
   components: {
