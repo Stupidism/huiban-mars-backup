@@ -43,13 +43,16 @@ export default {
       }
     },
   },
-  onShow() {
+  onLoad() {
     const query = this.$root.$mp.query;
-    const runtime = store.state.runtime;
-
     if (query.nextPage) {
       this.handleNextPage(query.nextType, decodeURIComponent(query.nextPage));
-    } else if (runtime.nextType) {
+    }
+  },
+  onShow() {
+    const runtime = store.state.runtime;
+
+    if (runtime.nextType) {
       this.handleNextPage(runtime.nextType, runtime.nextPage);
       this.setRuntime({ nextType: 'handled' });
     }
