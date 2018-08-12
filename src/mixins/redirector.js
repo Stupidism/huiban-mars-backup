@@ -3,13 +3,13 @@ import qs from 'qs';
 import { mapState, mapMutations } from 'vuex';
 
 import { isAuthing, waitForAuth } from '@/methods/auth';
+import store from '@/store';
 import goToAcquireTicket from '@/pages/tickets/one/acquire/goToAcquireTicket';
 import isTicketViewable from '@/pages/tickets/one/isTicketViewable';
 
 export default {
   computed: {
     ...mapState(['currentUser']),
-    ...mapState('runtime', ['nextType', 'nextPage']),
   },
   methods: {
     ...mapMutations('runtime', ['setRuntime']),
@@ -43,12 +43,14 @@ export default {
       }
     },
   },
-  onLoad() {
+  onShow() {
     const query = this.$root.$mp.query;
+    const runtime = store.state.runtime;
+
     if (query.nextPage) {
       this.handleNextPage(query.nextType, decodeURIComponent(query.nextPage));
-    } else if (this.nextType) {
-      this.handleNextPage(this.nextType, this.nextPage);
+    } else if (runtime.nextType) {
+      this.handleNextPage(runtime.nextType, runtime.nextPage);
       this.setRuntime({ nextType: 'handled' });
     }
   },
