@@ -276,11 +276,21 @@ export default {
       await waitForAuth();
     }
 
-    const ticketId = this.$root.$mp.query.id || 1386;
+    const ticketId = this.$root.$mp.query.id || 1620;
     const meetingId = this.$root.$mp.query.meetingId || 4;
 
     try {
       this.ticket = await getTicket(ticketId);
+      if (this.ticket.participantId === this.currentUser.id) {
+        openModal({
+          title: '重复领取',
+          confirmText: '查看门票',
+          content: '您已成功领取此门票',
+          onConfirm: () => goToTicketView({
+            id: this.ticket.id,
+          }),
+        });
+      }
     } catch (e) {
       this.ticket = {
         id: ticketId,
