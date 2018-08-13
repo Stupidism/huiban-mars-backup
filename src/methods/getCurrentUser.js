@@ -6,10 +6,10 @@ import wechatLogin from './wechat/login';
 
 const getCurrentUser = async () => {
   try {
+    startAuthenticate();
     await checkSession();
 
     const getCurrentUserPromise = wxRequest(userCurrentGet());
-    startAuthenticate();
 
     const res = await getCurrentUserPromise;
 
