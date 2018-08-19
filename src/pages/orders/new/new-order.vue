@@ -10,7 +10,7 @@
       <div class="order-item-summary section">
         <span class="ticket-grade-summary">
           <image class="icon small ticket-grade-icon" :src="ticketGradeIcon" />
-          票档：{{ticketGrade.type}} <span class="price"><cash :amount="ticketGrade.price" /></span> 元/张
+          票档：{{ticketGrade.type}} <span class="price"><cash :amount="ticketGrade.price" /></span> <span>{{unit}}</span>
         </span>
         <span class="amount">x {{amount}}张</span>
       </div>
@@ -191,6 +191,9 @@ export default {
         'city',
         'position',
       ]);
+    },
+    unit() {
+      return _.get(this, 'ticketGrade.unit', '元/张');
     },
     emailValidators() {
       return [

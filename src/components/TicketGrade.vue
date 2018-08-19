@@ -8,7 +8,7 @@
       <div class="ticket-info-header">
         <div class="ticket-price">
           <span class="ticket-price-number">{{price}}</span>
-          <span class="ticket-price-unit">元/张</span>
+          <span class="ticket-price-unit">{{unit}}</span>
         </div>
         <div class="ticket-rest-amount">{{restAmountDesc}}</div>
       </div>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import toCash from '@/utils/filters/cash';
 
 export default {
@@ -31,6 +32,9 @@ export default {
     },
     price() {
       return toCash(this.ticketGrade.price);
+    },
+    unit() {
+      return _.get(this, 'ticketGrade.unit', '元/张');
     },
     restAmountDesc() {
       const { amount = 1, restAmount = 0 } = this.ticketGrade;
